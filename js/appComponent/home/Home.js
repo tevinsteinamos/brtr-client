@@ -24,7 +24,7 @@ import { openDrawer } from '../../actions/drawer';
 import myTheme from '../../themes/base-theme';
 import styles from './styles';
 
-class Anatomy extends Component {
+class Home extends Component {
 
     static propTypes = {
         openDrawer: React.PropTypes.func,
@@ -85,7 +85,7 @@ class Anatomy extends Component {
                 <Content>
 
                     <Card style={{ flex: 0, backgroundColor: 'black', borderWidth: 0 }}>
-                        <CardItem>
+                        <CardItem onPress={() => this.navigateTo('ItemDetail')}>
                             <Image
                                 style={{
                                     resizeMode: 'cover',
@@ -207,4 +207,4 @@ const mapStateToProps = state => ({
     navigation: state.cardNavigation,
 });
 
-export default connect(mapStateToProps, bindAction)(Anatomy);
+export default connect(mapStateToProps, bindAction)(Home);
