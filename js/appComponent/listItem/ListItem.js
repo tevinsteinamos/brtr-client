@@ -24,7 +24,7 @@ import { openDrawer } from '../../actions/drawer';
 import myTheme from '../../themes/base-theme';
 import styles from './styles';
 
-class Home extends Component {
+class ListItem extends Component {
 
     static propTypes = {
         openDrawer: React.PropTypes.func,
@@ -34,7 +34,7 @@ class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            tab1: true,
+            tab1: false,
             tab2: false,
             tab3: false,
         };
@@ -73,7 +73,7 @@ class Home extends Component {
             <Container theme={myTheme} style={styles.container}>
 
                 <Header>
-                    <Title style={{alignSelf: 'center'}}>BRTR</Title>
+                    <Title style={{alignSelf: 'center'}}>List Item By Category</Title>
                     <Button transparent onPress={() => this.navigateTo('badge')}>
                         <Icon name="ios-search" />
                     </Button>
@@ -85,7 +85,7 @@ class Home extends Component {
                 <Content>
 
                     <Card style={{ flex: 0, backgroundColor: 'black', borderWidth: 0 }}>
-                        <CardItem onPress={() => this.navigateTo('ListItem')}>
+                        <CardItem onPress={() => this.navigateTo('ItemDetail')}>
                             <Image
                                 style={{
                                     resizeMode: 'cover',
@@ -93,13 +93,14 @@ class Home extends Component {
                                     opacity: 0.6
                                 }}
                                 source={require('../../../img/category/automotive.jpg')}>
-                                <View>
-                                    <H1 style={{color: 'white'}}>Automotive</H1>
+                                <View style={{paddingLeft: 10}}>
+                                    <H1 style={{color: 'white'}}>Blue Modern Mug</H1>
+                                    <Text style={styles.textColor} note>by <Text style={{color: '#2EFFD0'}}>Tevin Amos</Text></Text>
                                 </View>
                             </Image>
                         </CardItem>
 
-                        <CardItem>
+                        <CardItem onPress={() => this.navigateTo('ItemDetail')}>
                             <Image
                                 style={{
                                     resizeMode: 'cover',
@@ -107,14 +108,14 @@ class Home extends Component {
                                     opacity: 0.6
                                 }}
                                 source={require('../../../img/category/automotive.jpg')}>
-                                <View>
-                                    <H1 style={{color: 'white'}}>Automotive</H1>
+                                <View style={{paddingLeft: 10}}>
+                                    <H1 style={{color: 'white'}}>Blue Modern Mug</H1>
+                                    <Text style={styles.textColor} note>by <Text style={{color: '#2EFFD0'}}>Tevin Amos</Text></Text>
                                 </View>
                             </Image>
-
                         </CardItem>
 
-                        <CardItem>
+                        <CardItem onPress={() => this.navigateTo('ItemDetail')}>
                             <Image
                                 style={{
                                     resizeMode: 'cover',
@@ -122,14 +123,14 @@ class Home extends Component {
                                     opacity: 0.6
                                 }}
                                 source={require('../../../img/category/automotive.jpg')}>
-                                <View>
-                                    <H1 style={{color: 'white'}}>Automotive</H1>
+                                <View style={{paddingLeft: 10}}>
+                                    <H1 style={{color: 'white'}}>Blue Modern Mug</H1>
+                                    <Text style={styles.textColor} note>by <Text style={{color: '#2EFFD0'}}>Tevin Amos</Text></Text>
                                 </View>
                             </Image>
-
                         </CardItem>
 
-                        <CardItem>
+                        <CardItem onPress={() => this.navigateTo('ItemDetail')}>
                             <Image
                                 style={{
                                     resizeMode: 'cover',
@@ -137,14 +138,14 @@ class Home extends Component {
                                     opacity: 0.6
                                 }}
                                 source={require('../../../img/category/automotive.jpg')}>
-                                <View>
-                                    <H1 style={{color: 'white'}}>Automotive</H1>
+                                <View style={{paddingLeft: 10}}>
+                                    <H1 style={{color: 'white'}}>Blue Modern Mug</H1>
+                                    <Text style={styles.textColor} note>by <Text style={{color: '#2EFFD0'}}>Tevin Amos</Text></Text>
                                 </View>
                             </Image>
-
                         </CardItem>
 
-                        <CardItem>
+                        <CardItem onPress={() => this.navigateTo('ItemDetail')}>
                             <Image
                                 style={{
                                     resizeMode: 'cover',
@@ -152,14 +153,14 @@ class Home extends Component {
                                     opacity: 0.6
                                 }}
                                 source={require('../../../img/category/automotive.jpg')}>
-                                <View>
-                                    <H1 style={{color: 'white'}}>Automotive</H1>
+                                <View style={{paddingLeft: 10}}>
+                                    <H1 style={{color: 'white'}}>Blue Modern Mug</H1>
+                                    <Text style={styles.textColor} note>by <Text style={{color: '#2EFFD0'}}>Tevin Amos</Text></Text>
                                 </View>
                             </Image>
-
                         </CardItem>
 
-                        <CardItem>
+                        <CardItem onPress={() => this.navigateTo('ItemDetail')}>
                             <Image
                                 style={{
                                     resizeMode: 'cover',
@@ -167,11 +168,11 @@ class Home extends Component {
                                     opacity: 0.6
                                 }}
                                 source={require('../../../img/category/automotive.jpg')}>
-                                <View>
-                                    <H1 style={{color: 'white'}}>Automotive</H1>
+                                <View style={{paddingLeft: 10}}>
+                                    <H1 style={{color: 'white'}}>Blue Modern Mug</H1>
+                                    <Text style={styles.textColor} note>by <Text style={{color: '#2EFFD0'}}>Tevin Amos</Text></Text>
                                 </View>
                             </Image>
-
                         </CardItem>
                     </Card>
                 </Content>
@@ -207,4 +208,4 @@ const mapStateToProps = state => ({
     navigation: state.cardNavigation,
 });
 
-export default connect(mapStateToProps, bindAction)(Home);
+export default connect(mapStateToProps, bindAction)(ListItem);
