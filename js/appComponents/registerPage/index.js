@@ -44,27 +44,27 @@ class RegisterPage extends Component {
           <List style={{marginTop: 40, marginLeft: 30, marginRight: 60}} theme={ArizTheme}>
             <ListItem>
               <InputGroup >
-                <Input placeholder="Username" />
+                <Input placeholder="Username" style={{color: '#FFFFFF'}}/>
               </InputGroup>
             </ListItem>
             <ListItem>
               <InputGroup>
-                <Input placeholder="Email" />
+                <Input placeholder="Email" style={{color: '#FFFFFF'}}/>
               </InputGroup>
             </ListItem>
             <ListItem>
               <InputGroup>
-                <Input placeholder="Password" secureTextEntry />
+                <Input placeholder="Password" secureTextEntry style={{color: '#FFFFFF'}}/>
               </InputGroup>
             </ListItem>
             <ListItem>
               <InputGroup>
-                <Input placeholder="Confirm Password" secureTextEntry />
+                <Input placeholder="Confirm Password" secureTextEntry style={{color: '#FFFFFF'}}/>
               </InputGroup>
             </ListItem>
           </List>
-          <Button bordered style={{ alignSelf: 'center', marginTop: 40, marginBottom: 20 , width: 220, borderRadius: 0, borderColor:'#2effd0', height: 50}}><Text style={{color: '#FFFFFF'}}>SIGN UP</Text></Button>
-          <Text style={{textAlign: 'center',color: '#FFFFFF', fontSize: 14}}>Already have an account ? <Text style={{color: '#2effd0', fontSize: 12}} onPress={()=>alert('Got to Sign up page')}>Sign In !</Text></Text>
+          <Button bordered style={{ alignSelf: 'center', marginTop: 40, marginBottom: 20 , width: 220, borderRadius: 0, borderColor:'#2effd0', height: 50}} onPress={()=>alert('Register process begin !')}><Text style={{color: '#FFFFFF'}}>SIGN UP</Text></Button>
+          <Text style={{textAlign: 'center',color: '#FFFFFF', fontSize: 14}}>Already have an account ? <Text style={{color: '#2effd0', fontSize: 12}} onPress={()=>alert('Go to Sign in page')}>Sign In !</Text></Text>
         </Content>
       </Container>
     );
