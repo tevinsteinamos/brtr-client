@@ -10,7 +10,7 @@ import styles from './styles';
 const Item = Picker.Item;
 const camera = require('../../../img/camera.png');
 
-class NHForm extends Component {
+class RegisterPage extends Component {
 
   static propTypes = {
     openDrawer: React.PropTypes.func,
@@ -84,4 +84,4 @@ const mapStateToProps = state => ({
   navigation: state.cardNavigation,
 });
 
-export default connect(mapStateToProps, bindAction)(NHForm);
+export default connect(mapStateToProps, bindAction)(RegisterPage);

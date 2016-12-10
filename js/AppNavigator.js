@@ -42,7 +42,6 @@ import NHTypography from './components/typography/';
 import SplashPage from './components/splashscreen/';
 import SideBar from './components/sidebar';
 import statusBarColor from './themes/base-theme';
-import AuthPage from './appComponents/authPage';
 import LoginPage from './appComponents/loginPage';
 import RegisterPage from './appComponents/registerPage';
 
