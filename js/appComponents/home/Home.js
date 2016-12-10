@@ -19,7 +19,7 @@ import {
     View
 } from 'native-base';
 
-import navigateTo from '../../actions/sideBarNav';
+import navigateTo from '../../actions/bottomNav';
 import { openDrawer } from '../../actions/drawer';
 import myTheme from '../../themes/base-theme';
 import styles from './styles';
@@ -74,7 +74,7 @@ class Home extends Component {
 
                 <Header>
                     <Title style={{alignSelf: 'center'}}>BRTR</Title>
-                    <Button transparent onPress={() => this.navigateTo('badge')}>
+                    <Button transparent onPress={() => this.navigateTo('SearchItem')}>
                         <Icon name="ios-search" />
                     </Button>
                     <Button transparent onPress={() => this.navigateTo('listAvatar')}>
@@ -191,8 +191,7 @@ class Home extends Component {
                 <Footer>
                     <FooterTab>
                         <Button
-
-                            active={this.state.tab1} onPress={() => this.navigateTo('badge')} >
+                            active={this.state.tab1} >
                             Feed
                         </Button>
                         <Button active={this.state.tab2} onPress={() => this.toggleTab2()} >

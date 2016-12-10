@@ -7,15 +7,20 @@ import ArizTheme from '../../themes/custom-theme'
 
 import { openDrawer } from '../../actions/drawer';
 import styles from './styles';
+import navigateTo from '../../actions/bottomNav';
 
 const Item = Picker.Item;
 const camera = require('../../../img/camera.png');
 
 class LoginPage extends Component {
 
-  static propTypes = {
-    openDrawer: React.PropTypes.func,
-  }
+    static propTypes = {
+        navigateTo: React.PropTypes.func,
+    }
+
+    navigateTo(route) {
+        this.props.navigateTo(route, 'loginPage');
+    }
 
   constructor(props) {
     super(props);
@@ -54,8 +59,21 @@ class LoginPage extends Component {
             </ListItem>
                 <Text style={{fontSize:14, marginLeft: 25, color: '#2effd0'}} onPress={()=>alert('Got to Forgot password page')}>Forgot Password ?</Text>
           </List>
-          <Button bordered style={{ alignSelf: 'center', marginTop: 40, marginBottom: 20 , width: 220, borderRadius: 0, borderColor:'#2effd0', height: 50}}><Text style={{color: '#FFFFFF'}}>SIGN IN</Text></Button>
-          <Text style={{textAlign: 'center',color: '#FFFFFF', fontSize: 14}}>Don't have an account yet? <Text style={{color: '#2effd0', fontSize: 12}} onPress={()=>alert('Got to Sign up page')}>Sign Up !</Text></Text>
+          <Button
+              onPress={() => this.navigateTo('home')}
+              bordered
+              style={{ alignSelf: 'center', marginTop: 40, marginBottom: 20 , width: 220, borderRadius: 0, borderColor:'#2effd0', height: 50}}>
+            <Text style={{color: '#FFFFFF'}}>
+              SIGN IN
+            </Text>
+          </Button>
+          <Text
+              style={{textAlign: 'center',color: '#FFFFFF', fontSize: 14}}>
+            Don't have an account yet?
+            <Text style={{color: '#2effd0', fontSize: 12}}
+                  onPress={() => this.navigateTo('registerPage')}>Sign Up !
+            </Text>
+        </Text>
         </Content>
       </Container>
     );
@@ -64,7 +82,7 @@ class LoginPage extends Component {
 
 function bindAction(dispatch) {
   return {
-    openDrawer: () => dispatch(openDrawer()),
+      navigateTo: (route, homeRoute) => dispatch(navigateTo(route, homeRoute)),
   };
 }
 

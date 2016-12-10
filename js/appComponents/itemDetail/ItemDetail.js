@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { Image } from 'react-native';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import { connect } from 'react-redux';
+import { actions } from 'react-native-navigation-redux-helpers';
 import {
     Container,
     Header,
@@ -22,14 +23,25 @@ import {
 import navigateTo from '../../actions/sideBarNav';
 import { openDrawer } from '../../actions/drawer';
 import myTheme from '../../themes/base-theme';
-
 import styles from './styles';
+
+const {
+    replaceAt,
+} = actions;
 
 class ItemDetail extends Component {
 
     static propTypes = {
         openDrawer: React.PropTypes.func,
         navigateTo: React.PropTypes.func,
+        replaceAt: React.PropTypes.func,
+        navigation: React.PropTypes.shape({
+            key: React.PropTypes.string,
+        }),
+    }
+
+    replaceAt(route) {
+        this.props.replaceAt('ItemDetail', { key: route }, this.props.navigation.key);
     }
 
     constructor(props) {
@@ -42,7 +54,7 @@ class ItemDetail extends Component {
     }
 
     navigateTo(route) {
-        this.props.navigateTo(route, 'home');
+        this.props.navigateTo(route, 'ItemDetail');
     }
 
     toggleTab1() {
@@ -75,7 +87,7 @@ class ItemDetail extends Component {
 
                 <Header>
                     <Title style={{alignSelf: 'center'}}>Item Detail</Title>
-                    <Button transparent onPress={() => this.navigateTo('badge')}>
+                    <Button transparent onPress={() => this.navigateTo('ListItem')}>
                         <Icon name="ios-search" />
                     </Button>
                     <Button transparent onPress={() => this.navigateTo('listAvatar')}>
@@ -87,7 +99,7 @@ class ItemDetail extends Component {
 
                     <Card style={{ flex: 0, backgroundColor: '#444444', borderWidth: 0 }}>
                         <CardItem>
-                            <H1 style={styles.textColor}>Floral Coffe Mug</H1>
+                            <H1 style={{color: 'white', paddingBottom: 5}}>Floral Coffe Mug</H1>
                             <Text note>by Metta Wangsa</Text>
                         </CardItem>
 
@@ -137,8 +149,7 @@ class ItemDetail extends Component {
                 <Footer>
                     <FooterTab>
                         <Button
-
-                            active={this.state.tab1} onPress={() => this.navigateTo('home')} >
+                            onPress={() => this.replaceAt('home')} >
                             Feed
                         </Button>
                         <Button active={this.state.tab2} onPress={() => this.toggleTab2()} >
@@ -156,8 +167,8 @@ class ItemDetail extends Component {
 
 function bindAction(dispatch) {
     return {
-        openDrawer: () => dispatch(openDrawer()),
         navigateTo: (route, homeRoute) => dispatch(navigateTo(route, homeRoute)),
+        replaceAt: (routeKey, route, key) => dispatch(replaceAt(routeKey, route, key)),
     };
 }
 

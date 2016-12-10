@@ -41,7 +41,7 @@ class ListItem extends Component {
     }
 
     navigateTo(route) {
-        this.props.navigateTo(route, 'home');
+        this.props.navigateTo(route, 'ListItem');
     }
 
     toggleTab1() {
@@ -74,7 +74,7 @@ class ListItem extends Component {
 
                 <Header>
                     <Title style={{alignSelf: 'center'}}>List Item By Category</Title>
-                    <Button transparent onPress={() => this.navigateTo('badge')}>
+                    <Button transparent onPress={() => this.navigateTo('SearchItem')}>
                         <Icon name="ios-search" />
                     </Button>
                     <Button transparent onPress={() => this.navigateTo('listAvatar')}>
@@ -180,8 +180,8 @@ class ListItem extends Component {
                 <Footer>
                     <FooterTab>
                         <Button
-
-                            active={this.state.tab1} onPress={() => this.navigateTo('badge')} >
+                            active={this.state.tab1}
+                            onPress={() => this.navigateTo('home')} >
                             Feed
                         </Button>
                         <Button active={this.state.tab2} onPress={() => this.toggleTab2()} >
