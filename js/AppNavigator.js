@@ -7,9 +7,10 @@ import { actions } from 'react-native-navigation-redux-helpers';
 
 import { closeDrawer } from './actions/drawer';
 
-import Home from './appComponent/home/Home'
-import ListItem from './appComponent/listItem/ListItem'
-import ItemDetail from './appComponent/itemDetail/ItemDetail'
+import Home from './appComponents/home/Home'
+import ListItem from './appComponents/listItem/ListItem'
+import ItemDetail from './appComponents/itemDetail/ItemDetail'
+import SearchItem from './appComponents/searchItem/SearchItem'
 
 // import Home from './components/home/';
 import Anatomy from './components/anatomy/';
@@ -95,82 +96,84 @@ class AppNavigator extends Component {
 
     openDrawer() {
         this._drawer.open();
-  }
-
-  _renderScene(props) { // eslint-disable-line class-methods-use-this
-    switch (props.scene.route.key) {
-      case 'splashscreen':
-        return <SplashPage />;
-      case 'home':
-        return <Home />;
-      case 'anatomy':
-        return <Anatomy />;
-      case 'badge':
-        return <NHBadge />;
-      case 'button':
-        return <NHButton />;
-      case 'card':
-        return <NHCard />;
-      case 'cardImage':
-        return <NHCardImage />;
-      case 'cardShowcase':
-        return <NHCardShowcase />;
-      case 'cardList':
-        return <NHCardList />;
-      case 'cardHeaderAndFooter':
-        return <NHCardHeaderAndFooter />;
-      case 'checkbox':
-        return <NHCheckbox />;
-      case 'deckswiper':
-        return <NHDeckSwiper />;
-      case 'form':
-        return <NHForm />;
-      case 'icon':
-        return <NHIcon />;
-      case 'inputgroup':
-        return <NHInputGroup />;
-      case 'layout':
-        return <NHLayout />;
-      case 'list':
-        return <NHList />;
-      case 'basicList':
-        return <NHBasicList />;
-      case 'listDivider':
-        return <NHListDivider />;
-      case 'listIcon':
-        return <NHListIcon />;
-      case 'listAvatar':
-        return <NHListAvatar />;
-      case 'listThumbnail':
-        return <NHListThumbnail />;
-      case 'picker':
-        return <NHPicker />;
-      case 'radio':
-        return <NHRadio />;
-      case 'searchbar':
-        return <NHSearchbar />;
-      case 'spinner':
-        return <NHSpinner />;
-      case 'tabs':
-        return <NHTabs />;
-      case 'thumbnail':
-        return <NHThumbnail />;
-      case 'typography':
-        return <NHTypography />;
-      case 'authPage':
-        return <AuthPage />;
-      case 'loginPage':
-        return <LoginPage />;
-      case 'registerPage':
-        return <RegisterPage />;
-      case 'ItemDetail':
-          return <ItemDetail />;
-      case 'ListItem':
-          return <ListItem />;
-      default :
-        return <Home />;
     }
-  }
+
+    _renderScene(props) { // eslint-disable-line class-methods-use-this
+        switch (props.scene.route.key) {
+            case 'splashscreen':
+                return <SplashPage />;
+            case 'home':
+                return <Home />;
+            case 'anatomy':
+                return <Anatomy />;
+            case 'badge':
+                return <NHBadge />;
+            case 'button':
+                return <NHButton />;
+            case 'card':
+                return <NHCard />;
+            case 'cardImage':
+                return <NHCardImage />;
+            case 'cardShowcase':
+                return <NHCardShowcase />;
+            case 'cardList':
+                return <NHCardList />;
+            case 'cardHeaderAndFooter':
+                return <NHCardHeaderAndFooter />;
+            case 'checkbox':
+                return <NHCheckbox />;
+            case 'deckswiper':
+                return <NHDeckSwiper />;
+            case 'form':
+                return <NHForm />;
+            case 'icon':
+                return <NHIcon />;
+            case 'inputgroup':
+                return <NHInputGroup />;
+            case 'layout':
+                return <NHLayout />;
+            case 'list':
+                return <NHList />;
+            case 'basicList':
+                return <NHBasicList />;
+            case 'listDivider':
+                return <NHListDivider />;
+            case 'listIcon':
+                return <NHListIcon />;
+            case 'listAvatar':
+                return <NHListAvatar />;
+            case 'listThumbnail':
+                return <NHListThumbnail />;
+            case 'picker':
+                return <NHPicker />;
+            case 'radio':
+                return <NHRadio />;
+            case 'searchbar':
+                return <NHSearchbar />;
+            case 'spinner':
+                return <NHSpinner />;
+            case 'tabs':
+                return <NHTabs />;
+            case 'thumbnail':
+                return <NHThumbnail />;
+            case 'typography':
+                return <NHTypography />;
+            case 'authPage':
+                return <AuthPage />;
+            case 'loginPage':
+                return <LoginPage />;
+            case 'registerPage':
+                return <RegisterPage />;
+            case 'ItemDetail':
+                return <ItemDetail />;
+            case 'ListItem':
+                return <ListItem />;
+            case 'SearchItem':
+                return <SearchItem />;
+            default :
+                return <Home />;
+        }
+    }
 
     closeDrawer() {
         if (this.props.drawerState === 'opened') {
@@ -207,15 +210,15 @@ class AppNavigator extends Component {
         }}
                 negotiatePan
             >
-              <StatusBar
-                  backgroundColor={statusBarColor.statusBarColor}
-                  barStyle="default"
-              />
-              <NavigationCardStack
-                  navigationState={this.props.navigation}
-                  renderOverlay={this._renderOverlay}
-                  renderScene={this._renderScene}
-              />
+                <StatusBar
+                    backgroundColor={statusBarColor.statusBarColor}
+                    barStyle="default"
+                />
+                <NavigationCardStack
+                    navigationState={this.props.navigation}
+                    renderOverlay={this._renderOverlay}
+                    renderScene={this._renderScene}
+                />
             </Drawer>
         );
     }

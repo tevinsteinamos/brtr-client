@@ -16,16 +16,17 @@ import {
     Card,
     CardItem,
     Thumbnail,
-    View
+    View,
+    Input,
+    InputGroup
 } from 'native-base';
 
 import navigateTo from '../../actions/sideBarNav';
 import { openDrawer } from '../../actions/drawer';
 import myTheme from '../../themes/base-theme';
-
 import styles from './styles';
 
-class ItemDetail extends Component {
+class Home extends Component {
 
     static propTypes = {
         openDrawer: React.PropTypes.func,
@@ -42,7 +43,7 @@ class ItemDetail extends Component {
     }
 
     navigateTo(route) {
-        this.props.navigateTo(route, 'home');
+        this.props.navigateTo(route, 'SearchItem');
     }
 
     toggleTab1() {
@@ -74,9 +75,9 @@ class ItemDetail extends Component {
             <Container theme={myTheme} style={styles.container}>
 
                 <Header>
-                    <Title style={{alignSelf: 'center'}}>Item Detail</Title>
-                    <Button transparent onPress={() => this.navigateTo('badge')}>
-                        <Icon name="ios-search" />
+                    <Title style={{alignSelf: 'center'}}>Search Item</Title>
+                    <Button transparent onPress={() => this.navigateTo('SearchItem')}>
+                        Back
                     </Button>
                     <Button transparent onPress={() => this.navigateTo('listAvatar')}>
                         <Icon name="ios-mail" />
@@ -84,61 +85,16 @@ class ItemDetail extends Component {
                 </Header>
 
                 <Content>
-
-                    <Card style={{ flex: 0, backgroundColor: '#444444', borderWidth: 0 }}>
-                        <CardItem>
-                            <H1 style={styles.textColor}>Floral Coffe Mug</H1>
-                            <Text note>by Metta Wangsa</Text>
-                        </CardItem>
-
-                        <CardItem>
-                            <Text style={styles.textColor}>
-                                Have only been used a few times.
-                                There are some invisible coffe stains.
-                                It's comfy. Willing to trade with any stuff that's worth
-                            </Text>
-                        </CardItem>
-
-                        <CardItem>
-                            <Image
-                                style={{ resizeMode: 'cover', width: null }}
-                                source={require('../../../img/category/automotive.jpg')} />
-                        </CardItem>
-
-                        <CardItem>
-                            <H3 style={styles.textColor}>Size</H3>
-                            <Text style={styles.textColor}>300 ML</Text>
-                        </CardItem>
-
-                        <Grid>
-                            <Col>
-                                <CardItem>
-                                    <H3 style={styles.textColor}>Material</H3>
-                                    <Text style={styles.textColor}>Glass</Text>
-                                </CardItem>
-                            </Col>
-                            <Col>
-                                <CardItem>
-                                    <H3 style={styles.textColor}>Location</H3>
-                                    <Text style={styles.textColor}>Jakarta, ID</Text>
-                                </CardItem>
-                            </Col>
-                        </Grid>
-
-                        <CardItem>
-                            <Button block success> Barter </Button>
-                        </CardItem>
-
-
-
-                    </Card>
+                    <InputGroup borderType='regular' >
+                        <Icon name='ios-search' style={{color:'#384850'}}/>
+                        <Input placeholder='Type your text here' />
+                    </InputGroup>
                 </Content>
 
                 <Footer>
                     <FooterTab>
                         <Button
-
-                            active={this.state.tab1} onPress={() => this.navigateTo('home')} >
+                            onPress={() => this.navigateTo('Home')} >
                             Feed
                         </Button>
                         <Button active={this.state.tab2} onPress={() => this.toggleTab2()} >
@@ -165,4 +121,4 @@ const mapStateToProps = state => ({
     navigation: state.cardNavigation,
 });
 
-export default connect(mapStateToProps, bindAction)(ItemDetail);
+export default connect(mapStateToProps, bindAction)(Home);

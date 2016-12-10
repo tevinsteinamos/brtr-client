@@ -73,7 +73,7 @@ class RegisterPage extends Component {
 
 function bindAction(dispatch) {
   return {
-    openDrawer: () => dispatch(openDrawer()),
+
   };
 }
 
