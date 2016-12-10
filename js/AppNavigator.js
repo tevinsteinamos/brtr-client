@@ -102,8 +102,6 @@ class AppNavigator extends Component {
         switch (props.scene.route.key) {
             case 'splashscreen':
                 return <SplashPage />;
-            case 'home':
-                return <Home />;
             case 'anatomy':
                 return <Anatomy />;
             case 'badge':
@@ -158,6 +156,9 @@ class AppNavigator extends Component {
                 return <NHThumbnail />;
             case 'typography':
                 return <NHTypography />;
+
+            case 'home':
+                return <Home />;
             case 'authPage':
                 return <AuthPage />;
             case 'loginPage':

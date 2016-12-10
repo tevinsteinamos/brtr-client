@@ -19,7 +19,7 @@ import {
     View
 } from 'native-base';
 
-import navigateTo from '../../actions/sideBarNav';
+import navigateTo from '../../actions/bottomNav';
 import { openDrawer } from '../../actions/drawer';
 import myTheme from '../../themes/base-theme';
 import styles from './styles';
