@@ -8,6 +8,7 @@ import { actions } from 'react-native-navigation-redux-helpers';
 import { closeDrawer } from './actions/drawer';
 
 import Home from './appComponent/home/Home'
+import ListItem from './appComponent/listItem/ListItem'
 import ItemDetail from './appComponent/itemDetail/ItemDetail'
 
 // import Home from './components/home/';
@@ -164,6 +165,8 @@ class AppNavigator extends Component {
                 return <Home />;
             case 'ItemDetail':
                 return <ItemDetail />;
+            case 'ListItem':
+                return <ListItem />;
             default :
                 return <Home />;
         }
