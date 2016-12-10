@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { Container, Header, Title, Content, Button, Icon, List, ListItem, InputGroup, Input, Picker, Text, Thumbnail } from 'native-base';
+import ArizTheme from '../../themes/custom-theme'
 
 import { openDrawer } from '../../actions/drawer';
 import styles from './styles';
@@ -40,19 +41,21 @@ class LoginPage extends Component {
           <TouchableOpacity>
             <Thumbnail size={80} source={camera} style={{ alignSelf: 'center', marginTop: 20, marginBottom: 10 }} />
           </TouchableOpacity>
-          <List style={{marginTop: 40, marginLeft: 30, marginRight: 60}}>
-            <ListItem>
+          <List style={{marginTop: 40, marginLeft: 30, marginRight: 60}} theme={ArizTheme}>
+            <ListItem >
               <InputGroup >
-                <Input placeholder="Username" />
+                <Input placeholder="Username" style={{color: '#FFFFFF'}}/>
               </InputGroup>
             </ListItem>
             <ListItem>
               <InputGroup>
-                <Input placeholder="Password" secureTextEntry />
+                <Input placeholder="Password" style={{color: '#FFFFFF'}} secureTextEntry />
               </InputGroup>
             </ListItem>
+                <Text style={{fontSize:14, marginLeft: 25, color: '#2effd0'}} onPress={()=>alert('Got to Forgot password page')}>Forgot Password ?</Text>
           </List>
-          <Button bordered info style={{ alignSelf: 'center', marginTop: 40, marginBottom: 20 , width: 220, borderRadius: 0}}>SIGN IN</Button>
+          <Button bordered style={{ alignSelf: 'center', marginTop: 40, marginBottom: 20 , width: 220, borderRadius: 0, borderColor:'#2effd0', height: 50}}><Text style={{color: '#FFFFFF'}}>SIGN IN</Text></Button>
+          <Text style={{textAlign: 'center',color: '#FFFFFF', fontSize: 14}}>Don't have an account yet? <Text style={{color: '#2effd0', fontSize: 12}} onPress={()=>alert('Got to Sign up page')}>Sign Up</Text></Text>
         </Content>
       </Container>
     );
