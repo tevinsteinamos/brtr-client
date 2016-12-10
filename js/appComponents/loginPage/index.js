@@ -55,7 +55,7 @@ class LoginPage extends Component {
                 <Text style={{fontSize:14, marginLeft: 25, color: '#2effd0'}} onPress={()=>alert('Got to Forgot password page')}>Forgot Password ?</Text>
           </List>
           <Button bordered style={{ alignSelf: 'center', marginTop: 40, marginBottom: 20 , width: 220, borderRadius: 0, borderColor:'#2effd0', height: 50}}><Text style={{color: '#FFFFFF'}}>SIGN IN</Text></Button>
-          <Text style={{textAlign: 'center',color: '#FFFFFF', fontSize: 14}}>Don't have an account yet? <Text style={{color: '#2effd0', fontSize: 12}} onPress={()=>alert('Got to Sign up page')}>Sign Up</Text></Text>
+          <Text style={{textAlign: 'center',color: '#FFFFFF', fontSize: 14}}>Don't have an account yet? <Text style={{color: '#2effd0', fontSize: 12}} onPress={()=>alert('Got to Sign up page')}>Sign Up !</Text></Text>
         </Content>
       </Container>
     );

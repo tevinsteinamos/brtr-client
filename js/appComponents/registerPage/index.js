@@ -6,6 +6,7 @@ import { Container, Header, Title, Content, Button, Icon, List, ListItem, InputG
 
 import { openDrawer } from '../../actions/drawer';
 import styles from './styles';
+import ArizTheme from '../../themes/custom-theme'
 
 const Item = Picker.Item;
 const camera = require('../../../img/camera.png');
@@ -40,7 +41,7 @@ class RegisterPage extends Component {
           <TouchableOpacity>
             <Thumbnail size={80} source={camera} style={{ alignSelf: 'center', marginTop: 20, marginBottom: 10 }} />
           </TouchableOpacity>
-          <List style={{marginTop: 40, marginLeft: 30, marginRight: 60}}>
+          <List style={{marginTop: 40, marginLeft: 30, marginRight: 60}} theme={ArizTheme}>
             <ListItem>
               <InputGroup >
                 <Input placeholder="Username" />
@@ -61,13 +62,9 @@ class RegisterPage extends Component {
                 <Input placeholder="Confirm Password" secureTextEntry />
               </InputGroup>
             </ListItem>
-            <ListItem>
-              <InputGroup >
-                <Input placeholder="Avatar" />
-              </InputGroup>
-            </ListItem>
           </List>
-          <Button bordered info style={{ alignSelf: 'center', marginTop: 40, marginBottom: 20 , width: 220, borderRadius: 0}}>SIGN UP</Button>
+          <Button bordered style={{ alignSelf: 'center', marginTop: 40, marginBottom: 20 , width: 220, borderRadius: 0, borderColor:'#2effd0', height: 50}}><Text style={{color: '#FFFFFF'}}>SIGN UP</Text></Button>
+          <Text style={{textAlign: 'center',color: '#FFFFFF', fontSize: 14}}>Already have an account ? <Text style={{color: '#2effd0', fontSize: 12}} onPress={()=>alert('Got to Sign up page')}>Sign In !</Text></Text>
         </Content>
       </Container>
     );
