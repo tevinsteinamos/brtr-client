@@ -7,6 +7,7 @@ var {
     Text,
     TouchableHighlight,
     View,
+    AsyncStorage
 } = ReactNative;
 
 import type { Action } from './types';
@@ -83,7 +84,7 @@ export function userLoginFailure():Action {
 
 export function loginUser(username, password) {
     return (dispatch) => {
-        fetch(`http://192.168.1.173:3000/api/auth/login`, {
+        fetch(`http://192.168.1.241:3000/api/auth/login`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -96,15 +97,18 @@ export function loginUser(username, password) {
         })
             .then((response) => response.json())
             .then((responseJson) => {
-                console.log("succes: ", responseJson)
-                dispatch(userLoginSuccess(responseJson))
-                dispatch(navigateTo('home', 'loginPage'))
+            console.log("ini respon json: ", responseJson)
+                if (responseJson) {
+                    dispatch(userLoginSuccess(responseJson))
+                    AsyncStorage.setItem('myKey', responseJson);
+                    dispatch(navigateTo('home', 'loginPage'))
+                }
             })
             .catch((error) => {
                 console.log("fail", error)
                 Alert.alert(
                     'Login Fail',
-                    'Username or Password Wrong',
+                    `${error.message}`,
                     [
                         {text: 'OK', onPress: () => console.log('OK Pressed')},
                     ]

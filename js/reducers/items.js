@@ -1,0 +1,28 @@
+
+import type { Action } from '../actions/types';
+import {
+    LOAD_ITEMS_BY_USER,
+    LOAD_ITEMS_BY_USER_SUCCESS,
+    LOAD_ITEMS_BY_USER_FAILURE
+} from '../actions/items';
+
+
+const initialState = []
+
+export default function (state:State = initialState, action:Action): State {
+    switch (action.type) {
+
+        case LOAD_ITEMS_BY_USER:
+            return []
+
+        case LOAD_ITEMS_BY_USER_SUCCESS:
+            console.log('load succes: ', action)
+            return action.items
+
+        case LOAD_ITEMS_BY_USER_FAILURE:
+            return state
+
+        default:
+            return state
+    }
+}

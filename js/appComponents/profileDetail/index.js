@@ -1,11 +1,26 @@
 
 import React, { Component } from 'react';
-import { Image } from 'react-native';
+import { Image, AsyncStorage } from 'react-native';
 import { connect } from 'react-redux';
 import { actions } from 'react-native-navigation-redux-helpers';
-import { Container, Header, Title, Content, Button, Icon, Card, CardItem, Text, Thumbnail, Footer, FooterTab } from 'native-base';
+import {
+    Container,
+    Header,
+    Title,
+    Content,
+    Text, H3, H2, H1,
+    Button,
+    Icon,
+    Footer,
+    FooterTab,
+    Card,
+    CardItem,
+    Thumbnail,
+    View
+} from 'native-base';
 import { Grid, Col } from 'react-native-easy-grid';
 
+import {getItems} from '../../actions/items';
 
 import styles from './styles';
 import ArizTheme from '../../themes/prof-empty-theme.js'
@@ -15,92 +30,150 @@ const camera = require('../../../img/camera.png');
 const swiper2 = require('../../../img/swiper-2.png');
 const swiper3 = require('../../../img/swiper-3.png');
 const swiper4 = require('../../../img/swiper-4.png');
+import myTheme from '../../themes/base-theme';
 
+import decode from 'jwt-decode'
+
+import DataItems from './DataItems'
 
 const {
-  replaceAt,
+    replaceAt,
 } = actions;
 
 class ProfileDetail extends Component {
 
-  static propTypes = {
-    openDrawer: React.PropTypes.func,
-    navigateTo: React.PropTypes.func,
-    replaceAt: React.PropTypes.func,
-    navigation: React.PropTypes.shape({
-        key: React.PropTypes.string,
-    }),
+    static propTypes = {
+        openDrawer: React.PropTypes.func,
+        navigateTo: React.PropTypes.func,
+        replaceAt: React.PropTypes.func,
+        navigation: React.PropTypes.shape({
+            key: React.PropTypes.string,
+        }),
 
-  }
+    }
 
-  constructor(props) {
-      super(props);
-      this.state = {
-          tab1: false,
-          tab2: false,
-          tab3: false,
-      };
-  }
+    constructor(props) {
+        super(props);
+        this.state = {
+            tab1: false,
+            tab2: false,
+            tab3: true,
+            dataUser: {},
+            messages: []
+        };
+    }
 
 
-  replaceAt(route) {
-    this.props.replaceAt('cardShowcase', { key: route }, this.props.navigation.key);
-  }
+    componentDidMount() {
+        this._loadInitialState().done();
+    }
 
-  render() {
-    return (
-      <Container style={styles.container}>
-        <Header theme={ArizTheme}>
-          <Button transparent onPress={() => this.replaceAt('home')}>
-            <Icon name="ios-arrow-back" />
-          </Button>
+    _loadInitialState = async () => {
+        try {
+            var value = await AsyncStorage.getItem("myKey");
+            console.log("value: ", value)
+            if (value !== null){
+                this.setState({dataUser: decode(value)});
+                this.props.getItems(value)
+                this._appendMessage('Recovered selection from disk: ' + value);
+            } else {
+                console.log("else")
+                this._appendMessage('Initialized with no selection on disk.');
+            }
+        } catch (error) {
+            console.log("catch")
+            this._appendMessage('AsyncStorage error: ' + error.message);
+        }
+    }
 
-          <Title style={{alignSelf: 'center', marginRight: 10}}>BRTR</Title>
-          <Button transparent onPress={() => this.replaceAt('card')}>
-            EDIT
-          </Button>
+    _appendMessage = (message) => {
+        this.setState({messages: this.state.messages.concat(message)});
+    };
 
-        </Header>
 
-        <Content>
-          <Image style={{ alignSelf: 'center'}} source={camera} />
-          <Text style={{color: '#fff', alignSelf: 'center', fontSize: 20, fontStyle: 'normal', marginBottom: 20}}>Metta Wangsa</Text>
-          <Text style={{color: '#fff', alignSelf: 'center', fontSize: 20, fontStyle: 'normal', marginTop: 20}}>Items up for BARTER : </Text>
-          <Grid style={{marginTop: 20, marginLeft: 20}}>
-              <Col><Image style={{width: 100, height: 100}} source={swiper2}/></Col>
-              <Col><Image style={{width: 100, height: 100}} source={swiper3}/></Col>
-              <Col><Image style={{width: 100, height: 100}} source={swiper4}/></Col>
-          </Grid>
-        </Content>
+    render() {
+        const {items} = this.props
+        console.log("ini props di profile: ", this.props)
+        console.log("ini item props di profile: ", items)
 
-        <Footer theme={ArizTheme}>
-            <FooterTab theme={ArizTheme}>
-                <Button
-                    onPress={() => this.replaceAt('home')} textStyle={{fontSize: 20}}>
-                    Feed
-                </Button>
-                <Button active={this.state.tab2} onPress={() => this.toggleTab2()} textStyle={{fontSize: 20}}>
-                    Add Item
-                </Button>
-                <Button active={this.state.tab3} onPress={() => this.toggleTab3()} textStyle={{fontSize: 20}}>
-                    Profile
-                </Button>
-            </FooterTab>
-        </Footer>
 
-      </Container>
-    );
-  }
+        let ItemNodes = items.map(function (item) {
+            return(
+                <DataItems key={item.id} items={item} />
+            )
+        })
+
+        return (
+            <Container theme={myTheme} style={styles.container}>
+                <Header>
+                    <Title style={{alignSelf: 'center'}}>BRTR</Title>
+                    <Button transparent onPress={() => this.navigateTo('home')}>
+                        Back
+                    </Button>
+                    <Button transparent onPress={() => this.navigateTo('editProfile')}>
+                        Edit
+                    </Button>
+                </Header>
+
+                <Content>
+                    <Image style={{ alignSelf: 'center'}} source={camera} />
+                    <Text
+                        style={{
+                            color: '#fff',
+                            alignSelf: 'center',
+                            fontSize: 20,
+                            fontStyle: 'normal',
+                            marginBottom: 20}}>
+                        {this.state.dataUser.username}
+                    </Text>
+                    <Text
+                        style={{
+                            color: '#fff',
+                             alignSelf: 'center',
+                             fontSize: 20,
+                             fontStyle: 'normal',
+                             marginTop: 20,
+                             marginBottom: 20
+                        }}>
+                        Items up for BARTER :
+                    </Text>
+
+                    <Card style={{ flex: 0, borderWidth: 0 }}>
+                        {ItemNodes}
+                    </Card>
+
+                </Content>
+
+                <Footer>
+                    <FooterTab>
+                        <Button
+                            active={this.state.tab1} onPress={() => this.navigateTo('home')} >
+                            Feed
+                        </Button>
+                        <Button active={this.state.tab2} onPress={() => this.navigateTo('addItem')} >
+                            Add Item
+                        </Button>
+                        <Button active={this.state.tab3} onPress={() => this.navigateTo('profileDetail')} >
+                            Profile
+                        </Button>
+                    </FooterTab>
+                </Footer>
+
+            </Container>
+        );
+    }
 }
 
 function bindAction(dispatch) {
-  return {
-    replaceAt: (routeKey, route, key) => dispatch(replaceAt(routeKey, route, key)),
-  };
+    return {
+        replaceAt: (routeKey, route, key) => dispatch(replaceAt(routeKey, route, key)),
+        getItems: (token) => dispatch(getItems(token)),
+    };
 }
 
 const mapStateToProps = state => ({
-  navigation: state.cardNavigation,
+    navigation: state.cardNavigation,
+    items: state.items
 });
 
 export default connect(mapStateToProps, bindAction)(ProfileDetail);
