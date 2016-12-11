@@ -54,7 +54,7 @@ class LoginPage extends Component {
                     <InputGroup >
                       <Input
                           onChangeText={(email) => this.setState({email})}
-                          placeholder="email" style={{color: '#FFFFFF'}}/>
+                          placeholder="Enter your email address" style={{color: '#FFFFFF'}}/>
                     </InputGroup>
                   </ListItem>
                 </List>
@@ -63,9 +63,20 @@ class LoginPage extends Component {
                     bordered
                     style={{ alignSelf: 'center', marginTop: 40, marginBottom: 20 , width: 220, borderRadius: 0, borderColor:'#2effd0', height: 50}}>
                   <Text style={{color: '#FFFFFF'}}>
-                    SEND
+                    NEXT
                   </Text>
                 </Button>
+
+                <Text
+                    style={{
+                      textAlign: 'center',
+                      color: '#FFFFFF',
+                      fontSize: 14,
+                    marginTop: 25}}>
+                  Suddenly remember your password ?
+                  <Text style={{color: '#2effd0', fontSize: 12}}
+                        onPress={()=>this.navigateTo('loginPage')}>  Let's go Sign In !</Text></Text>
+
               </Content>
             </Container>
         );
