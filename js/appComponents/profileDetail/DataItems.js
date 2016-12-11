@@ -19,7 +19,7 @@ import {
     View
 } from 'native-base';
 import { Grid, Col } from 'react-native-easy-grid';
-
+import navigateTo from '../../actions/bottomNav';
 
 import decode from 'jwt-decode'
 
@@ -34,10 +34,15 @@ class ProfileDetail extends Component {
 
     }
 
+    navigateTo(route, data) {
+        console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ini kirim id: ", data)
+        this.props.navigateTo(route, 'detailProfile', data);
+    }
+
     render() {
         const {items} = this.props
         return (
-            <CardItem onPress={() => this.navigateTo('itemDetail')}>
+            <CardItem onPress={() => this.navigateTo('itemDetail', items.id)}>
                 <Image
                     style={{
                         resizeMode: 'cover',
@@ -52,7 +57,7 @@ class ProfileDetail extends Component {
 
 function bindAction(dispatch) {
     return {
-        navigateTo: (route, homeRoute) => dispatch(navigateTo(route, homeRoute)),
+        navigateTo: (route, homeRoute, data) => dispatch(navigateTo(route, homeRoute, data)),
     };
 }
 

@@ -20,7 +20,7 @@ import {
 } from 'native-base';
 import { Grid, Col } from 'react-native-easy-grid';
 
-import {getItems} from '../../actions/items';
+import {getItemsByUserId} from '../../actions/items';
 
 import styles from './styles';
 import ArizTheme from '../../themes/prof-empty-theme.js'
@@ -74,7 +74,7 @@ class ProfileDetail extends Component {
             console.log("value: ", value)
             if (value !== null){
                 this.setState({dataUser: decode(value)});
-                this.props.getItems(value)
+                this.props.getItemsByUserId(value)
                 this._appendMessage('Recovered selection from disk: ' + value);
             } else {
                 console.log("else")
@@ -89,6 +89,10 @@ class ProfileDetail extends Component {
     _appendMessage = (message) => {
         this.setState({messages: this.state.messages.concat(message)});
     };
+
+    navigateTo(route) {
+        this.props.navigateTo(route, 'home');
+    }
 
 
     render() {
@@ -166,8 +170,8 @@ class ProfileDetail extends Component {
 
 function bindAction(dispatch) {
     return {
-        replaceAt: (routeKey, route, key) => dispatch(replaceAt(routeKey, route, key)),
-        getItems: (token) => dispatch(getItems(token)),
+        navigateTo: (route, homeRoute) => dispatch(navigateTo(route, homeRoute)),
+        getItemsByUserId: (token) => dispatch(getItemsByUserId(token)),
     };
 }
 
