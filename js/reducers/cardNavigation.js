@@ -6,7 +6,7 @@ const initialState = {
   index: 0,
   routes: [
     {
-      key: 'askEmail',
+      key: 'codeEmail',
       index: 0,
     },
   ],
