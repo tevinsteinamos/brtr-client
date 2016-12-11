@@ -15,7 +15,58 @@ import navigateTo from './bottomNav';
 export const USER_LOGIN_SUCCESS = 'USER_LOGIN_SUCCESS';
 export const USER_LOGIN_FAILURE = 'USER_LOGIN_FAILURE';
 
+export const USER_REGISTER_SUCCESS = 'USER_REGISTER_SUCCESS';
+export const USER_REGISTER_FAILURE = 'USER_REGISTER_FAILURE';
+
 const SERVER_URL_USERS = 'http://localhost:3000/api'
+
+export function userRegisterSuccess(user):Action {
+    return {
+        type: USER_REGISTER_SUCCESS,
+        user: user
+    };
+}
+
+export function userRegisterFailure():Action {
+    return {
+        type: USER_REGISTER_FAILURE
+    };
+}
+
+export function registerUser(username, password, email, confirmPassword) {
+    return (dispatch) => {
+        fetch(`http://192.168.1.241:3000/api/auth/register`, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                username: username,
+                password: password,
+                email: email,
+                confirmPassword: confirmPassword
+            })
+        })
+            .then((response) => response.json())
+            .then((responseJson) => {
+                dispatch(userRegisterSuccess(responseJson))
+                dispatch(navigateTo('home', 'registerPage'))
+            })
+            .catch((error) => {
+                console.log("fail", error)
+                Alert.alert(
+                    'Register Fail',
+                    'something wrong, please register again',
+                    [
+                        {text: 'OK', onPress: () => console.log('OK Pressed')},
+                    ]
+                )
+                dispatch(userRegisterFailure())
+            });
+    }
+}
+
 
 export function userLoginSuccess(user):Action {
     return {
