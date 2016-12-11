@@ -1,12 +1,13 @@
 
 import React, { Component } from 'react';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { Container, Header, Title, Content, Button, Icon, List, ListItem, InputGroup, Input, Picker, Text, Thumbnail } from 'native-base';
 
 import { openDrawer } from '../../actions/drawer';
 import styles from './styles';
 import ArizTheme from '../../themes/custom-theme'
+import {registerUser} from '../../actions/auth'
 
 const Item = Picker.Item;
 const camera = require('../../../img/camera.png');
@@ -25,6 +26,10 @@ class RegisterPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            username: '',
+            password: '',
+            email: '',
+            confirmPassword: '',
             selectedItem: undefined,
             selected1: 'key0',
             results: {
@@ -38,6 +43,32 @@ class RegisterPage extends Component {
         });
     }
 
+    onRegisterUser(e) {
+        e.preventDefault()
+        let username = this.state.username.trim()
+        let password = this.state.password.trim()
+        let email = this.state.email.trim()
+        let confirmPassword = this.state.confirmPassword.trim()
+        if (!username || !password || !email ||! confirmPassword) {
+            Alert.alert(
+                'Register Fail',
+                'All fields must not empty',
+                [
+                    {text: 'OK', onPress: () => console.log('OK Pressed')},
+                ]
+            )
+            return
+        }
+
+        this.props.registerUser(username, password, email, confirmPassword)
+        this.setState({
+            username: '',
+            password: '',
+            email: '',
+            confirmPassword: ''
+        })
+    }
+
     render() {
         return (
             <Container style={styles.container}>
@@ -49,22 +80,30 @@ class RegisterPage extends Component {
                 <List style={{marginTop: 40, marginLeft: 30, marginRight: 60}} theme={ArizTheme}>
                   <ListItem>
                     <InputGroup >
-                      <Input placeholder="Username" style={{color: '#FFFFFF'}}/>
+                      <Input
+                          onChangeText={(username) => this.setState({username})}
+                          placeholder="Username" style={{color: '#FFFFFF'}}/>
                     </InputGroup>
                   </ListItem>
                   <ListItem>
                     <InputGroup>
-                      <Input placeholder="Email" style={{color: '#FFFFFF'}}/>
+                      <Input
+                          onChangeText={(email) => this.setState({email})}
+                          placeholder="Email" style={{color: '#FFFFFF'}}/>
                     </InputGroup>
                   </ListItem>
                   <ListItem>
                     <InputGroup>
-                      <Input placeholder="Password" secureTextEntry style={{color: '#FFFFFF'}}/>
+                      <Input
+                          onChangeText={(password) => this.setState({password})}
+                          placeholder="Password" secureTextEntry style={{color: '#FFFFFF'}}/>
                     </InputGroup>
                   </ListItem>
                   <ListItem>
                     <InputGroup>
-                      <Input placeholder="Confirm Password" secureTextEntry style={{color: '#FFFFFF'}}/>
+                      <Input
+                          onChangeText={(confirmPassword) => this.setState({confirmPassword})}
+                          placeholder="Confirm Password" secureTextEntry style={{color: '#FFFFFF'}}/>
                     </InputGroup>
                   </ListItem>
                 </List>
@@ -78,7 +117,7 @@ class RegisterPage extends Component {
                       borderColor:'#2effd0',
                       height: 50
                 }}
-                    onPress={()=>this.navigateTo('home')}><Text style={{color: '#FFFFFF'}}>SIGN UP</Text></Button>
+                    onPress={this.onRegisterUser.bind(this)}><Text style={{color: '#FFFFFF'}}>SIGN UP</Text></Button>
                 <Text
                     style={{
                       textAlign: 'center',
@@ -96,6 +135,7 @@ class RegisterPage extends Component {
 function bindAction(dispatch) {
     return {
         navigateTo: (route, homeRoute) => dispatch(navigateTo(route, homeRoute)),
+        registerUser: (username, password, email, confirmPassword) => dispatch(registerUser(username, password, email, confirmPassword)),
     };
 }
 
