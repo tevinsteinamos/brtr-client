@@ -6,7 +6,7 @@ const initialState = {
   index: 0,
   routes: [
     {
-      key: 'loginPage',
+      key: 'profileEmpty',
       index: 0,
     },
   ],
