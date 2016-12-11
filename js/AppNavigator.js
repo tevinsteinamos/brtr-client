@@ -13,6 +13,7 @@ import ItemDetail from './appComponents/itemDetail/ItemDetail'
 import SearchItem from './appComponents/searchItem/SearchItem'
 import ProfileEmpty from './appComponents/profileEmpty'
 import ProfileDetail from './appComponents/profileDetail'
+import AddItem from './appComponents/addItem'
 
 
 // import Home from './components/home/';
@@ -178,6 +179,8 @@ class AppNavigator extends Component {
                 return <ProfileEmpty />;
             case 'profileDetail':
                 return <ProfileDetail />;
+            case 'addItem':
+                return <AddItem />;
 
 
             default :
