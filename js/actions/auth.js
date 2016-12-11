@@ -83,7 +83,7 @@ export function userLoginFailure():Action {
 
 export function loginUser(username, password) {
     return (dispatch) => {
-        fetch(`http://192.168.1.241:3000/api/auth/login`, {
+        fetch(`http://192.168.1.173:3000/api/auth/login`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
