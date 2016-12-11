@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { Image } from 'react-native';
+import { Image, AsyncStorage } from 'react-native';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import { connect } from 'react-redux';
 import { actions } from 'react-native-navigation-redux-helpers';
@@ -20,10 +20,12 @@ import {
     View
 } from 'native-base';
 
-import navigateTo from '../../actions/sideBarNav';
+import navigateTo from '../../actions/bottomNav';
 import { openDrawer } from '../../actions/drawer';
 import myTheme from '../../themes/base-theme';
 import styles from './styles';
+
+import {getItemsById} from '../../actions/itemId';
 
 const {
     replaceAt,
@@ -50,6 +52,8 @@ class ItemDetail extends Component {
             tab1: false,
             tab2: false,
             tab3: false,
+            dataUser: {},
+            messages: []
         };
     }
 
@@ -81,7 +85,39 @@ class ItemDetail extends Component {
         });
     }
 
+    componentDidMount() {
+        this._loadInitialState().done();
+    }
+
+    _loadInitialState = async () => {
+        try {
+            var value = await AsyncStorage.getItem("myKey");
+            console.log("value token di item detail: ", value)
+            if (value !== null){
+                let ItemId = this.props.navigation.routes[this.props.navigation.routes.length - 1].data
+                console.log("dapet item id: ", ItemId)
+                this.props.getItemsById(value, ItemId)
+
+                this._appendMessage('Recovered selection from disk: ' + value);
+            } else {
+                console.log("else")
+                this._appendMessage('Initialized with no selection on disk.');
+            }
+        } catch (error) {
+            console.log("catch")
+            this._appendMessage('AsyncStorage error: ' + error.message);
+        }
+    }
+
+    _appendMessage = (message) => {
+        this.setState({messages: this.state.messages.concat(message)});
+    };
+
     render() {
+        const {itemId} = this.props
+        console.log('>>>> item detail props: ', this.props)
+        console.log('>>>> item detail: ', itemId)
+        console.log('>>>> item detail User: ', itemId.User)
         return (
             <Container theme={myTheme} style={styles.container}>
 
@@ -99,40 +135,38 @@ class ItemDetail extends Component {
 
                     <Card style={{ flex: 0, backgroundColor: '#444444', borderWidth: 0 }}>
                         <CardItem>
-                            <H1 style={{color: 'white', paddingBottom: 5}}>Floral Coffe Mug</H1>
-                            <Text note>by Metta Wangsa</Text>
+                            <H1 style={{color: 'white', paddingBottom: 5}}>{itemId.name}</H1>
+                            <Text note>{(itemId.User) ? itemId.User.username : ''}</Text>
                         </CardItem>
 
                         <CardItem>
                             <Text style={styles.textColor}>
-                                Have only been used a few times.
-                                There are some invisible coffe stains.
-                                It's comfy. Willing to trade with any stuff that's worth
+                                {itemId.description}
                             </Text>
                         </CardItem>
 
                         <CardItem>
                             <Image
                                 style={{ resizeMode: 'cover', width: null }}
-                                source={require('../../../img/category/automotive.jpg')} />
+                                source={{uri: itemId.photo}} />
                         </CardItem>
 
                         <CardItem>
-                            <H3 style={styles.textColor}>Size</H3>
-                            <Text style={styles.textColor}>300 ML</Text>
+                            <H3 style={styles.textColor}>Dimension</H3>
+                            <Text style={styles.textColor}>{itemId.dimension}</Text>
                         </CardItem>
 
                         <Grid>
                             <Col>
                                 <CardItem>
                                     <H3 style={styles.textColor}>Material</H3>
-                                    <Text style={styles.textColor}>Glass</Text>
+                                    <Text style={styles.textColor}>{itemId.material}</Text>
                                 </CardItem>
                             </Col>
                             <Col>
                                 <CardItem>
-                                    <H3 style={styles.textColor}>Location</H3>
-                                    <Text style={styles.textColor}>Jakarta, ID</Text>
+                                    <H3 style={styles.textColor}>Color</H3>
+                                    <Text style={styles.textColor}>{itemId.color}</Text>
                                 </CardItem>
                             </Col>
                         </Grid>
@@ -149,13 +183,13 @@ class ItemDetail extends Component {
                 <Footer>
                     <FooterTab>
                         <Button
-                            onPress={() => this.replaceAt('home')} >
+                            active={this.state.tab1} onPress={() => this.navigateTo('home')}>
                             Feed
                         </Button>
-                        <Button active={this.state.tab2} onPress={() => this.toggleTab2()} >
+                        <Button active={this.state.tab2} onPress={() => this.navigateTo('addItem')} >
                             Add Item
                         </Button>
-                        <Button active={this.state.tab3} onPress={() => this.toggleTab3()} >
+                        <Button active={this.state.tab3} onPress={() => this.navigateTo('profileDetail')} >
                             Profile
                         </Button>
                     </FooterTab>
@@ -168,12 +202,14 @@ class ItemDetail extends Component {
 function bindAction(dispatch) {
     return {
         navigateTo: (route, homeRoute) => dispatch(navigateTo(route, homeRoute)),
-        replaceAt: (routeKey, route, key) => dispatch(replaceAt(routeKey, route, key)),
+        getItemsById: (token, ItemId) => dispatch(getItemsById(token, ItemId)),
     };
 }
 
 const mapStateToProps = state => ({
     navigation: state.cardNavigation,
+    // item: state.items
+    itemId: state.itemId
 });
 
 export default connect(mapStateToProps, bindAction)(ItemDetail);

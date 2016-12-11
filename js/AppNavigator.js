@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { BackAndroid, StatusBar, NavigationExperimental } from 'react-native';
+import { BackAndroid, StatusBar, NavigationExperimental, AsyncStorage } from 'react-native';
 import { connect } from 'react-redux';
 import { Drawer } from 'native-base';
 import { actions } from 'react-native-navigation-redux-helpers';
@@ -55,6 +55,8 @@ import LoginPage from './appComponents/loginPage';
 import RegisterPage from './appComponents/registerPage';
 
 
+import decode from 'jwt-decode'
+
 const {
     popRoute,
 } = actions;
@@ -64,6 +66,14 @@ const {
 } = NavigationExperimental;
 
 class AppNavigator extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            dataUser: {},
+            messages: []
+        }
+    }
 
     static propTypes = {
         drawerState: React.PropTypes.string,
@@ -86,7 +96,30 @@ class AppNavigator extends Component {
             this.props.popRoute(this.props.navigation.key);
             return true;
         });
+
+        this._loadInitialState().done();
     }
+
+    _loadInitialState = async () => {
+        try {
+            var value = await AsyncStorage.getItem("myKey");
+            // console.log("value: ", value)
+            if (value !== null){
+                this.setState({dataUser: decode(value)});
+                this._appendMessage('Recovered selection from disk: ' + value);
+            } else {
+                console.log("else")
+                this._appendMessage('Initialized with no selection on disk.');
+            }
+        } catch (error) {
+            console.log("catch")
+            this._appendMessage('AsyncStorage error: ' + error.message);
+        }
+    }
+
+    _appendMessage = (message) => {
+        this.setState({messages: this.state.messages.concat(message)});
+    };
 
     componentDidUpdate() {
         if (this.props.drawerState === 'opened') {
@@ -96,6 +129,7 @@ class AppNavigator extends Component {
         if (this.props.drawerState === 'closed') {
             this._drawer.close();
         }
+
     }
 
     popRoute() {
@@ -173,11 +207,11 @@ class AppNavigator extends Component {
                 return <LoginPage />;
             case 'registerPage':
                 return <RegisterPage />;
-            case 'ItemDetail':
+            case 'itemDetail':
                 return <ItemDetail />;
-            case 'ListItem':
+            case 'listItem':
                 return <ListItem />;
-            case 'SearchItem':
+            case 'searchItem':
                 return <SearchItem />;
             case 'profileEmpty':
                 return <ProfileEmpty />;
@@ -203,6 +237,7 @@ class AppNavigator extends Component {
     }
 
     render() {
+        // console.log("data user: ", this.state.dataUser)
         return (
             <Drawer
                 ref={(ref) => { this._drawer = ref; }}
