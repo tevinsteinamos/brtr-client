@@ -49,7 +49,7 @@ class RegisterPage extends Component {
         let password = this.state.password.trim()
         let email = this.state.email.trim()
         let confirmPassword = this.state.confirmPassword.trim()
-        if (!username || !password || !email ||! confirmPassword) {
+        if (!username || !password || !email || !confirmPassword) {
             Alert.alert(
                 'Register Fail',
                 'All fields must not empty',
