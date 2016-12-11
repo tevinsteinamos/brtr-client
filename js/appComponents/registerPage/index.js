@@ -60,6 +60,17 @@ class RegisterPage extends Component {
             return
         }
 
+        if (password !== confirmPassword) {
+            Alert.alert(
+                'Register Fail',
+                "Password doesn't match",
+                [
+                    {text: 'OK', onPress: () => console.log('OK Pressed')},
+                ]
+            )
+            return
+        }
+
         this.props.registerUser(username, password, email, confirmPassword)
         this.setState({
             username: '',
