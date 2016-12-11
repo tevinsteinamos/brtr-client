@@ -14,6 +14,10 @@ import SearchItem from './appComponents/searchItem/SearchItem'
 import ProfileEmpty from './appComponents/profileEmpty'
 import ProfileDetail from './appComponents/profileDetail'
 import AddItem from './appComponents/addItem'
+import AskEmail from './appComponents/askEmail'
+import CodeEmail from './appComponents/codeEmail'
+
+
 
 
 // import Home from './components/home/';
@@ -181,6 +185,10 @@ class AppNavigator extends Component {
                 return <ProfileDetail />;
             case 'addItem':
                 return <AddItem />;
+            case 'askEmail':
+                return <AskEmail />;
+            case 'codeEmail':
+                return <CodeEmail />;
 
 
             default :
