@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { Image } from 'react-native';
+import { Image, AsyncStorage } from 'react-native';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import { connect } from 'react-redux';
 import { actions } from 'react-native-navigation-redux-helpers';
@@ -34,6 +34,9 @@ import ArizTheme from '../../themes/additemtheme'
 import FooterTheme from '../../themes/prof-empty-theme'
 const camera = require('../../../img/camera.png');
 
+import {addItem} from '../../actions/items';
+import DataCategories from './DataCategories'
+
 const {
     replaceAt,
 } = actions;
@@ -57,15 +60,18 @@ class AddItem extends Component {
         super(props);
         this.state = {
             tab1: false,
-            tab2: false,
+            tab2: true,
             tab3: false,
+            dataUser: {},
+            messages: [],
+            token: '',
             name: '',
             description: '',
             dimension: '',
             material: '',
             photo: '',
             color: '',
-            size: 'key1',
+            size: '',
             results: {
                 items: []
             }
@@ -74,37 +80,68 @@ class AddItem extends Component {
 
     onValueChange (value: string) {
         this.setState({
-            size : value
+            selected1 : value
         });
     }
 
 
     navigateTo(route) {
-        this.props.navigateTo(route, 'AddItem');
+        this.props.navigateTo(route, 'addItem');
     }
 
-    toggleTab1() {
-        this.setState({
-            tab1: true,
-            tab2: false,
-            tab3: false,
-        });
+
+    componentDidMount() {
+        this._loadInitialState().done();
     }
 
-    toggleTab2() {
-        this.setState({
-            tab1: false,
-            tab2: true,
-            tab3: false,
-        });
+    _loadInitialState = async () => {
+        try {
+            var value = await AsyncStorage.getItem("myKey");
+            console.log("value: ", value)
+            this.setState({token: value});
+            this.setState({dataUser: decode(value)});
+            if (value !== null){
+                this._appendMessage('Recovered selection from disk: ' + value);
+            } else {
+                console.log("else")
+                this._appendMessage('Initialized with no selection on disk.');
+            }
+        } catch (error) {
+            console.log("catch")
+            this._appendMessage('AsyncStorage error: ' + error.message);
+        }
     }
 
-    toggleTab3() {
+    _appendMessage = (message) => {
+        this.setState({messages: this.state.messages.concat(message)});
+    };
+
+
+    onAddItem(e) {
+        console.log("cklick add item")
+        e.preventDefault()
+        let name = this.state.name.trim()
+        let description = this.state.description.trim()
+        let dimension = this.state.dimension.trim()
+        let material = this.state.material.trim()
+        let photo = this.state.photo.trim()
+        let size = this.state.size.trim()
+        let color = this.state.color.trim()
+        if (!name || !description || !dimension || !material || !size || !color) {
+            console.log("kosong")
+            return
+        }
+
+        this.props.addItem(758, name, description, photo, size, material, dimension, color, this.state.token)
         this.setState({
-            tab1: false,
-            tab2: false,
-            tab3: true,
-        });
+            name: '',
+            description: '',
+            dimension: '',
+            material: '',
+            photo: '',
+            size: '',
+            color: '',
+        })
     }
 
     render() {
@@ -124,123 +161,138 @@ class AddItem extends Component {
                 <Content>
 
                     <Card style={{ flex: 0, backgroundColor: '#444444', borderWidth: 0 }}>
-                      <Grid>
-                        <Col>
-                        </Col>
-                        <Col>
-                      <Text style={{color: '#fff', marginLeft: 20}}>ITEM NAME</Text>
-                              <InputGroup theme={ArizTheme} borderType='underline'>
-                                <Input
-                                    onChangeText={(e) => this.setState({name: e})}
-                                    style={{color: '#FFFFFF'}}/>
-                              </InputGroup>
-                            </Col>
-                            <Col>
-                            </Col>
-                          </Grid>
-                          <Grid>
-                          <Col>
-                          </Col>
-                          <Col>
-                            <Text note>by Metta Wangsa</Text>
-                          </Col>
-                            <Col>
-                            </Col>
-</Grid>
-                              <Grid>
-                                <Col>
-                                </Col>
-                                <Col>
-                              <Text style={{color: '#fff', marginLeft: 20}}>DESCRIPTION</Text>
-                          <InputGroup theme={ArizTheme} borderType='underline'>
-                            <Input
-                                onChangeText={(e) => this.setState({description: e})}
-                                style={{color: '#FFFFFF'}}/>
-                          </InputGroup>
-                        </Col>
-                        <Col>
-                        </Col>
-                      </Grid>
-                      <CardItem>
-<Grid>
-  <Col>
-                            <Image onPress={()=> alert('upload an image')}
-                                style={{ width: 150, height: 150, alignSelf: 'center' }}
-                                source={camera} />
-                                <Text style={{alignSelf: 'center'}} note>Upload an Image</Text>
-</Col>
-</Grid>
-</CardItem>
                         <Grid>
                             <Col>
-                              <CardItem>
-                    <Text style={{color: '#fff', marginLeft: 20}}>SIZE</Text>
-                    <Picker
-                        iosHeader="Select one"
-                        mode="dropdown"
-                        selectedValue={this.state.size}
-                        onValueChange={this.onValueChange.bind(this)}>
-                        <Item label="S" value="key0" />
-                        <Item label="M" value="key1" />
-                        <Item label="L" value="key2" />
-                        <Item label="XL" value="key3" />
-                   </Picker>
-                 </CardItem>
+                                <InputGroup
+                                    style={{marginLeft: 30, marginRight: 30}}
+                                    theme={ArizTheme}
+                                    borderType='underline'
+                                >
+                                    <Input
+                                        onChangeText={(name) => this.setState({name: name})}
+                                        style={{color: '#FFFFFF'}}
+                                        placeholder="Item Title"/>
+                                </InputGroup>
+                            </Col>
+                        </Grid>
+
+                        <Grid>
+                            <Col>
+                                <InputGroup
+                                    style={{marginLeft: 30, marginRight: 30}}
+                                    theme={ArizTheme} borderType='underline'>
+                                    <Input
+                                        onChangeText={(description) => this.setState({description: description})}
+                                        style={{color: '#FFFFFF'}}
+                                        placeholder="Description"/>
+                                </InputGroup>
+                            </Col>
+                        </Grid>
+
+                        <Grid>
+                            <Col>
+                                <Picker
+                                    style={{marginLeft: 30, marginRight: 30, color: 'white'}}
+                                    iosHeader="Select one"
+                                    mode="dropdown"
+                                    selectedValue={this.state.selected1}
+                                    onValueChange={this.onValueChange.bind(this)} >
+                                    <Item label="Select Category" value="key0" />
+                                    <Item label="Female" value="key1" />
+                                    <Item label="Other" value="key2" />
+                                </Picker>
+                            </Col>
+                        </Grid>
+
+                        <Grid>
+                            <Col>
+                                <InputGroup
+                                    style={{marginLeft: 30, marginRight: 30}}
+                                    theme={ArizTheme}
+                                    borderType='underline'
+                                >
+                                    <Input
+                                        style={{color: '#FFFFFF'}}
+                                        placeholder="Image"/>
+                                </InputGroup>
+                                <Image onPress={()=> alert('upload an image')}
+                                       style={{ width: 150, height: 150, alignSelf: 'center' }}
+                                       source={camera} />
+
+                            </Col>
+                        </Grid>
+
+                        <Grid>
+                            <Col>
+                                <InputGroup
+                                    style={{marginLeft: 30, marginRight: 15}}
+                                    theme={ArizTheme} borderType='underline'>
+                                    <Input
+                                        onChangeText={(size) => this.setState({size: size})}
+                                        style={{color: '#FFFFFF'}}
+                                        placeholder="Size"/>
+                                </InputGroup>
                             </Col>
                             <Col>
-                                <CardItem>
-                                  <Text style={{color: '#fff', marginLeft: 20, marginBottom: 9}}>MATERIAL</Text>
-                                  <InputGroup theme={ArizTheme} borderType='underline'>
+                                <InputGroup
+                                    style={{marginLeft: 15, marginRight: 30}}
+                                    theme={ArizTheme} borderType='underline'>
                                     <Input
-                                        onChangeText={(e) => this.setState({material: e})}
-                                        style={{color: '#FFFFFF'}}/>
-                                  </InputGroup>
-                                </CardItem>
+                                        onChangeText={(material) => this.setState({material: material})}
+                                        style={{color: '#FFFFFF'}}
+                                        placeholder="Material"/>
+                                </InputGroup>
                             </Col>
 
                         </Grid>
 
-<Grid style={{marginTop: 40}}>
-  <Col>
-                                <Text style={{color: '#fff', marginLeft: 20}}>DIMENSION</Text>
-                                <InputGroup theme={ArizTheme} borderType='underline'>
-                                  <Input
-                                      onChangeText={(e) => this.setState({dimension: e})}
-                                      style={{color: '#FFFFFF'}}/>
-                                </InputGroup>
-</Col>
-<Col>
-                                  <Text style={{color: '#fff', marginLeft: 20}}>COLOR</Text>
-                                  <InputGroup theme={ArizTheme} borderType='underline'>
+                        <Grid style={{marginTop: 40}}>
+                            <Col>
+                                <InputGroup
+                                    style={{marginLeft: 30, marginRight: 15}}
+                                    theme={ArizTheme} borderType='underline'>
                                     <Input
-                                        onChangeText={(e) => this.setState({color: e})}
-                                        style={{color: '#FFFFFF'}}/>
-                                  </InputGroup>
-                                </Col>
-                              </Grid>
+                                        onChangeText={(dimension) => this.setState({dimension: dimension})}
+                                        style={{color: '#FFFFFF'}}
+                                        placeholder="Dimension"/>
+                                </InputGroup>
+                            </Col>
+                            <Col>
+                                <InputGroup
+                                    style={{marginLeft: 15, marginRight: 30}}
+                                    theme={ArizTheme} borderType='underline'>
+                                    <Input
+                                        onChangeText={(color) => this.setState({color: color})}
+                                        style={{color: '#FFFFFF'}}
+                                        placeholder="Color"/>
+                                </InputGroup>
+                            </Col>
+                        </Grid>
 
-                          <Button
-                              onPress={()=> alert('Item saved !')}
-                              bordered
-                              style={{ alignSelf: 'center', marginTop: 40, marginBottom: 20 , width: 220, borderRadius: 0, borderColor:'#2effd0', height: 50}}>
+                        <Button
+                            onPress={this.onAddItem.bind(this)}
+                            bordered
+                            style={{ alignSelf: 'center', marginTop: 40, marginBottom: 20 , width: 220, borderRadius: 0, borderColor:'#2effd0', height: 50}}>
                             <Text style={{color: '#FFFFFF'}}>
-                              SAVE ITEM
+                                SAVE ITEM
                             </Text>
-                          </Button>
+                        </Button>
 
 
 
                     </Card>
                 </Content>
 
-                <Footer theme={FooterTheme}>
-                    <FooterTab theme={FooterTheme}>
+                <Footer>
+                    <FooterTab>
                         <Button
-                            onPress={() => this.replaceAt('home')} >
+                            active={this.state.tab1} onPress={() => this.navigateTo('home')}>
                             Feed
                         </Button>
-
-                        <Button active={this.state.tab3} onPress={() => this.toggleTab3()} >
+                        <Button active={this.state.tab2} onPress={() => this.navigateTo('addItem')} >
+                            Add Item
+                        </Button>
+                        <Button active={this.state.tab3} onPress={() => this.navigateTo('profileDetail')} >
                             Profile
                         </Button>
                     </FooterTab>
@@ -253,7 +305,7 @@ class AddItem extends Component {
 function bindAction(dispatch) {
     return {
         navigateTo: (route, homeRoute) => dispatch(navigateTo(route, homeRoute)),
-        replaceAt: (routeKey, route, key) => dispatch(replaceAt(routeKey, route, key)),
+        addItem: (CategoryId, name, description, photo, size, material, dimension, color, token) => dispatch(addItem(CategoryId, name, description, photo, size, material, dimension, color, token)),
     };
 }
 

@@ -149,7 +149,7 @@ export default {
         return this.textColor;
     },
     get inputColorPlaceholder () {
-        return '#2effd0';
+        return 'white';
     },
 
     inputGroupMarginBottom: 10,
