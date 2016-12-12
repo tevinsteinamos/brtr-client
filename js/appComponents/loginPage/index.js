@@ -67,7 +67,6 @@ class LoginPage extends Component {
     componentDidMount() {
         this._loadInitialState().done();
     }
-
     _loadInitialState = async () => {
         try {
             var value = await AsyncStorage.getItem("myKey");

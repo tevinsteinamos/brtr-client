@@ -26,10 +26,6 @@ export const DELETE_ITEM = 'DELETE_ITEM'
 export const DELETE_ITEM_SUCCESS = 'DELETE_ITEM_SUCCESS'
 export const DELETE_ITEM_FAILURE = 'DELETE_ITEM_FAILURE'
 
-export const UPDATE_ITEM = 'UPDATE_ITEM'
-export const UPDATE_ITEM_SUCCESS = 'UPDATE_ITEM_SUCCESS'
-export const UPDATE_ITEM_FAILURE = 'UPDATE_ITEM_FAILURE'
-
 import decode from 'jwt-decode'
 
 const SERVER_URL_USERS = 'http://localhost:3000/api'
@@ -176,72 +172,6 @@ export function deleteItem(id, token){
             });
     }
 }
-
-
-
-
-
-
-
-
-
-
-export function updateDataItem(id, UserId, CategoryId,name, description, image, material, dimension, color) {
-    return {type: UPDATE_ITEM, id, User, name, description, image, material, dimension, color}
-}
-
-export function updateItemFailure() {
-    return {type: UPDATE_ITEM_FAILURE}
-}
-
-export function updateItemSuccess(item) {
-    return {type: UPDATE_ITEM_SUCCESS, item}
-}
-
-export function updateItem(id, CategoryId, name, description, photo, material, dimension, color, token) {
-    const userDecoded = decode(token)
-    return (dispatch) => {
-        fetch(`http://192.168.1.241:3000/api/items/${id}`, {
-            method: 'PUT',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + token
-            },
-            body: JSON.stringify({
-                UserId: userDecoded.id,
-                CategoryId: CategoryId,
-                name: name,
-                description: description,
-                photo: 'https://cdn.pixabay.com/photo/2015/10/30/14/27/book-1014197_1280.jpg',
-                material: material,
-                dimension: dimension,
-                color: color,
-                status: 'up for barter'
-            })
-        })
-            .then((response) => response.json())
-            .then((responseJson) => {
-                console.log('respon create: ', responseJson)
-                dispatch(updateItemSuccess(responseJson))
-                dispatch(navigateTo('itemDetail', 'addItem', responseJson.data.id))
-            })
-            .catch((error) => {
-                console.log("fail", error)
-                Alert.alert(
-                    'Register Fail',
-                    'something wrong, please register again',
-                    [
-                        {text: 'OK', onPress: () => console.log('OK Pressed')},
-                    ]
-                )
-                dispatch(updateItemFailure())
-            });
-    }
-}
-
-
-
 
 // export function loadItemsById() {
 //     return {type: LOAD_ITEMS_BY_ID}
