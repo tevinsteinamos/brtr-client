@@ -20,6 +20,7 @@ import {
 } from 'native-base';
 
 import navigateTo from '../../actions/bottomNav';
+import {getCategories} from '../../actions/categories';
 import { openDrawer } from '../../actions/drawer';
 import myTheme from '../../themes/base-theme';
 import styles from './styles';
@@ -38,6 +39,7 @@ class Home extends Component {
             tab1: true,
             tab2: false,
             tab3: false,
+            messages: []
         };
     }
 
@@ -69,7 +71,34 @@ class Home extends Component {
         });
     }
 
+    componentDidMount() {
+        this._loadInitialState().done();
+    }
+
+    _loadInitialState = async () => {
+        try {
+            var value = await AsyncStorage.getItem("myKey");
+            if (value !== null){
+                this.props.getCategories(value)
+                this._appendMessage('Recovered selection from disk: ' + value);
+            } else {
+                console.log("else")
+                this._appendMessage('Initialized with no selection on disk.');
+            }
+        } catch (error) {
+            console.log("catch: ", error)
+            this._appendMessage('AsyncStorage error: ' + error.message);
+        }
+    }
+
+    _appendMessage = (message) => {
+        this.setState({messages: this.state.messages.concat(message)});
+    };
+
     render() {
+        const {categories} = this.props
+        console.log("categori: ", categories)
+        // console.log("categori 0: ", categories[0].name)
         return (
             <Container theme={myTheme} style={styles.container}>
 
@@ -101,7 +130,7 @@ class Home extends Component {
                                 }}
                                         source={require('../../../img/category/automotive.jpg')}>
                                         <View style={{paddingLeft: 10}}>
-                                            <H2 style={{color: 'white'}}>Automotive</H2>
+                                            <H2 style={{color: 'white'}}>{(categories[0]) ? categories[0].name : ''}</H2>
                                         </View>
                                     </Image>
                                 </CardItem>
@@ -118,7 +147,7 @@ class Home extends Component {
                                 }}
                                         source={require('../../../img/category/books.jpg')}>
                                         <View style={{paddingLeft: 10}}>
-                                            <H2 style={{color: 'white'}}>Books & Audible</H2>
+                                            <H2 style={{color: 'white'}}>{(categories[1]) ? categories[1].name : ''}</H2>
                                         </View>
                                     </Image>
                                 </CardItem>
@@ -138,7 +167,7 @@ class Home extends Component {
                                 }}
                                         source={require('../../../img/category/cloth.jpg')}>
                                         <View style={{paddingLeft: 10}}>
-                                            <H2 style={{color: 'white'}}>Clothing, Shoes & Jewelry</H2>
+                                            <H2 style={{color: 'white'}}>{(categories[2]) ? categories[2].name : ''}</H2>
                                         </View>
                                     </Image>
                                 </CardItem>
@@ -158,7 +187,7 @@ class Home extends Component {
                                 }}
                                         source={require('../../../img/category/electronic.jpg')}>
                                         <View style={{paddingLeft: 10}}>
-                                            <H2 style={{color: 'white'}}>Electronics & Computers</H2>
+                                            <H2 style={{color: 'white'}}>{(categories[3]) ? categories[3].name : ''}</H2>
                                         </View>
                                     </Image>
                                 </CardItem>
@@ -175,7 +204,7 @@ class Home extends Component {
                                 }}
                                         source={require('../../../img/category/home-tools.jpg')}>
                                         <View style={{paddingLeft: 10}}>
-                                            <H2 style={{color: 'white'}}>Home, Garden & Tools</H2>
+                                            <H2 style={{color: 'white'}}>{(categories[4]) ? categories[4].name : ''}</H2>
                                         </View>
                                     </Image>
                                 </CardItem>
@@ -195,7 +224,7 @@ class Home extends Component {
                                 }}
                                         source={require('../../../img/category/sport.jpg')}>
                                         <View style={{paddingLeft: 10}}>
-                                            <H2 style={{color: 'white'}}>Sports & Outdoors</H2>
+                                            <H2 style={{color: 'white'}}>{(categories[5]) ? categories[5].name : ''}</H2>
                                         </View>
                                     </Image>
                                 </CardItem>
@@ -215,7 +244,7 @@ class Home extends Component {
                                 }}
                                         source={require('../../../img/category/toys.jpg')}>
                                         <View style={{paddingLeft: 10}}>
-                                            <H2 style={{color: 'white'}}>Toys, Kids & Baby</H2>
+                                            <H2 style={{color: 'white'}}>{(categories[6]) ? categories[6].name : ''}</H2>
                                         </View>
                                     </Image>
                                 </CardItem>
@@ -232,7 +261,7 @@ class Home extends Component {
                                 }}
                                         source={require('../../../img/category/others.jpg')}>
                                         <View style={{paddingLeft: 10}}>
-                                            <H2 style={{color: 'white'}}>Others</H2>
+                                            <H2 style={{color: 'white'}}>{(categories[7]) ? categories[7].name : ''}</H2>
                                         </View>
                                     </Image>
                                 </CardItem>
@@ -264,12 +293,14 @@ class Home extends Component {
 function bindAction(dispatch) {
     return {
         openDrawer: () => dispatch(openDrawer()),
+        getCategories: (token) => dispatch(getCategories(token)),
         navigateTo: (route, homeRoute) => dispatch(navigateTo(route, homeRoute)),
     };
 }
 
 const mapStateToProps = state => ({
     navigation: state.cardNavigation,
+    categories: state.categories
 });
 
 export default connect(mapStateToProps, bindAction)(Home);
