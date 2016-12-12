@@ -56,7 +56,8 @@ export function searchProcess(token, text) {
           .then((data) => {
             console.log('response : ', data);
             if (data.name == "SequelizeDatabaseError") {
-              dispatch(searchProcessSuccess([]))
+              console.log('seq db error');
+              dispatch(searchProcessFailure())
             } else {
               dispatch(searchProcessSuccess(data))
             }

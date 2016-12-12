@@ -45,14 +45,18 @@ class SearchResult extends Component {
       const {items} = this.props
       return (
           <CardItem onPress={() => this.navigateTo('itemDetail', items.id)}>
-            <Text>{items.name}</Text>
               <Image
                   style={{
-                      resizeMode: 'cover',
-                      width: null
-                  }}
+              resizeMode: 'cover',
+              width: null,
+              opacity: 0.6
+          }}
                   source={{uri: items.photo}}>
+                  <View style={{paddingLeft: 10}}>
+                      <H1 style={{color: 'black'}}>{items.name}</H1>
+                  </View>
               </Image>
+
           </CardItem>
       );
   }

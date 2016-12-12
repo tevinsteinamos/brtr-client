@@ -113,7 +113,7 @@ class SearchItem extends Component {
                   <Content>
                       <InputGroup borderType='regular' >
                           <Icon name='ios-search' style={{color:'#384850'}}/>
-                          <Input placeholder='Type your text here' onChangeText={(event) => this.searchProcessInput(event)}/>
+                          <Input style={{color: '#fff'}} placeholder='Type your text here' onChangeText={(event) => this.searchProcessInput(event)}/>
                       </InputGroup>
                       <Card>
                         {ItemNodes}
@@ -153,47 +153,3 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, bindAction)(SearchItem);
-
-// if (item.length === 0) {
-//   console.log('wrong');
-//   return (
-//       <Container theme={myTheme} style={styles.container}>
-//
-//           <Header>
-//               <Title style={{alignSelf: 'center'}}>Search Item</Title>
-//               <Button transparent onPress={() => this.navigateTo('SearchItem')}>
-//                   Back
-//               </Button>
-//               <Button transparent onPress={() => this.navigateTo('listAvatar')}>
-//                   <Icon name="ios-mail" />
-//               </Button>
-//           </Header>
-//
-//           <Content>
-//               <InputGroup borderType='regular' >
-//                   <Icon name='ios-search' style={{color:'#384850'}}/>
-//                   <Input placeholder='Type your text here' onChangeText={(event) => this.searchProcessInput(event)}/>
-//               </InputGroup>
-//               <Card>
-//                 <CardItem>No data found !</CardItem>
-//               </Card>
-//           </Content>
-//
-//           <Footer>
-//               <FooterTab>
-//                   <Button
-//                       onPress={() => this.navigateTo('Home')} >
-//                       Feed
-//                   </Button>
-//                   <Button active={this.state.tab2} onPress={() => this.toggleTab2()} >
-//                       Add Item
-//                   </Button>
-//                   <Button active={this.state.tab3} onPress={() => this.toggleTab3()} >
-//                       Profile
-//                   </Button>
-//               </FooterTab>
-//           </Footer>
-//       </Container>
-//   );
-// } else {
-  // }
