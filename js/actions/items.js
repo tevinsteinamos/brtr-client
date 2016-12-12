@@ -172,3 +172,110 @@ export function deleteItem(id, token){
             });
     }
 }
+
+
+
+
+
+
+
+
+
+export function updateDataItem(id, UserId, CategoryId,name, description, image, material, dimension, color) {
+    return {type: UPDATE_ITEM, id, User, name, description, image, material, dimension, color}
+}
+
+export function updateItemFailure() {
+    return {type: UPDATE_ITEM_FAILURE}
+}
+
+export function updateItemSuccess(item) {
+    return {type: UPDATE_ITEM_SUCCESS, item}
+}
+
+export function updateItem(id, CategoryId, name, description, photo, material, dimension, color, token) {
+    const userDecoded = decode(token)
+    return (dispatch) => {
+        fetch(`http://192.168.1.241:3000/api/items/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+            body: JSON.stringify({
+                UserId: userDecoded.id,
+                CategoryId: CategoryId,
+                name: name,
+                description: description,
+                photo: 'https://cdn.pixabay.com/photo/2015/10/30/14/27/book-1014197_1280.jpg',
+                material: material,
+                dimension: dimension,
+                color: color,
+                status: 'up for barter'
+            })
+        })
+            .then((response) => response.json())
+            .then((responseJson) => {
+                console.log('respon create: ', responseJson)
+                dispatch(updateItemSuccess(responseJson))
+                dispatch(navigateTo('itemDetail', 'addItem', responseJson.data.id))
+            })
+            .catch((error) => {
+                console.log("fail", error)
+                Alert.alert(
+                    'Register Fail',
+                    'something wrong, please register again',
+                    [
+                        {text: 'OK', onPress: () => console.log('OK Pressed')},
+                    ]
+                )
+                dispatch(updateItemFailure())
+            });
+    }
+}
+
+
+
+
+// export function loadItemsById() {
+//     return {type: LOAD_ITEMS_BY_ID}
+// }
+//
+// export function loadItemsSuccessById(items) {
+//     return {type: LOAD_ITEMS_BY_ID_SUCCESS, item: item}
+// }
+//
+// export function loadItemsFailureById() {
+//     return {type: LOAD_ITEMS_BY_ID_FAILURE}
+// }
+//
+// export function getItemsById(token, id) {
+//     return (dispatch) => {
+//         dispatch(loadItemsById())
+//         fetch(`http://192.168.1.241:3000/api/items/${id}`, {
+//             method: 'GET',
+//             headers: {
+//                 'Accept': 'application/json',
+//                 'Content-Type': 'application/json',
+//                 'Authorization': 'Bearer ' + token
+//             }
+//         })
+//             .then((response) => response.json())
+//             .then((responseJson) => {
+//                 console.log("dapet by id: ", responseJson)
+//                 dispatch(loadItemsSuccessById(responseJson))
+//             })
+//             .catch((error) => {
+//                 console.log("fail by id: ", error)
+//                 Alert.alert(
+//                     'Load Items Fail',
+//                     [
+//                         {text: 'OK', onPress: () => console.log('OK Pressed')},
+//                     ]
+//                 )
+//                 dispatch(loadItemsFailureById())
+//             });
+//     }
+// }
+//
