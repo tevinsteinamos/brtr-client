@@ -30,6 +30,7 @@ export function loadItemsFailureById() {
 }
 
 export function getItemsById(token, id) {
+    console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> dapet id nya: ", id)
     return (dispatch) => {
         dispatch(loadItemsById())
         fetch(`http://192.168.1.241:3000/api/items/${id}`, {

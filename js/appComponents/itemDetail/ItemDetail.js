@@ -61,8 +61,8 @@ class ItemDetail extends Component {
         };
     }
 
-    navigateTo(route) {
-        this.props.navigateTo(route, 'ItemDetail');
+    navigateTo(route, data) {
+        this.props.navigateTo(route, 'ItemDetail', data);
     }
 
     toggleTab1() {
@@ -134,6 +134,10 @@ class ItemDetail extends Component {
         )
     }
 
+    onEditItem() {
+        this.navigateTo('addItem')
+    }
+
     render() {
         const {itemId} = this.props
         console.log('>>>> item detail props: ', this.props)
@@ -148,12 +152,14 @@ class ItemDetail extends Component {
                 actionButton = <Button
                     onPress={this.onDeleteItem.bind(this)}
                     block danger> Delete </Button>
-                editButton = <Button transparent onPress={() => this.navigateTo('editItem')}>
+                editButton = <Button transparent onPress={() => this.navigateTo('addItem', itemId.id)}>
                     Edit
                 </Button>
             }
             else {
-                actionButton = <Button block success> Barter </Button>
+                actionButton = <Button
+                    onPress={this.onEditItem.bind(this)}
+                    block success> Barter </Button>
                 editButton = ''
             }
         }
@@ -239,7 +245,7 @@ class ItemDetail extends Component {
 
 function bindAction(dispatch) {
     return {
-        navigateTo: (route, homeRoute) => dispatch(navigateTo(route, homeRoute)),
+        navigateTo: (route, homeRoute, data) => dispatch(navigateTo(route, homeRoute, data)),
         getItemsById: (token, ItemId) => dispatch(getItemsById(token, ItemId)),
         deleteItem: (id, token) => dispatch(deleteItem(id, token)),
     };
