@@ -43,17 +43,22 @@ class LoginPage extends Component {
 
     onLoginUser(e) {
         e.preventDefault()
+        console.log('login');
         let username = this.state.username.trim()
         let password = this.state.password.trim()
         if (!username || !password) {
+          console.log('empty');
             return
-        }
+        } else {
+          console.log(username);
+          console.log(password);
+          this.props.loginUser(username, password)
+          this.setState({
+              username: '',
+              password: ''
+          })
 
-        this.props.loginUser(username, password)
-        this.setState({
-            username: '',
-            password: ''
-        })
+        }
     }
 
     render() {
