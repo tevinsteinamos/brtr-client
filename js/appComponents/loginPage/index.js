@@ -87,6 +87,30 @@ class LoginPage extends Component {
         this.setState({messages: this.state.messages.concat(message)});
     };
 
+    componentDidMount() {
+        this._loadInitialState().done();
+    }
+
+    _loadInitialState = async () => {
+        try {
+            var value = await AsyncStorage.getItem("myKey");
+            console.log("value: ", value)
+            if (value !== null){
+                // this.navigateTo('home')
+            } else {
+                console.log("else")
+                this._appendMessage('Initialized with no selection on disk.');
+            }
+        } catch (error) {
+            console.log("catch")
+            this._appendMessage('AsyncStorage error: ' + error.message);
+        }
+    }
+
+    _appendMessage = (message) => {
+        this.setState({messages: this.state.messages.concat(message)});
+    };
+
     render() {
         return (
             <Container style={styles.container}>

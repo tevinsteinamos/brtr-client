@@ -134,6 +134,12 @@ class ItemDetail extends Component {
         )
     }
 
+
+    onEditItem() {
+        this.navigateTo('addItem')
+    }
+
+
     render() {
         const {itemId} = this.props
         console.log('>>>> item detail props: ', this.props)
@@ -148,7 +154,9 @@ class ItemDetail extends Component {
                 actionButton = <Button
                     onPress={this.onDeleteItem.bind(this)}
                     block danger> Delete </Button>
-                editButton = <Button transparent onPress={() => this.navigateTo('editItem')}>
+
+                editButton = <Button transparent onPress={() => this.navigateTo('addItem', itemId.id)}>
+
                     Edit
                 </Button>
             }
