@@ -35,11 +35,18 @@ import FooterTheme from '../../themes/prof-empty-theme'
 const camera = require('../../../img/camera.png');
 
 import {addItem} from '../../actions/items';
+import {updateItem} from '../../actions/items';
+import {getItemsById} from '../../actions/itemId';
 import DataCategories from './DataCategories'
+
+
+import decode from 'jwt-decode'
 
 const {
     replaceAt,
 } = actions;
+
+let ItemIdFrom = 0
 
 class AddItem extends Component {
 
@@ -65,13 +72,12 @@ class AddItem extends Component {
             dataUser: {},
             messages: [],
             token: '',
-            name: '',
-            description: '',
-            dimension: '',
-            material: '',
-            photo: '',
-            color: '',
-            size: '',
+            name: '' || this.props.itemId.name,
+            description: '' || this.props.itemId.description,
+            dimension: '' || this.props.itemId.dimension,
+            material: '' || this.props.itemId.material,
+            photo: '' || this.props.itemId.photo,
+            color: '' || this.props.itemId.color,
             results: {
                 items: []
             }
@@ -94,13 +100,19 @@ class AddItem extends Component {
         this._loadInitialState().done();
     }
 
+
     _loadInitialState = async () => {
         try {
             var value = await AsyncStorage.getItem("myKey");
             console.log("value: ", value)
-            this.setState({token: value});
-            this.setState({dataUser: decode(value)});
             if (value !== null){
+                this.setState({token: value});
+                this.setState({dataUser: decode(value)});
+                ItemIdFrom = this.props.navigation.routes[this.props.navigation.routes.length - 1].data
+                console.log("item id yg dikirim: ", ItemIdFrom)
+                if (ItemIdFrom) {
+                    this.props.getItemsById(value, ItemIdFrom)
+                }
                 this._appendMessage('Recovered selection from disk: ' + value);
             } else {
                 console.log("else")
@@ -125,14 +137,38 @@ class AddItem extends Component {
         let dimension = this.state.dimension.trim()
         let material = this.state.material.trim()
         let photo = this.state.photo.trim()
-        let size = this.state.size.trim()
         let color = this.state.color.trim()
-        if (!name || !description || !dimension || !material || !size || !color) {
+        if (!name || !description || !dimension || !material || !color) {
             console.log("kosong")
             return
         }
 
-        this.props.addItem(758, name, description, photo, size, material, dimension, color, this.state.token)
+        this.props.addItem(758, name, description, photo, material, dimension, color, this.state.token)
+        this.setState({
+            name: '',
+            description: '',
+            dimension: '',
+            material: '',
+            photo: '',
+            color: '',
+        })
+    }
+
+    onUpdateItem(e) {
+        console.log("cklick update item")
+        e.preventDefault()
+        let name = this.state.name.trim()
+        let description = this.state.description.trim()
+        let dimension = this.state.dimension.trim()
+        let material = this.state.material.trim()
+        let photo = this.state.photo.trim()
+        let color = this.state.color.trim()
+        if (!name || !description || !dimension || !material || !color) {
+            console.log("kosong")
+            return
+        }
+
+        this.props.updateItem(ItemIdFrom, 758, name, description, photo, material, dimension, color, this.state.token)
         this.setState({
             name: '',
             description: '',
@@ -145,11 +181,43 @@ class AddItem extends Component {
     }
 
     render() {
+        const {itemId} = this.props
+        console.log("ini props di add item: ", this.props)
+        console.log("ini item di add item: ", itemId)
+
+        let title
+        let actionButton
+
+        if (ItemIdFrom) {
+            title = <Title style={{alignSelf: 'center'}}>Edit Item {(itemId) ? itemId.name : ''}</Title>
+            actionButton =
+                <Button
+                    onPress={this.onUpdateItem.bind(this)}
+                    bordered
+                    style={{ alignSelf: 'center', marginTop: 40, marginBottom: 20 , width: 220, borderRadius: 0, borderColor:'#2effd0', height: 50}}>
+                    <Text style={{color: '#FFFFFF'}}>
+                        Update Item
+                    </Text>
+                </Button>
+        }
+        else {
+            title = <Title style={{alignSelf: 'center'}}>Add New Item</Title>
+            actionButton =
+                <Button
+                    onPress={this.onAddItem.bind(this)}
+                    bordered
+                    style={{ alignSelf: 'center', marginTop: 40, marginBottom: 20 , width: 220, borderRadius: 0, borderColor:'#2effd0', height: 50}}>
+                    <Text style={{color: '#FFFFFF'}}>
+                        Save Item
+                    </Text>
+                </Button>
+        }
+
         return (
             <Container theme={myTheme} style={styles.container}>
 
                 <Header>
-                    <Title style={{alignSelf: 'center'}}>Add New Item</Title>
+                    {title}
                     <Button transparent onPress={() => this.navigateTo('ListItem')}>
                         <Icon name="ios-search" />
                     </Button>
@@ -170,6 +238,7 @@ class AddItem extends Component {
                                 >
                                     <Input
                                         onChangeText={(name) => this.setState({name: name})}
+                                        value={this.state.name}
                                         style={{color: '#FFFFFF'}}
                                         placeholder="Item Title"/>
                                 </InputGroup>
@@ -183,26 +252,13 @@ class AddItem extends Component {
                                     theme={ArizTheme} borderType='underline'>
                                     <Input
                                         onChangeText={(description) => this.setState({description: description})}
+                                        value={this.state.description}
                                         style={{color: '#FFFFFF'}}
                                         placeholder="Description"/>
                                 </InputGroup>
                             </Col>
                         </Grid>
 
-                        <Grid>
-                            <Col>
-                                <Picker
-                                    style={{marginLeft: 30, marginRight: 30, color: 'white'}}
-                                    iosHeader="Select one"
-                                    mode="dropdown"
-                                    selectedValue={this.state.selected1}
-                                    onValueChange={this.onValueChange.bind(this)} >
-                                    <Item label="Select Category" value="key0" />
-                                    <Item label="Female" value="key1" />
-                                    <Item label="Other" value="key2" />
-                                </Picker>
-                            </Col>
-                        </Grid>
 
                         <Grid>
                             <Col>
@@ -224,14 +280,16 @@ class AddItem extends Component {
 
                         <Grid>
                             <Col>
-                                <InputGroup
-                                    style={{marginLeft: 30, marginRight: 15}}
-                                    theme={ArizTheme} borderType='underline'>
-                                    <Input
-                                        onChangeText={(size) => this.setState({size: size})}
-                                        style={{color: '#FFFFFF'}}
-                                        placeholder="Size"/>
-                                </InputGroup>
+                                <Picker
+                                    style={{marginLeft: 30, marginRight: 15, color: 'white'}}
+                                    iosHeader="Select one"
+                                    mode="dropdown"
+                                    selectedValue={this.state.selected1}
+                                    onValueChange={this.onValueChange.bind(this)} >
+                                    <Item label="Select Category" value="key0" />
+                                    <Item label="Female" value="key1" />
+                                    <Item label="Other" value="key2" />
+                                </Picker>
                             </Col>
                             <Col>
                                 <InputGroup
@@ -239,6 +297,7 @@ class AddItem extends Component {
                                     theme={ArizTheme} borderType='underline'>
                                     <Input
                                         onChangeText={(material) => this.setState({material: material})}
+                                        value={this.state.material}
                                         style={{color: '#FFFFFF'}}
                                         placeholder="Material"/>
                                 </InputGroup>
@@ -253,6 +312,7 @@ class AddItem extends Component {
                                     theme={ArizTheme} borderType='underline'>
                                     <Input
                                         onChangeText={(dimension) => this.setState({dimension: dimension})}
+                                        value={this.state.dimension}
                                         style={{color: '#FFFFFF'}}
                                         placeholder="Dimension"/>
                                 </InputGroup>
@@ -263,20 +323,14 @@ class AddItem extends Component {
                                     theme={ArizTheme} borderType='underline'>
                                     <Input
                                         onChangeText={(color) => this.setState({color: color})}
+                                        value={this.state.color}
                                         style={{color: '#FFFFFF'}}
                                         placeholder="Color"/>
                                 </InputGroup>
                             </Col>
                         </Grid>
 
-                        <Button
-                            onPress={this.onAddItem.bind(this)}
-                            bordered
-                            style={{ alignSelf: 'center', marginTop: 40, marginBottom: 20 , width: 220, borderRadius: 0, borderColor:'#2effd0', height: 50}}>
-                            <Text style={{color: '#FFFFFF'}}>
-                                SAVE ITEM
-                            </Text>
-                        </Button>
+                        {actionButton}
 
 
 
@@ -305,12 +359,15 @@ class AddItem extends Component {
 function bindAction(dispatch) {
     return {
         navigateTo: (route, homeRoute) => dispatch(navigateTo(route, homeRoute)),
-        addItem: (CategoryId, name, description, photo, size, material, dimension, color, token) => dispatch(addItem(CategoryId, name, description, photo, size, material, dimension, color, token)),
+        addItem: (CategoryId, name, description, photo, material, dimension, color, token) => dispatch(addItem(CategoryId, name, description, photo, material, dimension, color, token)),
+        updateItem: (id, CategoryId, name, description, photo, material, dimension, color, token) => dispatch(updateItem(id, CategoryId, name, description, photo, material, dimension, color, token)),
+        getItemsById: (token, ItemId) => dispatch(getItemsById(token, ItemId)),
     };
 }
 
 const mapStateToProps = state => ({
     navigation: state.cardNavigation,
+    itemId: state.itemId
 });
 
 export default connect(mapStateToProps, bindAction)(AddItem);
