@@ -181,6 +181,7 @@ export function deleteItem(id, token){
 
 
 
+
 export function updateDataItem(id, UserId, CategoryId,name, description, image, material, dimension, color) {
     return {type: UPDATE_ITEM, id, User, name, description, image, material, dimension, color}
 }
