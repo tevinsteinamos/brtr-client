@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { Image, AsyncStorage } from 'react-native';
+import { Image, AsyncStorage, Alert } from 'react-native';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import { connect } from 'react-redux';
 import { actions } from 'react-native-navigation-redux-helpers';
@@ -28,6 +28,7 @@ import styles from './styles';
 import decode from 'jwt-decode'
 
 import {getItemsById} from '../../actions/itemId';
+import {deleteItem} from '../../actions/items';
 
 const {
     replaceAt,
@@ -54,6 +55,7 @@ class ItemDetail extends Component {
             tab1: false,
             tab2: false,
             tab3: false,
+            token: '',
             dataUser: {},
             messages: []
         };
@@ -98,6 +100,7 @@ class ItemDetail extends Component {
             if (value !== null){
                 let ItemId = this.props.navigation.routes[this.props.navigation.routes.length - 1].data
                 console.log("dapet item id: ", ItemId)
+                this.setState({token: value});
                 this.setState({dataUser: decode(value)});
                 this.props.getItemsById(value, ItemId)
 
@@ -116,6 +119,21 @@ class ItemDetail extends Component {
         this.setState({messages: this.state.messages.concat(message)});
     };
 
+    onDeleteItem() {
+        Alert.alert(
+            'Delete This Item?',
+            null,
+            [
+                {text: 'OK', onPress: () => {
+                    this.props.deleteItem(this.props.itemId.id, this.state.token)
+                }},
+                {text: 'Cancel', onPress: () => {
+                    // console.log('Cancel Pressed!')
+                }},
+            ]
+        )
+    }
+
     render() {
         const {itemId} = this.props
         console.log('>>>> item detail props: ', this.props)
@@ -127,7 +145,9 @@ class ItemDetail extends Component {
         let editButton
         if (itemId.User) {
             if (itemId.User.id === this.state.dataUser.id) {
-                actionButton = <Button block danger> Delete </Button>
+                actionButton = <Button
+                    onPress={this.onDeleteItem.bind(this)}
+                    block danger> Delete </Button>
                 editButton = <Button transparent onPress={() => this.navigateTo('editItem')}>
                     Edit
                 </Button>
@@ -221,6 +241,7 @@ function bindAction(dispatch) {
     return {
         navigateTo: (route, homeRoute) => dispatch(navigateTo(route, homeRoute)),
         getItemsById: (token, ItemId) => dispatch(getItemsById(token, ItemId)),
+        deleteItem: (id, token) => dispatch(deleteItem(id, token)),
     };
 }
 

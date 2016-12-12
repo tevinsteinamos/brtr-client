@@ -21,6 +21,7 @@ import {
 import { Grid, Col } from 'react-native-easy-grid';
 
 import {getItemsByUserId} from '../../actions/items';
+import navigateTo from '../../actions/bottomNav';
 
 import styles from './styles';
 import ArizTheme from '../../themes/prof-empty-theme.js'
@@ -91,7 +92,16 @@ class ProfileDetail extends Component {
     };
 
     navigateTo(route) {
-        this.props.navigateTo(route, 'home');
+        this.props.navigateTo(route, 'profileDetail');
+    }
+
+    logoutUser = async() => {
+        try {
+            await AsyncStorage.removeItem("myKey");
+            this.navigateTo('loginPage')
+        } catch (error) {
+            console.log("err")
+        }
     }
 
 
@@ -130,6 +140,14 @@ class ProfileDetail extends Component {
                             marginBottom: 20}}>
                         {this.state.dataUser.username}
                     </Text>
+
+                    <Button
+                        onPress={this.logoutUser.bind(this)}
+                        style={{alignSelf: 'center'}}
+                        danger>
+                        Logout
+                    </Button>
+
                     <Text
                         style={{
                             color: '#fff',

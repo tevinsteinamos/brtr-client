@@ -52,6 +52,7 @@ export function registerUser(username, password, email, confirmPassword) {
             .then((response) => response.json())
             .then((responseJson) => {
                 dispatch(userRegisterSuccess(responseJson))
+                AsyncStorage.setItem('myKey', responseJson);
                 dispatch(navigateTo('home', 'registerPage'))
             })
             .catch((error) => {
