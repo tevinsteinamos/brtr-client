@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, AsyncStorage } from 'react-native';
 import { connect } from 'react-redux';
 import { Container, Header, Title, Content, Button, Icon, List, ListItem, InputGroup, Input, Picker, Text, Thumbnail } from 'native-base';
 import ArizTheme from '../../themes/custom-theme'
@@ -12,6 +12,8 @@ import {loginUser} from '../../actions/auth';
 
 const Item = Picker.Item;
 const camera = require('../../../img/camera.png');
+
+import decode from 'jwt-decode'
 
 class LoginPage extends Component {
 
@@ -28,6 +30,7 @@ class LoginPage extends Component {
         this.state = {
             username: '',
             password: '',
+            messages: [],
             selectedItem: undefined,
             selected1: 'key0',
             results: {
@@ -60,6 +63,30 @@ class LoginPage extends Component {
 
         }
     }
+
+    componentDidMount() {
+        this._loadInitialState().done();
+    }
+
+    _loadInitialState = async () => {
+        try {
+            var value = await AsyncStorage.getItem("myKey");
+            console.log("value: ", value)
+            if (value !== null){
+                this.navigateTo('home')
+            } else {
+                console.log("else")
+                this._appendMessage('Initialized with no selection on disk.');
+            }
+        } catch (error) {
+            console.log("catch")
+            this._appendMessage('AsyncStorage error: ' + error.message);
+        }
+    }
+
+    _appendMessage = (message) => {
+        this.setState({messages: this.state.messages.concat(message)});
+    };
 
     render() {
         return (

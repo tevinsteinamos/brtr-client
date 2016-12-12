@@ -22,6 +22,10 @@ export const CREATE_ITEM = 'CREATE_ITEM'
 export const CREATE_ITEM_SUCCESS = 'CREATE_ITEM_SUCCESS'
 export const CREATE_ITEM_FAILURE = 'CREATE_ITEM_FAILURE'
 
+export const DELETE_ITEM = 'DELETE_ITEM'
+export const DELETE_ITEM_SUCCESS = 'DELETE_ITEM_SUCCESS'
+export const DELETE_ITEM_FAILURE = 'DELETE_ITEM_FAILURE'
+
 import decode from 'jwt-decode'
 
 const SERVER_URL_USERS = 'http://localhost:3000/api'
@@ -125,6 +129,50 @@ export function addItem(CategoryId, name, description, photo, size, material, di
     }
 }
 
+
+
+export function deleteDataItem(id){
+    return {type: DELETE_ITEM, id}
+}
+
+
+export function deleteItemFailure(){
+    return {type: DELETE_ITEM_FAILURE}
+}
+
+export function deleteItemSuccess(item){
+    return {type: DELETE_ITEM_SUCCESS, item}
+}
+
+export function deleteItem(id, token){
+    return dispatch => {
+        dispatch(deleteDataItem(id))
+        fetch(`http://192.168.1.241:3000/api/items/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            }
+        })
+            .then((response) => response.json())
+            .then((responseJson) => {
+                console.log("ini respon item: ", responseJson)
+                dispatch(deleteItemSuccess(responseJson))
+                dispatch(navigateTo('profileDetail', 'itemDetail'))
+            })
+            .catch((error) => {
+                console.log("fail byUser: ", error)
+                Alert.alert(
+                    'Load Items Fail',
+                    [
+                        {text: 'OK', onPress: () => console.log('OK Pressed')},
+                    ]
+                )
+                dispatch(deleteItemFailure())
+            });
+    }
+}
 
 // export function loadItemsById() {
 //     return {type: LOAD_ITEMS_BY_ID}
