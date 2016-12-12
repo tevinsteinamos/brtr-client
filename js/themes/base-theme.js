@@ -89,7 +89,7 @@ export default {
 
   // Font
   fontFamily: (Platform.OS === 'ios') ? 'HelveticaNeue' : 'Roboto',
-  fontSizeBase: 15,
+  fontSizeBase: 16,
 
   get fontSizeH1() {
     return this.fontSizeBase * 1.8;

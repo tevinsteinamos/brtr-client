@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { actions } from 'react-native-navigation-redux-helpers';
-import { Container, Header, Title, Content, Button, Icon, List, ListItem, Text, Thumbnail } from 'native-base';
+import { Container, Header, Title, Content, Button, Icon, List, ListItem, Text, Thumbnail, H3 } from 'native-base';
 
 import styles from './styles';
 
@@ -35,27 +35,28 @@ class NHListAvatar extends Component {
     return (
       <Container theme={myTheme} style={styles.container}>
           <Header>
-                    <Title style={{alignSelf: 'center'}}>BRTR</Title>
+                    <Title style={{alignSelf: 'center', color: '#6CF9C8'}}>BRTR</Title>
                     <Button transparent onPress={() => this.replaceAt('searchItem')}>
                         <Icon name="ios-search" />
                     </Button>
                     <Button transparent onPress={() => this.replaceAt('listMessage')}>
-                        <Icon name="ios-mail" />
+                        <Icon style={{color: '#6CF9C8'}} name="ios-mail" />
                     </Button>
                 </Header>
 
         <Content>
           <List>
-            <ListItem>
+            <ListItem style={styles.noBottomBorder}>
               <Thumbnail source={pratik} />
-              <Text style={styles.text}>Gua mau barter dong!</Text>
-              <Text>By <Text style={styles.name}>Tevin Amos</Text></Text>
-              <Text note>Doing what you like will always keep you happy . .</Text>
+              <H3 style={styles.text}>Gua mau barter dong!</H3>
+              <Text style={styles.text}>By <Text style={styles.name}>Tevin Amos</Text></Text>
+              <Text style={styles.text}>Doing what you like will always keep you happy . .</Text>
             </ListItem>
-            <ListItem>
+            <ListItem style={styles.noBottomBorder}>
               <Thumbnail source={sanket} />
-              <Text>Kumar Sanket</Text>
-              <Text note>Life is one time offer! Use it well</Text>
+              <H3 style={styles.text}>Gua mau barter dong!</H3>
+              <Text style={styles.text}>By <Text style={styles.name}>Tevin Amos</Text></Text>
+              <Text style={styles.text}>Doing what you like will always keep you happy . .</Text>
             </ListItem>
           </List>
         </Content>
