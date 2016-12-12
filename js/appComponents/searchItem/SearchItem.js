@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { Image } from 'react-native';
+import { Image, AsyncStorage } from 'react-native';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import { connect } from 'react-redux';
 import {
@@ -25,8 +25,11 @@ import navigateTo from '../../actions/sideBarNav';
 import { openDrawer } from '../../actions/drawer';
 import myTheme from '../../themes/base-theme';
 import styles from './styles';
+import decode from 'jwt-decode'
 
-class Home extends Component {
+import {searchProcess} from '../../actions/searchItem'
+
+class SearchItem extends Component {
 
     static propTypes = {
         openDrawer: React.PropTypes.func,
@@ -39,7 +42,27 @@ class Home extends Component {
             tab1: false,
             tab2: false,
             tab3: false,
+            searchInput: ''
         };
+    }
+
+    async searchProcessInput(text){
+      try {
+        var value = await AsyncStorage.getItem("myKey");
+        console.log("value token di search item: ", value)
+        console.log('decode :', decode(value));
+        if (value !== null){
+          console.log('searchProcessInput : ', text)
+          this.setState({searchInput: text})
+          console.log('state input : ', this.state.searchInput);
+          console.log('undef?', this.props.searchProcess);
+          this.props.searchProcess(value, text)
+        } else {
+            console.log("else")
+        }
+      } catch (error) {
+          console.log("catch")
+      }
     }
 
     navigateTo(route) {
@@ -87,7 +110,7 @@ class Home extends Component {
                 <Content>
                     <InputGroup borderType='regular' >
                         <Icon name='ios-search' style={{color:'#384850'}}/>
-                        <Input placeholder='Type your text here' />
+                        <Input placeholder='Type your text here' onChangeText={(event) => this.searchProcessInput(event)}/>
                     </InputGroup>
                 </Content>
 
@@ -114,6 +137,7 @@ function bindAction(dispatch) {
     return {
         openDrawer: () => dispatch(openDrawer()),
         navigateTo: (route, homeRoute) => dispatch(navigateTo(route, homeRoute)),
+        searchProcess: (token, text) => dispatch(searchProcess(token, text))
     };
 }
 
@@ -121,4 +145,4 @@ const mapStateToProps = state => ({
     navigation: state.cardNavigation,
 });
 
-export default connect(mapStateToProps, bindAction)(Home);
+export default connect(mapStateToProps, bindAction)(SearchItem);
