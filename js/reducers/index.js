@@ -7,6 +7,8 @@ import auth from './auth';
 import items from './items';
 import itemId from './itemId';
 import categories from './categories';
+import searchItem from './searchItem';
+
 
 export default combineReducers({
 
@@ -15,6 +17,7 @@ export default combineReducers({
     auth,
     items,
     itemId,
-    categories
+    categories,
+    searchItem
 
 });
