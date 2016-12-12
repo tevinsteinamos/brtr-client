@@ -6,6 +6,7 @@ import cardNavigation from './cardNavigation';
 import auth from './auth';
 import items from './items';
 import itemId from './itemId';
+import categories from './categories';
 
 export default combineReducers({
 
@@ -13,6 +14,7 @@ export default combineReducers({
     cardNavigation,
     auth,
     items,
-    itemId
+    itemId,
+    categories
 
 });

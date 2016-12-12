@@ -25,6 +25,8 @@ import { openDrawer } from '../../actions/drawer';
 import myTheme from '../../themes/base-theme';
 import styles from './styles';
 
+import decode from 'jwt-decode'
+
 import {getItemsById} from '../../actions/itemId';
 
 const {
@@ -96,6 +98,7 @@ class ItemDetail extends Component {
             if (value !== null){
                 let ItemId = this.props.navigation.routes[this.props.navigation.routes.length - 1].data
                 console.log("dapet item id: ", ItemId)
+                this.setState({dataUser: decode(value)});
                 this.props.getItemsById(value, ItemId)
 
                 this._appendMessage('Recovered selection from disk: ' + value);
@@ -118,6 +121,23 @@ class ItemDetail extends Component {
         console.log('>>>> item detail props: ', this.props)
         console.log('>>>> item detail: ', itemId)
         console.log('>>>> item detail User: ', itemId.User)
+
+
+        let actionButton
+        let editButton
+        if (itemId.User) {
+            if (itemId.User.id === this.state.dataUser.id) {
+                actionButton = <Button block danger> Delete </Button>
+                editButton = <Button transparent onPress={() => this.navigateTo('editItem')}>
+                    Edit
+                </Button>
+            }
+            else {
+                actionButton = <Button block success> Barter </Button>
+                editButton = ''
+            }
+        }
+
         return (
             <Container theme={myTheme} style={styles.container}>
 
@@ -126,9 +146,7 @@ class ItemDetail extends Component {
                     <Button transparent onPress={() => this.navigateTo('ListItem')}>
                         <Icon name="ios-search" />
                     </Button>
-                    <Button transparent onPress={() => this.navigateTo('listAvatar')}>
-                        <Icon name="ios-mail" />
-                    </Button>
+                    {editButton}
                 </Header>
 
                 <Content>
@@ -172,7 +190,7 @@ class ItemDetail extends Component {
                         </Grid>
 
                         <CardItem>
-                            <Button block success> Barter </Button>
+                            {actionButton}
                         </CardItem>
 
 

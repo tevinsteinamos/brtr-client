@@ -6,6 +6,8 @@ var {
     AsyncStorage
 } = ReactNative;
 
+import navigateTo from './bottomNav';
+
 import type { Action } from './types';
 
 export const LOAD_ITEMS_BY_USER = 'LOAD_ITEMS_BY_USER'
@@ -15,6 +17,10 @@ export const LOAD_ITEMS_BY_USER_FAILURE = 'LOAD_ITEMS_BY_USER_FAILURE'
 export const LOAD_ITEMS_BY_ID = 'LOAD_ITEMS_BY_ID'
 export const LOAD_ITEMS_BY_ID_SUCCESS = 'LOAD_ITEMS_BY_ID_SUCCESS'
 export const LOAD_ITEMS_BY_ID_FAILURE = 'LOAD_ITEMS_BY_ID_FAILURE'
+
+export const CREATE_ITEM = 'CREATE_ITEM'
+export const CREATE_ITEM_SUCCESS = 'CREATE_ITEM_SUCCESS'
+export const CREATE_ITEM_FAILURE = 'CREATE_ITEM_FAILURE'
 
 import decode from 'jwt-decode'
 
@@ -63,6 +69,61 @@ export function getItemsByUserId(token) {
 }
 
 
+
+export function createItem(UserId, CategoryId,name, description, image, size, material, dimension, color) {
+    return {type: CREATE_ITEM, User, name, description, image, size, material, dimension, color}
+}
+
+export function createItemFailure() {
+    return {type: CREATE_ITEM_FAILURE}
+}
+
+export function createItemSuccess(item) {
+    return {type: CREATE_ITEM_SUCCESS, item}
+}
+
+export function addItem(CategoryId, name, description, photo, size, material, dimension, color, token) {
+    const userDecoded = decode(token)
+    return (dispatch) => {
+        fetch(`http://192.168.1.241:3000/api/items`, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+            body: JSON.stringify({
+                UserId: userDecoded.id,
+                CategoryId: CategoryId,
+                name: name,
+                description: description,
+                photo: 'https://cdn.pixabay.com/photo/2015/10/30/14/27/book-1014197_1280.jpg',
+                size: size,
+                material: material,
+                dimension: dimension,
+                color: color,
+                status: 'up for barter'
+            })
+        })
+            .then((response) => response.json())
+            .then((responseJson) => {
+                console.log('respon create: ', responseJson)
+                dispatch(createItemSuccess(responseJson))
+                dispatch(navigateTo('itemDetail', 'addItem', responseJson.data.id))
+            })
+            .catch((error) => {
+                console.log("fail", error)
+                Alert.alert(
+                    'Register Fail',
+                    'something wrong, please register again',
+                    [
+                        {text: 'OK', onPress: () => console.log('OK Pressed')},
+                    ]
+                )
+                dispatch(createItemFailure())
+            });
+    }
+}
 
 
 // export function loadItemsById() {
