@@ -85,11 +85,14 @@ class Home extends Component {
 
                 <Content>
 
-                    <Card style={{ flex: 0, backgroundColor: 'black', borderWidth: 0 }}>
+                    <Card
+                        style={{ flex: 0, backgroundColor: 'black', borderWidth: 0 }}>
 
                         <Grid>
                             <Col>
-                                <CardItem onPress={() => this.navigateTo('listItem')}>
+                                <CardItem
+                                    style={{borderBottomWidth: 0}}
+                                    onPress={() => this.navigateTo('listItem')}>
                                     <Image
                                         style={{
                                     resizeMode: 'cover',
@@ -98,13 +101,15 @@ class Home extends Component {
                                 }}
                                         source={require('../../../img/category/automotive.jpg')}>
                                         <View style={{paddingLeft: 10}}>
-                                            <H1 style={{color: 'white'}}>Automotive</H1>
+                                            <H2 style={{color: 'white'}}>Automotive</H2>
                                         </View>
                                     </Image>
                                 </CardItem>
                             </Col>
                             <Col>
-                                <CardItem onPress={() => this.navigateTo('listItem')}>
+                                <CardItem
+                                    style={{borderBottomWidth: 0}}
+                                    onPress={() => this.navigateTo('listItem')}>
                                     <Image
                                         style={{
                                     resizeMode: 'cover',
@@ -113,7 +118,7 @@ class Home extends Component {
                                 }}
                                         source={require('../../../img/category/books.jpg')}>
                                         <View style={{paddingLeft: 10}}>
-                                            <H1 style={{color: 'white'}}>Books & Audible</H1>
+                                            <H2 style={{color: 'white'}}>Books & Audible</H2>
                                         </View>
                                     </Image>
                                 </CardItem>
@@ -122,22 +127,29 @@ class Home extends Component {
 
                         <Grid>
                             <Col>
-                                <CardItem onPress={() => this.navigateTo('listItem')}>
+                                <CardItem
+                                    style={{borderBottomWidth: 0}}
+                                    onPress={() => this.navigateTo('listItem')}>
                                     <Image
                                         style={{
                                     resizeMode: 'cover',
                                     width: null,
-                                    opacity: 0.6
+                                    opacity: 0.6,
                                 }}
                                         source={require('../../../img/category/cloth.jpg')}>
                                         <View style={{paddingLeft: 10}}>
-                                            <H1 style={{color: 'white'}}>Clothing, Shoes & Jewelry</H1>
+                                            <H2 style={{color: 'white'}}>Clothing, Shoes & Jewelry</H2>
                                         </View>
                                     </Image>
                                 </CardItem>
                             </Col>
+                        </Grid>
+
+                        <Grid>
                             <Col>
-                                <CardItem onPress={() => this.navigateTo('listItem')}>
+                                <CardItem
+                                    style={{borderBottomWidth: 0}}
+                                    onPress={() => this.navigateTo('listItem')}>
                                     <Image
                                         style={{
                                     resizeMode: 'cover',
@@ -146,13 +158,15 @@ class Home extends Component {
                                 }}
                                         source={require('../../../img/category/electronic.jpg')}>
                                         <View style={{paddingLeft: 10}}>
-                                            <H1 style={{color: 'white'}}>Electronics & Computers</H1>
+                                            <H2 style={{color: 'white'}}>Electronics & Computers</H2>
                                         </View>
                                     </Image>
                                 </CardItem>
                             </Col>
                             <Col>
-                                <CardItem onPress={() => this.navigateTo('listItem')}>
+                                <CardItem
+                                    style={{borderBottomWidth: 0}}
+                                    onPress={() => this.navigateTo('listItem')}>
                                     <Image
                                         style={{
                                     resizeMode: 'cover',
@@ -161,7 +175,7 @@ class Home extends Component {
                                 }}
                                         source={require('../../../img/category/home-tools.jpg')}>
                                         <View style={{paddingLeft: 10}}>
-                                            <H1 style={{color: 'white'}}>Home, Garden & Tools</H1>
+                                            <H2 style={{color: 'white'}}>Home, Garden & Tools</H2>
                                         </View>
                                     </Image>
                                 </CardItem>
@@ -170,7 +184,9 @@ class Home extends Component {
 
                         <Grid>
                             <Col>
-                                <CardItem onPress={() => this.navigateTo('listItem')}>
+                                <CardItem
+                                    style={{borderBottomWidth: 0}}
+                                    onPress={() => this.navigateTo('listItem')}>
                                     <Image
                                         style={{
                                     resizeMode: 'cover',
@@ -179,13 +195,35 @@ class Home extends Component {
                                 }}
                                         source={require('../../../img/category/sport.jpg')}>
                                         <View style={{paddingLeft: 10}}>
-                                            <H1 style={{color: 'white'}}>Sports & Outdoors</H1>
+                                            <H2 style={{color: 'white'}}>Sports & Outdoors</H2>
+                                        </View>
+                                    </Image>
+                                </CardItem>
+                            </Col>
+                        </Grid>
+
+                        <Grid>
+                            <Col>
+                                <CardItem
+                                    style={{borderBottomWidth: 0}}
+                                    onPress={() => this.navigateTo('listItem')}>
+                                    <Image
+                                        style={{
+                                    resizeMode: 'cover',
+                                    width: null,
+                                    opacity: 0.6
+                                }}
+                                        source={require('../../../img/category/toys.jpg')}>
+                                        <View style={{paddingLeft: 10}}>
+                                            <H2 style={{color: 'white'}}>Toys, Kids & Baby</H2>
                                         </View>
                                     </Image>
                                 </CardItem>
                             </Col>
                             <Col>
-                                <CardItem onPress={() => this.navigateTo('listItem')}>
+                                <CardItem
+                                    style={{borderBottomWidth: 0}}
+                                    onPress={() => this.navigateTo('listItem')}>
                                     <Image
                                         style={{
                                     resizeMode: 'cover',
@@ -194,7 +232,7 @@ class Home extends Component {
                                 }}
                                         source={require('../../../img/category/others.jpg')}>
                                         <View style={{paddingLeft: 10}}>
-                                            <H1 style={{color: 'white'}}>Others</H1>
+                                            <H2 style={{color: 'white'}}>Others</H2>
                                         </View>
                                     </Image>
                                 </CardItem>
