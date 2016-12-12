@@ -97,7 +97,7 @@ class Home extends Component {
                                     opacity: 0.6
                                 }}
                                         source={require('../../../img/category/automotive.jpg')}>
-                                        <View>
+                                        <View style={{paddingLeft: 10}}>
                                             <H1 style={{color: 'white'}}>Automotive</H1>
                                         </View>
                                     </Image>
@@ -111,42 +111,9 @@ class Home extends Component {
                                     width: null,
                                     opacity: 0.6
                                 }}
-                                        source={require('../../../img/category/automotive.jpg')}>
-                                        <View>
-                                            <H1 style={{color: 'white'}}>Automotive</H1>
-                                        </View>
-                                    </Image>
-                                </CardItem>
-                            </Col>
-                        </Grid>
-
-                        <Grid>
-                            <Col>
-                                <CardItem onPress={() => this.navigateTo('listItem')}>
-                                    <Image
-                                        style={{
-                                    resizeMode: 'cover',
-                                    width: null,
-                                    opacity: 0.6
-                                }}
-                                        source={require('../../../img/category/automotive.jpg')}>
-                                        <View>
-                                            <H1 style={{color: 'white'}}>Automotive</H1>
-                                        </View>
-                                    </Image>
-                                </CardItem>
-                            </Col>
-                            <Col>
-                                <CardItem onPress={() => this.navigateTo('listItem')}>
-                                    <Image
-                                        style={{
-                                    resizeMode: 'cover',
-                                    width: null,
-                                    opacity: 0.6
-                                }}
-                                        source={require('../../../img/category/automotive.jpg')}>
-                                        <View>
-                                            <H1 style={{color: 'white'}}>Automotive</H1>
+                                        source={require('../../../img/category/books.jpg')}>
+                                        <View style={{paddingLeft: 10}}>
+                                            <H1 style={{color: 'white'}}>Books & Audible</H1>
                                         </View>
                                     </Image>
                                 </CardItem>
@@ -162,9 +129,9 @@ class Home extends Component {
                                     width: null,
                                     opacity: 0.6
                                 }}
-                                        source={require('../../../img/category/automotive.jpg')}>
-                                        <View>
-                                            <H1 style={{color: 'white'}}>Automotive</H1>
+                                        source={require('../../../img/category/cloth.jpg')}>
+                                        <View style={{paddingLeft: 10}}>
+                                            <H1 style={{color: 'white'}}>Clothing, Shoes & Jewelry</H1>
                                         </View>
                                     </Image>
                                 </CardItem>
@@ -177,9 +144,57 @@ class Home extends Component {
                                     width: null,
                                     opacity: 0.6
                                 }}
-                                        source={require('../../../img/category/automotive.jpg')}>
-                                        <View>
-                                            <H1 style={{color: 'white'}}>Automotive</H1>
+                                        source={require('../../../img/category/electronic.jpg')}>
+                                        <View style={{paddingLeft: 10}}>
+                                            <H1 style={{color: 'white'}}>Electronics & Computers</H1>
+                                        </View>
+                                    </Image>
+                                </CardItem>
+                            </Col>
+                            <Col>
+                                <CardItem onPress={() => this.navigateTo('listItem')}>
+                                    <Image
+                                        style={{
+                                    resizeMode: 'cover',
+                                    width: null,
+                                    opacity: 0.6
+                                }}
+                                        source={require('../../../img/category/home-tools.jpg')}>
+                                        <View style={{paddingLeft: 10}}>
+                                            <H1 style={{color: 'white'}}>Home, Garden & Tools</H1>
+                                        </View>
+                                    </Image>
+                                </CardItem>
+                            </Col>
+                        </Grid>
+
+                        <Grid>
+                            <Col>
+                                <CardItem onPress={() => this.navigateTo('listItem')}>
+                                    <Image
+                                        style={{
+                                    resizeMode: 'cover',
+                                    width: null,
+                                    opacity: 0.6
+                                }}
+                                        source={require('../../../img/category/sport.jpg')}>
+                                        <View style={{paddingLeft: 10}}>
+                                            <H1 style={{color: 'white'}}>Sports & Outdoors</H1>
+                                        </View>
+                                    </Image>
+                                </CardItem>
+                            </Col>
+                            <Col>
+                                <CardItem onPress={() => this.navigateTo('listItem')}>
+                                    <Image
+                                        style={{
+                                    resizeMode: 'cover',
+                                    width: null,
+                                    opacity: 0.6
+                                }}
+                                        source={require('../../../img/category/others.jpg')}>
+                                        <View style={{paddingLeft: 10}}>
+                                            <H1 style={{color: 'white'}}>Others</H1>
                                         </View>
                                     </Image>
                                 </CardItem>
