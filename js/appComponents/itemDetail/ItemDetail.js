@@ -135,10 +135,6 @@ class ItemDetail extends Component {
     }
 
 
-    onEditItem() {
-        this.navigateTo('addItem')
-    }
-
 
     render() {
         const {itemId} = this.props
@@ -162,7 +158,7 @@ class ItemDetail extends Component {
             }
             else {
                 actionButton = <Button
-                    onPress={this.onEditItem.bind(this)}
+                    onPress={() => this.navigateTo('createMessate', itemId.id)}
                     block success> Barter </Button>
                 editButton = ''
             }
