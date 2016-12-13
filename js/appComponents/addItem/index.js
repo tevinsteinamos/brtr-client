@@ -221,7 +221,7 @@ class AddItem extends Component {
                     <Button transparent onPress={() => this.navigateTo('ListItem')}>
                         <Icon name="ios-search" />
                     </Button>
-                    <Button transparent onPress={() => this.navigateTo('listAvatar')}>
+                    <Button transparent onPress={() => this.navigateTo('listMessage')}>
                         <Icon name="ios-mail" />
                     </Button>
                 </Header>

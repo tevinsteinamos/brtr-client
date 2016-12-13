@@ -18,7 +18,7 @@ import AddItem from './appComponents/addItem'
 import AskEmail from './appComponents/askEmail'
 import CodeEmail from './appComponents/codeEmail'
 import ListMessage from './appComponents/listMessage'
-
+import MessageDetail from './appComponents/messageDetail'
 
 
 // import Home from './components/home/';
@@ -231,6 +231,8 @@ class AppNavigator extends Component {
                 return <CodeEmail />;
             case 'listMessage':
                 return <ListMessage />
+            case 'messageDetail':
+                return <MessageDetail />
 
             default :
                 return <Home />;
