@@ -46,6 +46,7 @@ export function loadItemsFailureByUserId() {
 
 export function getItemsByUserId(token) {
     const UserData = decode(token)
+    console.log('user data: ', UserData)
     return (dispatch) => {
         dispatch(loadItemsByUserId())
         fetch(`http://192.168.1.241:3000/api/items/user/${UserData.id}`, {
