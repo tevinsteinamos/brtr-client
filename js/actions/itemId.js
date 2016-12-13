@@ -58,4 +58,3 @@ export function getItemsById(token, id) {
             });
     }
 }
-

@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { actions } from 'react-native-navigation-redux-helpers';
 import { Container, Header, Title, Content, Button, Icon, List, ListItem, Text, Thumbnail, H3 } from 'native-base';
+import { Image, AsyncStorage } from 'react-native';
 
 import styles from './styles';
 
@@ -15,6 +16,12 @@ const megha = require('../../../img/contacts/megha.png');
 const atul = require('../../../img/contacts/atul.png');
 const saurabh = require('../../../img/contacts/saurabh.png');
 const varun = require('../../../img/contacts/varun.png');
+import EachMessage from './EachMessage'
+
+import {listMessageProcess} from '../../actions/listMessage'
+
+import decode from 'jwt-decode'
+
 
 const {
   replaceAt,
@@ -27,14 +34,74 @@ class listMessage extends Component {
     navigateTo: React.PropTypes.func,
     navigation: React.PropTypes.shape({
       key: React.PropTypes.string,
-    }),
+    })
+  }
+
+  constructor(props) {
+      super(props);
+      this.state = {
+          tab1: false,
+          tab2: true,
+          tab3: false,
+          dataUser: {},
+          token: '',
+          messages: []
+      };
   }
 
   navigateTo(route) {
         this.props.navigateTo(route, 'listMessage');
     }
 
+    componentWillMount() {
+        this._loadInitialState().done();
+    }
+
+    _loadInitialState = async () => {
+      try {
+          var value = await AsyncStorage.getItem("myKey");
+          console.log("value: ", value)
+          if (value !== null){
+              this.setState({token: value});
+              this.setState({dataUser: decode(value)});
+              if (value) {
+                this.props.listMessageProcess(value)
+              }
+              this._appendMessage('Recovered selection from disk: ' + value);
+          } else {
+              console.log("else")
+              this._appendMessage('Initialized with no selection on disk.');
+          }
+      } catch (error) {
+          console.log("catch")
+          this._appendMessage('AsyncStorage error: ' + error.message);
+      }
+    }
+
+    _appendMessage = (message) => {
+        this.setState({messages: this.state.messages.concat(message)});
+    };
+
   render() {
+    const {item} = this.props
+    console.log('item lis : ', item);
+    console.log('user : ', this.state.dataUser);
+    let ItemNodes = item.map((data)=> {
+      if (this.state.dataUser.id == data.Item.UserId || this.state.dataUser.id == data.Item2.UserId) {
+        console.log('user detected : ', data);
+        return(
+            <EachMessage key={data.id} items={data} title={data.title} itemMessageId={data.id}/>
+        )
+      } else {
+        console.log('user not deteceted');
+        return(
+          <ListItem>
+            <Text style={{color: '#fff'}}> No Messages </Text>
+          </ListItem>
+        )
+      }
+    })
+
     return (
       <Container theme={myTheme} style={styles.container}>
           <Header>
@@ -49,18 +116,7 @@ class listMessage extends Component {
 
         <Content>
           <List>
-            <ListItem style={styles.noBottomBorder} onPress={() => this.navigateTo('messageDetail')}>
-              <Thumbnail square size={90} source={pratik} />
-              <H3 style={styles.text}>Gua mau barter dong!</H3>
-              <Text note style={styles.text}>By <Text style={styles.name}>Tevin Amos</Text></Text>
-              <Text style={styles.text}>Doing what you like will always keep you happy . .</Text>
-            </ListItem>
-            <ListItem style={styles.noBottomBorder}>
-              <Thumbnail square size={90} source={sanket} />
-              <H3 style={styles.text}>Gua jg mau dong!</H3>
-              <Text note style={styles.text}>By <Text style={styles.name}>Tevin Amos</Text></Text>
-              <Text style={styles.text}>Doing what you like will always keep you happy . .</Text>
-            </ListItem>
+            {ItemNodes}
           </List>
         </Content>
       </Container>
@@ -71,12 +127,14 @@ class listMessage extends Component {
 function bindAction(dispatch) {
   return {
     replaceAt: (routeKey, route, key) => dispatch(replaceAt(routeKey, route, key)),
-    navigateTo: (route, homeRoute) => dispatch(navigateTo(route, homeRoute))
+    navigateTo: (route, messageDetail) => dispatch(navigateTo(route, messageDetail)),
+    listMessageProcess: (token) => dispatch(listMessageProcess(token)),
   };
 }
 
 const mapStateToProps = state => ({
   navigation: state.cardNavigation,
+  item: state.listMessage
 });
 
 export default connect(mapStateToProps, bindAction)(listMessage);

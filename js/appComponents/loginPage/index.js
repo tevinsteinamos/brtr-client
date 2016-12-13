@@ -72,7 +72,7 @@ class LoginPage extends Component {
             var value = await AsyncStorage.getItem("myKey");
             console.log("value: ", value)
             if (value !== null){
-                this.navigateTo('home')
+                this.navigateTo('loginPage')
             } else {
                 console.log("else")
                 this._appendMessage('Initialized with no selection on disk.');

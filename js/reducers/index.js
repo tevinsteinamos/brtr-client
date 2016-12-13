@@ -9,6 +9,9 @@ import itemId from './itemId';
 import categories from './categories';
 import searchItem from './searchItem';
 import categoryId from './categoryId';
+import listMessage from './listMessage';
+
+
 
 
 export default combineReducers({
@@ -21,5 +24,6 @@ export default combineReducers({
     categories,
     searchItem,
     categoryId,
+    listMessage
 
 });

@@ -17,7 +17,9 @@ import {
     Thumbnail,
     View,
     Input,
-    InputGroup
+    InputGroup,
+    List,
+    ListItem
 } from 'native-base';
 
 import navigateTo from '../../actions/sideBarNav';
@@ -26,7 +28,8 @@ import myTheme from '../../themes/base-theme';
 import styles from './styles';
 import decode from 'jwt-decode'
 
-class SearchResult extends Component {
+
+class EachMessage extends Component {
   static propTypes = {
       openDrawer: React.PropTypes.func,
       navigateTo: React.PropTypes.func,
@@ -36,29 +39,25 @@ class SearchResult extends Component {
 
   }
 
-  navigateTo(route, data) {
+  navigateTo(route, data, data2) {
       console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ini kirim id: ", data)
-      this.props.navigateTo(route, 'itemDetail', data);
+      this.props.navigateTo(route, 'listMessage', data, data2);
   }
 
   render() {
-      const {items} = this.props
-      return (
-          <CardItem onPress={() => this.navigateTo('itemDetail', items.id)}>
-              <Image
-                  style={{
-              resizeMode: 'cover',
-              width: null,
-              opacity: 0.6
-          }}
-                  source={{uri: items.photo}}>
-                  <View style={{paddingLeft: 10}}>
-                    <H1 style={{color: 'black'}}>{items.name}</H1>
-                    <Text style={{color: 'black'}} note>by <Text style={{color: '#2EFFD0'}}>{(items.User) ? items.User.username : ''}</Text></Text>
-                  </View>
-              </Image>
+      const {items, title, itemMessageId} = this.props
+      console.log('each item : ', items);
+      console.log('each title : ', title);
+      console.log('each itemmsg : ', itemMessageId);
 
-          </CardItem>
+      return (
+          <ListItem style={styles.noBottomBorder} onPress={() => this.navigateTo('messageDetail', itemMessageId, title)}>
+            <Thumbnail square size={90} source={{uri: items.Item.User.avatar}} />
+            <H3 style={styles.text}>{items.Item.name}</H3>
+            <Text note style={styles.text}>By <Text style={styles.name}>{items.Item.User.username}</Text></Text>
+            <Text style={{color: '#fff'}}>{items.Item.description}</Text>
+          </ListItem>
+
       );
   }
 }
@@ -66,7 +65,7 @@ class SearchResult extends Component {
 function bindAction(dispatch) {
     return {
         openDrawer: () => dispatch(openDrawer()),
-        navigateTo: (route, homeRoute) => dispatch(navigateTo(route, homeRoute)),
+        navigateTo: (route, homeRoute, data, data2) => dispatch(navigateTo(route, homeRoute, data, data2)),
     };
 }
 
@@ -74,4 +73,4 @@ const mapStateToProps = state => ({
     navigation: state.cardNavigation,
 });
 
-export default connect(mapStateToProps, bindAction)(SearchResult);
+export default connect(mapStateToProps, bindAction)(EachMessage);

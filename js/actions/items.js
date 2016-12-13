@@ -238,6 +238,3 @@ export function updateItem(id, CategoryId, name, description, photo, material, d
             });
     }
 }
-
-
-
