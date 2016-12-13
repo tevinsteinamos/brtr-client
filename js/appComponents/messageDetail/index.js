@@ -77,9 +77,9 @@ class messageDetail extends Component {
           </List>
         </Content>
         <Footer>
-            <InputGroup borderType='regular' iconRight>
-                <Icon name='ios-swap' style={{color: '#6CF9C8'}} />
-                <Input placeholder='Type your message here..' style={styles.text}></Input>
+            <InputGroup style={styles.noBottomBorder} iconRight>
+                <Icon name='ios-send' style={{color: '#6CF9C8'}} />
+                <Input returnKeyType='send' placeholder='Type your message here..' style={styles.text}></Input>
             </InputGroup>
           </Footer>
       </Container>

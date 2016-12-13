@@ -15,7 +15,9 @@ module.exports = StyleSheet.create({
     color: '#6CF9C8'
   },
   noBottomBorder: {
-  	borderBottomColor: 'transparent',
   	borderBottomWidth: 0
+  },
+  textInput: {
+
   }
 });
