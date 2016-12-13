@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { Image } from 'react-native';
+import { Image, AsyncStorage } from 'react-native';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import { connect } from 'react-redux';
 import {
@@ -25,8 +25,13 @@ import navigateTo from '../../actions/sideBarNav';
 import { openDrawer } from '../../actions/drawer';
 import myTheme from '../../themes/base-theme';
 import styles from './styles';
+import decode from 'jwt-decode'
 
-class Home extends Component {
+import SearchResult from './searchResult'
+
+import {searchProcess} from '../../actions/searchItem'
+
+class SearchItem extends Component {
 
     static propTypes = {
         openDrawer: React.PropTypes.func,
@@ -39,7 +44,22 @@ class Home extends Component {
             tab1: false,
             tab2: false,
             tab3: false,
+            searchInput: ''
         };
+    }
+
+    async searchProcessInput(text){
+      try {
+        var value = await AsyncStorage.getItem("myKey");
+        if (value !== null){
+          this.setState({searchInput: text})
+          this.props.searchProcess(value, text)
+        } else {
+            console.log("else")
+        }
+      } catch (error) {
+          console.log("catch error: ", error)
+      }
     }
 
     navigateTo(route) {
@@ -71,42 +91,51 @@ class Home extends Component {
     }
 
     render() {
-        return (
-            <Container theme={myTheme} style={styles.container}>
+      const {item} = this.props
+        let ItemNodes = item.map((data)=> {
+          return(
+              <SearchResult key={data.id} items={data} />
+          )
+        })
+          return (
+              <Container theme={myTheme} style={styles.container}>
 
-                <Header>
-                    <Title style={{alignSelf: 'center'}}>Search Item</Title>
-                    <Button transparent onPress={() => this.navigateTo('SearchItem')}>
-                        Back
-                    </Button>
-                    <Button transparent onPress={() => this.navigateTo('listAvatar')}>
-                        <Icon name="ios-mail" />
-                    </Button>
-                </Header>
+                  <Header>
+                      <Title style={{alignSelf: 'center'}}>Search Item</Title>
+                      <Button transparent onPress={() => this.navigateTo('SearchItem')}>
+                          Back
+                      </Button>
+                      <Button transparent onPress={() => this.navigateTo('listAvatar')}>
+                          <Icon name="ios-mail" />
+                      </Button>
+                  </Header>
 
-                <Content>
-                    <InputGroup borderType='regular' >
-                        <Icon name='ios-search' style={{color:'#384850'}}/>
-                        <Input placeholder='Type your text here' />
-                    </InputGroup>
-                </Content>
+                  <Content>
+                      <InputGroup borderType='regular' >
+                          <Icon name='ios-search' style={{color:'#384850'}}/>
+                          <Input style={{color: '#fff'}} placeholder='Type your text here' onChangeText={(event) => this.searchProcessInput(event)}/>
+                      </InputGroup>
+                      <Card>
+                        {ItemNodes}
+                      </Card>
+                  </Content>
 
-                <Footer>
-                    <FooterTab>
-                        <Button
-                            onPress={() => this.navigateTo('Home')} >
-                            Feed
-                        </Button>
-                        <Button active={this.state.tab2} onPress={() => this.toggleTab2()} >
-                            Add Item
-                        </Button>
-                        <Button active={this.state.tab3} onPress={() => this.toggleTab3()} >
-                            Profile
-                        </Button>
-                    </FooterTab>
-                </Footer>
-            </Container>
-        );
+                  <Footer>
+                      <FooterTab>
+                          <Button
+                              onPress={() => this.navigateTo('Home')} >
+                              Feed
+                          </Button>
+                          <Button active={this.state.tab2} onPress={() => this.toggleTab2()} >
+                              Add Item
+                          </Button>
+                          <Button active={this.state.tab3} onPress={() => this.toggleTab3()} >
+                              Profile
+                          </Button>
+                      </FooterTab>
+                  </Footer>
+              </Container>
+          );
     }
 }
 
@@ -114,11 +143,13 @@ function bindAction(dispatch) {
     return {
         openDrawer: () => dispatch(openDrawer()),
         navigateTo: (route, homeRoute) => dispatch(navigateTo(route, homeRoute)),
+        searchProcess: (token, text) => dispatch(searchProcess(token, text))
     };
 }
 
 const mapStateToProps = state => ({
     navigation: state.cardNavigation,
+    item: state.searchItem
 });
 
-export default connect(mapStateToProps, bindAction)(Home);
+export default connect(mapStateToProps, bindAction)(SearchItem);

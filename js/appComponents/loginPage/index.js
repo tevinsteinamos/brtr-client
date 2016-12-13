@@ -46,18 +46,46 @@ class LoginPage extends Component {
 
     onLoginUser(e) {
         e.preventDefault()
+        console.log('login');
         let username = this.state.username.trim()
         let password = this.state.password.trim()
         if (!username || !password) {
+          console.log('empty');
             return
-        }
+        } else {
+          console.log(username);
+          console.log(password);
+          this.props.loginUser(username, password)
+          this.setState({
+              username: '',
+              password: ''
+          })
 
-        this.props.loginUser(username, password)
-        this.setState({
-            username: '',
-            password: ''
-        })
+        }
     }
+
+    componentDidMount() {
+        this._loadInitialState().done();
+    }
+    _loadInitialState = async () => {
+        try {
+            var value = await AsyncStorage.getItem("myKey");
+            console.log("value: ", value)
+            if (value !== null){
+                this.navigateTo('home')
+            } else {
+                console.log("else")
+                this._appendMessage('Initialized with no selection on disk.');
+            }
+        } catch (error) {
+            console.log("catch")
+            this._appendMessage('AsyncStorage error: ' + error.message);
+        }
+    }
+
+    _appendMessage = (message) => {
+        this.setState({messages: this.state.messages.concat(message)});
+    };
 
     componentDidMount() {
         this._loadInitialState().done();

@@ -36,7 +36,7 @@ export function userRegisterFailure():Action {
 
 export function registerUser(username, password, email, confirmPassword) {
     return (dispatch) => {
-        fetch(`http://192.168.1.241:3000/api/auth/register`, {
+        fetch(`http://192.168.1.173:3000/api/auth/register`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -84,8 +84,9 @@ export function userLoginFailure():Action {
 }
 
 export function loginUser(username, password) {
+  console.log('func login action');
     return (dispatch) => {
-        fetch(`http://192.168.1.241:3000/api/auth/login`, {
+        fetch(`http://192.168.1.173:3000/api/auth/login`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -95,9 +96,8 @@ export function loginUser(username, password) {
                 username: username,
                 password: password
             })
-        })
-            .then((response) => response.json())
-            .then((responseJson) => {
+        }).then((response) => response.json())
+          .then((responseJson) => {
             console.log("ini respon json: ", responseJson)
                 if (responseJson) {
                     dispatch(userLoginSuccess(responseJson))
