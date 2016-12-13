@@ -44,7 +44,7 @@ class DataItemCategory extends Component {
         return (
             <CardItem
                 style={{borderBottomWidth: 0}}
-                onPress={() => this.navigateTo('ItemDetail')}>
+                onPress={() => this.navigateTo('itemDetail', items.id)}>
                 <Image
                     style={{
                                     resizeMode: 'cover',

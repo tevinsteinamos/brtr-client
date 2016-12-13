@@ -34,10 +34,6 @@ import ArizTheme from '../../themes/additemtheme'
 import FooterTheme from '../../themes/prof-empty-theme'
 const star_button = require('../../../img/star_button.png');
 
-import {addItem} from '../../actions/items';
-import {updateItem} from '../../actions/items';
-import {getItemsById} from '../../actions/itemId';
-import DataCategories from './DataCategories'
 
 
 import decode from 'jwt-decode'
@@ -48,7 +44,7 @@ const {
 
 let ItemIdFrom = 0
 
-class AddItem extends Component {
+class CreateMessage extends Component {
 
     static propTypes = {
         openDrawer: React.PropTypes.func,
@@ -361,4 +357,4 @@ const mapStateToProps = state => ({
     itemId: state.itemId
 });
 
-export default connect(mapStateToProps, bindAction)(AddItem);
+export default connect(mapStateToProps, bindAction)(CreateMessage);

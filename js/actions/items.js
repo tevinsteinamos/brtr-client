@@ -49,7 +49,7 @@ export function getItemsByUserId(token) {
     console.log('user data: ', UserData)
     return (dispatch) => {
         dispatch(loadItemsByUserId())
-        fetch(`http://192.168.1.241:3000/api/items/user/${UserData.id}`, {
+        fetch(`http://br-tr-dev.ap-southeast-1.elasticbeanstalk.com/api/items/user/${UserData.id}`, {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
@@ -92,7 +92,7 @@ export function createItemSuccess(item) {
 export function addItem(CategoryId, name, description, photo, material, dimension, color, token) {
     const userDecoded = decode(token)
     return (dispatch) => {
-        fetch(`http://192.168.1.241:3000/api/items`, {
+        fetch(`http://br-tr-dev.ap-southeast-1.elasticbeanstalk.com/api/items`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -149,7 +149,7 @@ export function deleteItemSuccess(item){
 export function deleteItem(id, token){
     return dispatch => {
         dispatch(deleteDataItem(id))
-        fetch(`http://192.168.1.241:3000/api/items/${id}`, {
+        fetch(`http://br-tr-dev.ap-southeast-1.elasticbeanstalk.com/api/items/${id}`, {
             method: 'DELETE',
             headers: {
                 'Accept': 'application/json',
@@ -200,7 +200,7 @@ export function updateItemSuccess(item) {
 export function updateItem(id, CategoryId, name, description, photo, material, dimension, color, token) {
     const userDecoded = decode(token)
     return (dispatch) => {
-        fetch(`http://192.168.1.241:3000/api/items/${id}`, {
+        fetch(`http://br-tr-dev.ap-southeast-1.elasticbeanstalk.com/api/items/${id}`, {
             method: 'PUT',
             headers: {
                 'Accept': 'application/json',

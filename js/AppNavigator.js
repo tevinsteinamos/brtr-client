@@ -19,6 +19,7 @@ import AskEmail from './appComponents/askEmail'
 import CodeEmail from './appComponents/codeEmail'
 import ListMessage from './appComponents/listMessage'
 import MessageDetail from './appComponents/messageDetail'
+import CreateMessage from './appComponents/createMessage'
 
 
 // import Home from './components/home/';
@@ -233,6 +234,8 @@ class AppNavigator extends Component {
                 return <ListMessage />
             case 'messageDetail':
                 return <MessageDetail />
+            case 'createMessage':
+                return <CreateMessage />
 
             default :
                 return <Home />;
