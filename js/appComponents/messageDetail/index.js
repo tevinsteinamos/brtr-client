@@ -1,19 +1,33 @@
 
 import React, { Component } from 'react';
+import { AsyncStorage } from 'react-native';
 import { connect } from 'react-redux';
 import { actions } from 'react-native-navigation-redux-helpers';
-import { Container, Header, Title, Content, Button, Icon, List, ListItem, Text, Thumbnail, H3, InputGroup, Input, Footer, FooterTab } from 'native-base';
+import {
+  Container,
+  Header,
+  Title,
+  Content,
+  Button,
+  Icon,
+  List,
+  ListItem,
+  Text,
+  Thumbnail,
+  H3,
+  InputGroup,
+  Input,
+  Footer,
+  FooterTab
+} from 'native-base';
 
 import styles from './styles';
 
 import myTheme from '../../themes/base-theme';
 import navigateTo from '../../actions/bottomNav';
+import {getMessages} from '../../actions/messageDetail';
 
 const pratik = require('../../../img/contacts/pratik.png');
-const sanket = require('../../../img/contacts/sanket.png');
-const megha = require('../../../img/contacts/megha.png');
-const atul = require('../../../img/contacts/atul.png');
-const saurabh = require('../../../img/contacts/saurabh.png');
 const varun = require('../../../img/contacts/varun.png');
 
 const {
@@ -29,7 +43,47 @@ class messageDetail extends Component {
     }),
   }
 
+  constructor(props) {
+    super(props);
+  }
+
+  componentWillMount() {
+    this._loadInitialState().done();
+  }
+
+  _loadInitialState = async () => {
+        try {
+            var value = await AsyncStorage.getItem("myKey");
+            if (value !== null){
+                this.props.getMessages(value,1)
+            } else {
+                console.log("else")
+                this._appendMessage('Initialized with no selection on disk.');
+            }
+        } catch (error) {
+            console.log("catch: ", error)
+            this._appendMessage('AsyncStorage error: ' + error.message);
+        }
+    }
+
+  navigateTo(route, data) {
+    this.props.navigateTo(route, 'home', data);
+  }
+
   render() {
+    const {messages} = this.props
+    console.log("message: " + messages)
+    var showMessages = messages.map((message,index) => {
+      var msg = messages[index] ? <ListItem style={styles.noBottomBorder}><Thumbnail source={message.User.avatar} /><Text style={styles.text}>{message.body}</Text><Text note>At: {message.createdAt}</Text></ListItem> : <ListItem><Text style={styles.text}>No message found..</Text></ListItem>
+
+      return (
+        <ListItem style={styles.noBottomBorder}>
+          <Thumbnail source={message.User.avatar} />
+          <Text style={styles.text}>{message.body}</Text>
+          <Text note>At: {message.createdAt}</Text>
+        </ListItem>
+        )
+    })
     return (
       <Container theme={myTheme} style={styles.container}>
           <Header>
@@ -44,36 +98,7 @@ class messageDetail extends Component {
 
         <Content>
           <List>
-            <ListItem style={styles.noBottomBorder}>
-              <Thumbnail source={pratik} />
-              <Text style={styles.text}>Oke jadi gini mas..</Text>
-              <Text note>At: 12/04/12</Text>
-            </ListItem>
-            <ListItem style={styles.noBottomBorder}>
-              <Text style={styles.text}>Ya ada apa ya?</Text>
-              <Text note>At: 12/04/12</Text>
-              <Thumbnail iconRight source={varun} />
-            </ListItem>
-            <ListItem style={styles.noBottomBorder}>
-              <Text style={styles.text}>Woi bales lah elahhhh</Text>
-              <Text note>At: 12/04/12</Text>
-              <Thumbnail iconRight source={varun} />
-            </ListItem>
-            <ListItem style={styles.noBottomBorder}>
-              <Thumbnail source={pratik} />
-              <Text style={styles.text}>Oke jadi gini mas..</Text>
-              <Text note>At: 12/04/12</Text>
-            </ListItem>
-            <ListItem style={styles.noBottomBorder}>
-              <Text style={styles.text}>Ya ada apa ya?</Text>
-              <Text note>At: 12/04/12</Text>
-              <Thumbnail iconRight source={varun} />
-            </ListItem>
-            <ListItem style={styles.noBottomBorder}>
-              <Text style={styles.text}>Woi bales lah elahhhh</Text>
-              <Text note>At: 12/04/12</Text>
-              <Thumbnail iconRight source={varun} />
-            </ListItem>
+            {msg}
           </List>
         </Content>
         <Footer>
@@ -89,12 +114,14 @@ class messageDetail extends Component {
 
 function bindAction(dispatch) {
   return {
-    replaceAt: (routeKey, route, key) => dispatch(replaceAt(routeKey, route, key))
+    replaceAt: (routeKey, route, key) => dispatch(replaceAt(routeKey, route, key)),
+    getMessages: (token,id) => dispatch(getMessages(token, id))
   };
 }
 
 const mapStateToProps = state => ({
   navigation: state.cardNavigation,
+  messages: state.messageDetail
 });
 
 export default connect(mapStateToProps, bindAction)(messageDetail);

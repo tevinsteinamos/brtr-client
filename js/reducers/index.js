@@ -13,6 +13,7 @@ import listMessage from './listMessage';
 import createMessageItem from './createMessageItem';
 
 
+import messageDetail from './messageDetail';
 
 export default combineReducers({
 
@@ -26,5 +27,6 @@ export default combineReducers({
     categoryId,
     listMessage,
     createMessageItem,
+    messageDetail
 
 });
