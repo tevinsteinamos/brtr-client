@@ -44,7 +44,7 @@ export function searchProcess(token, text) {
     console.log('masuk token :', token);
     console.log('text : ', text);
     dispatch(searchProcessInit())
-      fetch(`http://192.168.100.6:3000/api/items/search/${text}`, {
+      fetch(`http://192.168.1.173:3000/api/items/search/${text}`, {
         method: 'GET',
         headers: {
             'Accept': 'application/json',
