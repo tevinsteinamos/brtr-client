@@ -27,7 +27,7 @@ import { openDrawer } from '../../actions/drawer';
 import myTheme from '../../themes/base-theme';
 import styles from './styles';
 import decode from 'jwt-decode'
-
+import moment from 'moment'
 
 class EachMessage extends Component {
   static propTypes = {
@@ -53,9 +53,9 @@ class EachMessage extends Component {
       return (
           <ListItem style={styles.noBottomBorder} onPress={() => this.navigateTo('messageDetail', itemMessageId, title)}>
             <Thumbnail square size={90} source={{uri: items.Item.User.avatar}} />
-            <H3 style={styles.text}>{items.Item.name}</H3>
+            <H3 style={styles.text}>{items.title}</H3>
             <Text note style={styles.text}>By <Text style={styles.name}>{items.Item.User.username}</Text></Text>
-            <Text style={{color: '#fff'}}>{items.Item.description}</Text>
+            <Text style={{color: '#fff'}}>{moment(items.createdAt).fromNow()}</Text>
           </ListItem>
 
       );
