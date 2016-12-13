@@ -56,3 +56,37 @@ export function getMessages(token,id) {
             });
     }
 }
+
+export function addMessage(token,message) {
+    return (dispatch) => {
+        fetch(`http://br-tr-dev.ap-southeast-1.elasticbeanstalk.com/api/messages`, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+            body: JSON.stringify({
+                TempMessageId: message.TempMessageId
+                body: message.body,
+                ItemMessageId: message.ItemMessageId,
+                UserId: message.UserId,
+                status: message.status
+            })
+        })
+            .then((response) => response.json())
+            .then((responseJson) => {
+                dispatch(addMessageSuccess(responseJson))
+            })
+            .catch((error) => {
+                console.log("fail category: ", error)
+                Alert.alert(
+                    'Load Messages Fail',
+                    [
+                        {text: 'OK', onPress: () => console.log('OK Pressed')},
+                    ]
+                )
+                dispatch(addMessageFailure())
+            });
+    }
+}

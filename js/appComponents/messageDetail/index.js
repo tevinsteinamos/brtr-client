@@ -55,6 +55,8 @@ class messageDetail extends Component {
         try {
             var value = await AsyncStorage.getItem("myKey");
             if (value !== null){
+                let ItemMessageId = this.props.navigation.routes[this.props.navigation.routes.length - 1].data
+                console.log('itemmessageid: ' + ItemMessageId)
                 this.props.getMessages(value,1)
             } else {
                 console.log("else")
@@ -71,18 +73,27 @@ class messageDetail extends Component {
   }
 
   render() {
-    const {messages} = this.props
-    console.log("message: " + messages)
+    var {messages} = this.props
+    console.log('messages: ' + messages)
+    // var title = this.props.navigation.routes[this.props.navigation.routes.length - 1].data2
     var showMessages = messages.map((message,index) => {
-      var msg = messages[index] ? <ListItem style={styles.noBottomBorder}><Thumbnail source={message.User.avatar} /><Text style={styles.text}>{message.body}</Text><Text note>At: {message.createdAt}</Text></ListItem> : <ListItem><Text style={styles.text}>No message found..</Text></ListItem>
+      console.log(messages[index])
 
-      return (
-        <ListItem style={styles.noBottomBorder}>
-          <Thumbnail source={message.User.avatar} />
-          <Text style={styles.text}>{message.body}</Text>
-          <Text note>At: {message.createdAt}</Text>
-        </ListItem>
-        )
+      if(messages[index]){
+        return (
+          <ListItem key={messages[index].id} style={styles.noBottomBorder}>
+            <Thumbnail source={{uri: messages[index].User.avatar}} />
+            <Text style={styles.text}>{messages[index].body}</Text>
+            <Text note>At: {messages[index].createdAt}</Text>
+          </ListItem>
+          )
+      }else{
+        return(
+          <ListItem style={styles.noBottomBorder}>
+            <Text>No data found..</Text>
+          </ListItem>
+          )
+      }
     })
     return (
       <Container theme={myTheme} style={styles.container}>
@@ -98,7 +109,7 @@ class messageDetail extends Component {
 
         <Content>
           <List>
-            {msg}
+            {showMessages}
           </List>
         </Content>
         <Footer>
