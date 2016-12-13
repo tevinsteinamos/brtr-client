@@ -81,7 +81,6 @@ class CreateMessage extends Component {
     }
 
     onValueChange (value) {
-        console.log('ini val: ', value)
         this.setState({
             itemBarter : value
         });
@@ -146,7 +145,7 @@ class CreateMessage extends Component {
 
     selectItem() {
 
-    let ItemNodes = [<Item label="test1" value="key0" />, <Item label="test2" value="key1" />]
+    // let ItemNodes = [<Item label="test1" value="key0" />, <Item label="test2" value="key1" />]
     //     this.props.items.map(function (item) {
     //     ItemNodes.push(<Item label={item.name} value={item.id} />)
     // })
@@ -172,10 +171,7 @@ class CreateMessage extends Component {
         console.log("ini props di create message: ", this.props)
         console.log("ini item di create message: ", items)
         console.log("ini kiriman item id: ", this.state.item)
-
-
-
-        // console.log("ini item notes: ", ItemNodes)
+        console.log("ini item barder: ", this.state.itemBarter)
 
         return (
             <Container theme={myTheme} style={styles.container}>

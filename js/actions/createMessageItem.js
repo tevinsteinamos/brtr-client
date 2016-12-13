@@ -51,7 +51,7 @@ export function addMessage(title, body, item, itemBarter, token) {
             .then((response) => response.json())
             .then((responseJson) => {
                 console.log('respon create: ', responseJson)
-                const itemMessageId = responseJson.data.id
+                const itemMessageId = responseJson.id
                 fetch(`http://br-tr-dev.ap-southeast-1.elasticbeanstalk.com/api/messages`, {
                     method: 'POST',
                     headers: {
