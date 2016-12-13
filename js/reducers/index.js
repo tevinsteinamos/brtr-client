@@ -8,6 +8,7 @@ import items from './items';
 import itemId from './itemId';
 import categories from './categories';
 import searchItem from './searchItem';
+import categoryId from './categoryId';
 
 
 export default combineReducers({
@@ -18,6 +19,7 @@ export default combineReducers({
     items,
     itemId,
     categories,
-    searchItem
+    searchItem,
+    categoryId,
 
 });
