@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { TouchableOpacity, Alert } from 'react-native';
+import { TouchableOpacity, Alert, Image } from 'react-native';
 import { connect } from 'react-redux';
 import { Container, Header, Title, Content, Button, Icon, List, ListItem, InputGroup, Input, Picker, Text, Thumbnail } from 'native-base';
 
@@ -10,7 +10,7 @@ import ArizTheme from '../../themes/custom-theme'
 import {registerUser} from '../../actions/auth'
 
 const Item = Picker.Item;
-const camera = require('../../../img/camera.png');
+const barter_logo = require('../../../img/barter_logo.png');
 import navigateTo from '../../actions/bottomNav';
 
 class RegisterPage extends Component {
@@ -86,7 +86,7 @@ class RegisterPage extends Component {
 
               <Content>
                 <TouchableOpacity>
-                  <Thumbnail size={80} source={camera} style={{ alignSelf: 'center', marginTop: 20, marginBottom: 10 }} />
+                  <Image source={barter_logo} style={{ alignSelf: 'center', marginTop: 20, marginBottom: 10 }} />
                 </TouchableOpacity>
                 <List style={{marginTop: 40, marginLeft: 30, marginRight: 60}} theme={ArizTheme}>
                   <ListItem>
@@ -136,7 +136,7 @@ class RegisterPage extends Component {
                       fontSize: 14}}>
                   Already have an account ?
                   <Text style={{color: '#2effd0', fontSize: 12}}
-                        onPress={()=>this.navigateTo('loginPage')}>Sign In !</Text></Text>
+                        onPress={()=>this.navigateTo('loginPage')}>   Sign In !</Text></Text>
               </Content>
             </Container>
         );

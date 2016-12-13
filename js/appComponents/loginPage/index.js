@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { TouchableOpacity, AsyncStorage } from 'react-native';
+import { TouchableOpacity, AsyncStorage, Image } from 'react-native';
 import { connect } from 'react-redux';
 import { Container, Header, Title, Content, Button, Icon, List, ListItem, InputGroup, Input, Picker, Text, Thumbnail } from 'native-base';
 import ArizTheme from '../../themes/custom-theme'
@@ -11,7 +11,7 @@ import navigateTo from '../../actions/bottomNav';
 import {loginUser} from '../../actions/auth';
 
 const Item = Picker.Item;
-const camera = require('../../../img/camera.png');
+const barter_logo = require('../../../img/barter_logo.png');
 
 import decode from 'jwt-decode'
 
@@ -117,7 +117,7 @@ class LoginPage extends Component {
 
               <Content>
                 <TouchableOpacity>
-                  <Thumbnail size={80} source={camera} style={{ alignSelf: 'center', marginTop: 20, marginBottom: 10 }} />
+                  <Image source={barter_logo} style={{ alignSelf: 'center', marginTop: 20, marginBottom: 10 }} />
                 </TouchableOpacity>
                 <List style={{marginTop: 40, marginLeft: 30, marginRight: 60}} theme={ArizTheme}>
                   <ListItem >
@@ -148,7 +148,7 @@ class LoginPage extends Component {
                     style={{textAlign: 'center',color: '#FFFFFF', fontSize: 14}}>
                   Don't have an account yet?
                   <Text style={{color: '#2effd0', fontSize: 12}}
-                        onPress={() => this.navigateTo('registerPage')}>Sign Up !
+                        onPress={() => this.navigateTo('registerPage')}>   Sign Up !
                   </Text>
                 </Text>
               </Content>

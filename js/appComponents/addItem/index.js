@@ -32,7 +32,7 @@ import myTheme from '../../themes/base-theme';
 import styles from './styles';
 import ArizTheme from '../../themes/additemtheme'
 import FooterTheme from '../../themes/prof-empty-theme'
-const camera = require('../../../img/camera.png');
+const star_button = require('../../../img/star_button.png');
 
 import {addItem} from '../../actions/items';
 import {updateItem} from '../../actions/items';
@@ -229,7 +229,15 @@ class AddItem extends Component {
                 <Content>
 
                     <Card style={{ flex: 0, backgroundColor: '#444444', borderWidth: 0 }}>
-                        <Grid>
+                      <Grid>
+                            <Col>
+                              <Icon barterColor name="ios-add-circle-outline" onPress={()=> alert('upload an image')}
+                                     style={{ fontSize: 150, alignSelf: 'center', color:'#2effd0' }}
+                                     />
+                            </Col>
+                      </Grid>
+
+                        <Grid style={{marginTop: 90}}>
                             <Col>
                                 <InputGroup
                                     style={{marginLeft: 30, marginRight: 30}}
@@ -259,26 +267,7 @@ class AddItem extends Component {
                             </Col>
                         </Grid>
 
-
-                        <Grid>
-                            <Col>
-                                <InputGroup
-                                    style={{marginLeft: 30, marginRight: 30}}
-                                    theme={ArizTheme}
-                                    borderType='underline'
-                                >
-                                    <Input
-                                        style={{color: '#FFFFFF'}}
-                                        placeholder="Image"/>
-                                </InputGroup>
-                                <Image onPress={()=> alert('upload an image')}
-                                       style={{ width: 150, height: 150, alignSelf: 'center' }}
-                                       source={camera} />
-
-                            </Col>
-                        </Grid>
-
-                        <Grid>
+                        <Grid >
                             <Col>
                                 <Picker
                                     style={{marginLeft: 30, marginRight: 15, color: 'white'}}
