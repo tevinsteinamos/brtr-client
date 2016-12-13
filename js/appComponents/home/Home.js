@@ -24,6 +24,7 @@ import {getCategories} from '../../actions/categories';
 import { openDrawer } from '../../actions/drawer';
 import myTheme from '../../themes/base-theme';
 import styles from './styles';
+const star_button = require('../../../img/star_button.png');
 
 
 class Home extends Component {
@@ -278,7 +279,7 @@ class Home extends Component {
                             Feed
                         </Button>
                         <Button active={this.state.tab2} onPress={() => this.navigateTo('addItem')} >
-                            Add Item
+                          Add Item
                         </Button>
                         <Button active={this.state.tab3} onPress={() => this.navigateTo('profileDetail')} >
                             Profile
