@@ -43,8 +43,8 @@ class Home extends Component {
         };
     }
 
-    navigateTo(route) {
-        this.props.navigateTo(route, 'home');
+    navigateTo(route, data) {
+        this.props.navigateTo(route, 'home', data);
     }
 
     toggleTab1() {
@@ -71,7 +71,7 @@ class Home extends Component {
         });
     }
 
-    componentDidMount() {
+    componentWillMount() {
         this._loadInitialState().done();
     }
 
@@ -97,7 +97,7 @@ class Home extends Component {
 
     render() {
         const {categories} = this.props
-        console.log("categori: ", categories)
+        console.log("categori di home: ", categories)
         // console.log("categori 0: ", categories[0].name)
         return (
             <Container theme={myTheme} style={styles.container}>
@@ -121,7 +121,7 @@ class Home extends Component {
                             <Col>
                                 <CardItem
                                     style={{borderBottomWidth: 0}}
-                                    onPress={() => this.navigateTo('listItem')}>
+                                    onPress={() => this.navigateTo('listItemCategory', (categories[0]) ? categories[0].id : '')}>
                                     <Image
                                         style={{
                                     resizeMode: 'cover',
@@ -138,7 +138,7 @@ class Home extends Component {
                             <Col>
                                 <CardItem
                                     style={{borderBottomWidth: 0}}
-                                    onPress={() => this.navigateTo('listItem')}>
+                                    onPress={() => this.navigateTo('listItemCategory', (categories[1]) ? categories[1].id : '')}>
                                     <Image
                                         style={{
                                     resizeMode: 'cover',
@@ -158,7 +158,7 @@ class Home extends Component {
                             <Col>
                                 <CardItem
                                     style={{borderBottomWidth: 0}}
-                                    onPress={() => this.navigateTo('listItem')}>
+                                    onPress={() => this.navigateTo('listItemCategory', (categories[2]) ? categories[2].id : '')}>
                                     <Image
                                         style={{
                                     resizeMode: 'cover',
@@ -178,7 +178,7 @@ class Home extends Component {
                             <Col>
                                 <CardItem
                                     style={{borderBottomWidth: 0}}
-                                    onPress={() => this.navigateTo('listItem')}>
+                                    onPress={() => this.navigateTo('listItemCategory', (categories[3]) ? categories[3].id : '')}>
                                     <Image
                                         style={{
                                     resizeMode: 'cover',
@@ -195,7 +195,7 @@ class Home extends Component {
                             <Col>
                                 <CardItem
                                     style={{borderBottomWidth: 0}}
-                                    onPress={() => this.navigateTo('listItem')}>
+                                    onPress={() => this.navigateTo('listItemCategory', (categories[4]) ? categories[4].id : '')}>
                                     <Image
                                         style={{
                                     resizeMode: 'cover',
@@ -215,7 +215,7 @@ class Home extends Component {
                             <Col>
                                 <CardItem
                                     style={{borderBottomWidth: 0}}
-                                    onPress={() => this.navigateTo('listItem')}>
+                                    onPress={() => this.navigateTo('listItemCategory', (categories[6]) ? categories[6].id : '')}>
                                     <Image
                                         style={{
                                     resizeMode: 'cover',
@@ -224,7 +224,7 @@ class Home extends Component {
                                 }}
                                         source={require('../../../img/category/sport.jpg')}>
                                         <View style={{paddingLeft: 10}}>
-                                            <H2 style={{color: 'white'}}>{(categories[5]) ? categories[5].name : ''}</H2>
+                                            <H2 style={{color: 'white'}}>{(categories[6]) ? categories[6].name : ''}</H2>
                                         </View>
                                     </Image>
                                 </CardItem>
@@ -235,7 +235,7 @@ class Home extends Component {
                             <Col>
                                 <CardItem
                                     style={{borderBottomWidth: 0}}
-                                    onPress={() => this.navigateTo('listItem')}>
+                                    onPress={() => this.navigateTo('listItemCategory', (categories[7]) ? categories[7].id : '')}>
                                     <Image
                                         style={{
                                     resizeMode: 'cover',
@@ -244,7 +244,7 @@ class Home extends Component {
                                 }}
                                         source={require('../../../img/category/toys.jpg')}>
                                         <View style={{paddingLeft: 10}}>
-                                            <H2 style={{color: 'white'}}>{(categories[6]) ? categories[6].name : ''}</H2>
+                                            <H2 style={{color: 'white'}}>{(categories[7]) ? categories[7].name : ''}</H2>
                                         </View>
                                     </Image>
                                 </CardItem>
@@ -252,7 +252,7 @@ class Home extends Component {
                             <Col>
                                 <CardItem
                                     style={{borderBottomWidth: 0}}
-                                    onPress={() => this.navigateTo('listItem')}>
+                                    onPress={() => this.navigateTo('listItemCategory', (categories[5]) ? categories[5].id : '')}>
                                     <Image
                                         style={{
                                     resizeMode: 'cover',
@@ -261,7 +261,7 @@ class Home extends Component {
                                 }}
                                         source={require('../../../img/category/others.jpg')}>
                                         <View style={{paddingLeft: 10}}>
-                                            <H2 style={{color: 'white'}}>{(categories[7]) ? categories[7].name : ''}</H2>
+                                            <H2 style={{color: 'white'}}>{(categories[5]) ? categories[5].name : ''}</H2>
                                         </View>
                                     </Image>
                                 </CardItem>
@@ -294,7 +294,7 @@ function bindAction(dispatch) {
     return {
         openDrawer: () => dispatch(openDrawer()),
         getCategories: (token) => dispatch(getCategories(token)),
-        navigateTo: (route, homeRoute) => dispatch(navigateTo(route, homeRoute)),
+        navigateTo: (route, homeRoute, data) => dispatch(navigateTo(route, homeRoute, data)),
     };
 }
 

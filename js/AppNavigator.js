@@ -9,6 +9,7 @@ import { closeDrawer } from './actions/drawer';
 
 import Home from './appComponents/home/Home'
 import ListItem from './appComponents/listItem/ListItem'
+import ListItemCategory from './appComponents/listItemCategory/ListItemCategory'
 import ItemDetail from './appComponents/itemDetail/ItemDetail'
 import SearchItem from './appComponents/searchItem/SearchItem'
 import ProfileEmpty from './appComponents/profileEmpty'
@@ -71,7 +72,8 @@ class AppNavigator extends Component {
         super(props);
         this.state = {
             dataUser: {},
-            messages: []
+            messages: [],
+            token: ''
         }
     }
 
@@ -102,11 +104,12 @@ class AppNavigator extends Component {
 
     _loadInitialState = async () => {
         try {
-            var value = await AsyncStorage.getItem("myKey");
-            // console.log("value: ", value)
-            if (value !== null){
-                this.setState({dataUser: decode(value)});
-                this._appendMessage('Recovered selection from disk: ' + value);
+            let token = await AsyncStorage.getItem("myKey");
+            console.log("token: ", token)
+            if (token !== null){
+                this.setState({token: token})
+                this.setState({dataUser: decode(token)});
+                this._appendMessage('Recovered selection from disk: ' + token);
             } else {
                 console.log("else")
                 this._appendMessage('Initialized with no selection on disk.');
@@ -141,6 +144,7 @@ class AppNavigator extends Component {
     }
 
     _renderScene(props) { // eslint-disable-line class-methods-use-this
+
         switch (props.scene.route.key) {
             case 'splashscreen':
                 return <SplashPage />;
@@ -211,6 +215,8 @@ class AppNavigator extends Component {
                 return <ItemDetail />;
             case 'listItem':
                 return <ListItem />;
+            case 'listItemCategory':
+                return <ListItemCategory />;
             case 'searchItem':
                 return <SearchItem />;
             case 'profileEmpty':
@@ -237,7 +243,6 @@ class AppNavigator extends Component {
     }
 
     render() {
-        // console.log("data user: ", this.state.dataUser)
         return (
             <Drawer
                 ref={(ref) => { this._drawer = ref; }}

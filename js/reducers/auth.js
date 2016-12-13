@@ -9,7 +9,7 @@ export default function (state:State = initialState, action:Action): State {
     switch (action.type) {
 
         case USER_LOGIN_SUCCESS:
-            return state
+            return action.user
 
         case USER_REGISTER_SUCCESS:
             return state
