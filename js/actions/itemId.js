@@ -33,7 +33,7 @@ export function getItemsById(token, id) {
     console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> dapet id nya: ", id)
     return (dispatch) => {
         dispatch(loadItemsById())
-        fetch(`http://192.168.1.241:3000/api/items/${id}`, {
+        fetch(`http://br-tr-dev.ap-southeast-1.elasticbeanstalk.com/api/items/${id}`, {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
@@ -58,4 +58,3 @@ export function getItemsById(token, id) {
             });
     }
 }
-

@@ -53,7 +53,8 @@ class SearchResult extends Component {
           }}
                   source={{uri: items.photo}}>
                   <View style={{paddingLeft: 10}}>
-                      <H1 style={{color: 'black'}}>{items.name}</H1>
+                    <H1 style={{color: 'black'}}>{items.name}</H1>
+                    <Text style={{color: 'black'}} note>by <Text style={{color: '#2EFFD0'}}>{(items.User) ? items.User.username : ''}</Text></Text>
                   </View>
               </Image>
 

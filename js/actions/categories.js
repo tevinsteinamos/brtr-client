@@ -33,7 +33,7 @@ export function getCategories(token) {
     const UserData = decode(token)
     return (dispatch) => {
         dispatch(loadCategories())
-        fetch(`http://192.168.1.241:3000/api/categories`, {
+        fetch(`http://br-tr-dev.ap-southeast-1.elasticbeanstalk.com/api/categories`, {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',

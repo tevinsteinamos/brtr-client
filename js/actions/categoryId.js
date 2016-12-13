@@ -33,7 +33,7 @@ export function loadItemsFailureByCategoryId() {
 export function getItemsByCategoryId(token, id) {
     return (dispatch) => {
         dispatch(loadItemsByCategoryId())
-        fetch(`http://192.168.1.241:3000/api/categories/${id}`, {
+        fetch(`http://br-tr-dev.ap-southeast-1.elasticbeanstalk.com/api/categories/${id}`, {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
@@ -58,4 +58,3 @@ export function getItemsByCategoryId(token, id) {
             });
     }
 }
-
