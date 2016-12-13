@@ -130,7 +130,9 @@ class ProfileDetail extends Component {
                 </Header>
 
                 <Content>
-                    <Image style={{ alignSelf: 'center'}} source={camera} />
+                  <Icon barterColor name="ios-add-circle-outline" onPress={()=> alert('upload an image')}
+                         style={{ fontSize: 150, alignSelf: 'center', color:'#2effd0' }}
+                         />
                     <Text
                         style={{
                             color: '#fff',
@@ -142,11 +144,16 @@ class ProfileDetail extends Component {
                     </Text>
 
                     <Button
-                        onPress={this.logoutUser.bind(this)}
-                        style={{alignSelf: 'center'}}
-                        danger>
-                        Logout
-                    </Button>
+                        bordered style={{
+                          alignSelf: 'center',
+                          marginTop: 40,
+                          marginBottom: 20 ,
+                          width: 220,
+                          borderRadius: 0,
+                          borderColor:'#2effd0',
+                          height: 50
+                    }}
+                        onPress={this.logoutUser.bind(this)}><Text style={{color: '#FFFFFF'}}>LOGOUT</Text></Button>
 
                     <Text
                         style={{
