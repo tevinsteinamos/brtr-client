@@ -85,6 +85,7 @@ export default {
     brandDanger: '#d9534f',
     brandWarning: '#f0ad4e',
     brandSidebar: '#252932',
+    barterColor: '#2effd0',
 
 
     // Font
@@ -137,6 +138,7 @@ export default {
     iconFamily: 'Ionicons',
     iconFontSize: (Platform.OS === 'ios' ) ? 30 : 28,
     iconMargin: 7,
+    textColor: '#2effd0',
 
 
     // InputGroup
