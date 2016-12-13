@@ -39,6 +39,8 @@ import {updateItem} from '../../actions/items';
 import {getItemsById} from '../../actions/itemId';
 import DataCategories from './DataCategories'
 
+import {getCategories} from '../../actions/categories';
+
 
 import decode from 'jwt-decode'
 
@@ -78,6 +80,7 @@ class AddItem extends Component {
             material: '' || this.props.itemId.material,
             photo: '' || this.props.itemId.photo,
             color: '' || this.props.itemId.color,
+            category: 'key0' || this.props.itemId.category,
             results: {
                 items: []
             }
@@ -86,7 +89,7 @@ class AddItem extends Component {
 
     onValueChange (value: string) {
         this.setState({
-            selected1 : value
+            category : value
         });
     }
 
@@ -108,11 +111,7 @@ class AddItem extends Component {
             if (value !== null){
                 this.setState({token: value});
                 this.setState({dataUser: decode(value)});
-                ItemIdFrom = this.props.navigation.routes[this.props.navigation.routes.length - 1].data
-                console.log("item id yg dikirim: ", ItemIdFrom)
-                if (ItemIdFrom) {
-                    this.props.getItemsById(value, ItemIdFrom)
-                }
+                this.props.getCategories(value)
                 this._appendMessage('Recovered selection from disk: ' + value);
             } else {
                 console.log("else")
@@ -138,13 +137,14 @@ class AddItem extends Component {
         let material = this.state.material.trim()
         // let photo = this.state.photo.trim()
         let photo = ''
+        let category = this.state.category
         let color = this.state.color.trim()
-        if (!name || !description || !dimension || !material || !color) {
+        if (!name || !category || !description || !dimension || !material || !color) {
             console.log("kosong")
             return
         }
 
-        this.props.addItem(758, name, description, photo, material, dimension, color, this.state.token)
+        this.props.addItem(category, name, description, photo, material, dimension, color, this.state.token)
         this.setState({
             name: '',
             description: '',
@@ -163,14 +163,15 @@ class AddItem extends Component {
         let dimension = this.state.dimension.trim()
         let material = this.state.material.trim()
         // let photo = this.state.photo.trim()
+        let category = this.state.category
         let photo = ''
         let color = this.state.color.trim()
-        if (!name || !description || !dimension || !material || !color) {
+        if (!name || !category || !description || !dimension || !material || !color) {
             console.log("kosong")
             return
         }
 
-        this.props.updateItem(ItemIdFrom, 758, name, description, photo, material, dimension, color, this.state.token)
+        this.props.updateItem(ItemIdFrom, category, name, description, photo, material, dimension, color, this.state.token)
         this.setState({
             name: '',
             description: '',
@@ -183,7 +184,7 @@ class AddItem extends Component {
     }
 
     render() {
-        const {itemId} = this.props
+        const {itemId, categories} = this.props
         console.log("ini props di add item: ", this.props)
         console.log("ini item di add item: ", itemId)
 
@@ -275,11 +276,17 @@ class AddItem extends Component {
                                     style={{marginLeft: 30, marginRight: 15, color: 'white'}}
                                     iosHeader="Select one"
                                     mode="dropdown"
-                                    selectedValue={this.state.selected1}
+                                    selectedValue={this.state.category}
                                     onValueChange={this.onValueChange.bind(this)} >
                                     <Item label="Select Category" value="key0" />
-                                    <Item label="Female" value="key1" />
-                                    <Item label="Other" value="key2" />
+                                    <Item label={(categories[0]) ? categories[0].name : ''} value={(categories[0]) ? categories[0].id : ''} />
+                                    <Item label={(categories[1]) ? categories[1].name : ''} value={(categories[1]) ? categories[1].id : ''} />
+                                    <Item label={(categories[2]) ? categories[2].name : ''} value={(categories[2]) ? categories[2].id : ''} />
+                                    <Item label={(categories[3]) ? categories[3].name : ''} value={(categories[3]) ? categories[3].id : ''} />
+                                    <Item label={(categories[4]) ? categories[4].name : ''} value={(categories[4]) ? categories[4].id : ''} />
+                                    <Item label={(categories[6]) ? categories[6].name : ''} value={(categories[6]) ? categories[6].id : ''} />
+                                    <Item label={(categories[7]) ? categories[7].name : ''} value={(categories[7]) ? categories[7].id : ''} />
+                                    <Item label={(categories[5]) ? categories[5].name : ''} value={(categories[5]) ? categories[5].id : ''} />
                                 </Picker>
                             </Col>
                             <Col>
@@ -353,12 +360,14 @@ function bindAction(dispatch) {
         addItem: (CategoryId, name, description, photo, material, dimension, color, token) => dispatch(addItem(CategoryId, name, description, photo, material, dimension, color, token)),
         updateItem: (id, CategoryId, name, description, photo, material, dimension, color, token) => dispatch(updateItem(id, CategoryId, name, description, photo, material, dimension, color, token)),
         getItemsById: (token, ItemId) => dispatch(getItemsById(token, ItemId)),
+        getCategories: (token) => dispatch(getCategories(token)),
     };
 }
 
 const mapStateToProps = state => ({
     navigation: state.cardNavigation,
-    itemId: state.itemId
+    itemId: state.itemId,
+    categories: state.categories
 });
 
 export default connect(mapStateToProps, bindAction)(AddItem);

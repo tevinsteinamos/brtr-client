@@ -158,7 +158,7 @@ class ItemDetail extends Component {
             }
             else {
                 actionButton = <Button
-                    onPress={() => this.navigateTo('createMessate', itemId.id)}
+                    onPress={() => this.navigateTo('createMessage', itemId.id)}
                     block success> Barter </Button>
                 editButton = ''
             }
