@@ -33,6 +33,12 @@ export function createItemMessageSuccess(messageItem) {
 
 export function addMessage(title, body, item, itemBarter, token, navigator) {
   console.log('nav : ', navigator);
+  console.log('title : ', title);
+  console.log('body : ', body);
+  console.log('item : ', item);
+  console.log('itemBarter : ', itemBarter);
+  console.log('token : ', token);
+
     const userDecoded = decode(token)
     return (dispatch) => {
         fetch(`http://br-tr-dev.ap-southeast-1.elasticbeanstalk.com/api/messages/itemMessage`, {

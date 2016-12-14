@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { Image, AsyncStorage, BackAndroid } from 'react-native';
+import { Image, AsyncStorage, BackAndroid, Alert } from 'react-native';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import { connect } from 'react-redux';
 import { actions } from 'react-native-navigation-redux-helpers';
@@ -106,20 +106,40 @@ class CreateMessage extends Component {
     onCreateMessage() {
         let title = this.state.title.trim()
         let body = this.state.body.trim()
-        let item = this.props.items[0].id
+        let item = this.props.route.ItemId
         let itemBarter = this.state.itemBarter
         let token = this.state.token
-        console.log('nav view : ', this.props.navigator);
-        if (!title || !body || !item || !itemBarter) {
-            console.log("kosong")
-            return
-        }
+        console.log('title1 : ', title);
+        console.log('body 1: ', body);
+        console.log('item 1: ', item);
+        console.log('itemBarter 1: ', itemBarter);
+        console.log('token 1: ', token);
 
-        this.props.addMessage(title, body, item, itemBarter, token, this.props.navigator)
-        this.setState({
-            title: '',
-            body: '',
-        })
+        if (!title || !body || !item) {
+          Alert.alert(
+              'Error Barter Item',
+              'Title and Message Body should be filled',
+              [
+                  {text: 'OK', onPress: () => console.log('OK Pressed')},
+              ]
+          )
+        } else {
+          if (itemBarter == 'key0' || item == 'key0') {
+            Alert.alert(
+                'Error Barter Item',
+                'Please select Item to barter',
+                [
+                    {text: 'OK', onPress: () => console.log('OK Pressed')},
+                ]
+            )
+          } else {
+            this.props.addMessage(title, body, item, itemBarter, token, this.props.navigator)
+            this.setState({
+                title: '',
+                body: '',
+            })
+          }
+        }
     }
 
 
@@ -147,9 +167,9 @@ class CreateMessage extends Component {
 
 
     render() {
-        const {navigator, items} = this.props
+        const {navigator, items, route} = this.props
         console.log("ini props di create message: ", this.props)
-        console.log("ini item di create message: ", items)
+        console.log("ini item di create message: ", route.ItemId)
         console.log("ini item barder: ", this.state.itemBarter)
         console.log("cklick add item : ", this.props.items)
 
