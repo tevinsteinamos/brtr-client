@@ -51,7 +51,7 @@ class EachMessage extends Component {
       console.log('each itemmsg : ', itemMessageId);
 
       return (
-          <ListItem style={styles.noBottomBorder} onPress={() => this.navigateTo('messageDetail', itemMessageId, title)}>
+          <ListItem style={styles.noBottomBorder} onPress={() => navigator('messageDetail', itemMessageId, title)}>
             <Thumbnail square size={90} source={{uri: items.Item.User.avatar}} />
             <H3 style={styles.text}>{items.title}</H3>
             <Text note style={styles.text}>By <Text style={styles.name}>{items.Item.User.username}</Text></Text>

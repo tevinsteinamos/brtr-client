@@ -23,9 +23,6 @@ import {listMessageProcess} from '../../actions/listMessage'
 import decode from 'jwt-decode'
 
 
-const {
-  replaceAt,
-} = actions;
 
 class listMessage extends Component {
 
@@ -83,14 +80,14 @@ class listMessage extends Component {
     };
 
   render() {
-    const {item} = this.props
+    const {item, navigator} = this.props
     console.log('item lis : ', item);
     console.log('user : ', this.state.dataUser);
     let ItemNodes = item.map((data)=> {
       if (this.state.dataUser.id == data.Item.UserId || this.state.dataUser.id == data.Item2.UserId) {
         console.log('user detected : ', data);
         return(
-            <EachMessage key={data.id} items={data} title={data.title} itemMessageId={data.id}/>
+            <EachMessage key={data.id} items={data} title={data.title} itemMessageId={data.id}, navigator={navigator}/>
         )
       } else {
         console.log('user not deteceted');
@@ -106,8 +103,8 @@ class listMessage extends Component {
       <Container theme={myTheme} style={styles.container}>
           <Header>
                     <Title style={{alignSelf: 'center', color: '#6CF9C8'}}>BRTR</Title>
-                    <Button transparent onPress={() => this.replaceAt('searchItem')}>
-                        <Icon name="ios-search" />
+                    <Button transparent onPress={() => navigator.pop()}>
+                        <Icon name="ios-arrow-back" />
                     </Button>
                     <Button transparent>
                         <Icon style={{color: '#6CF9C8'}} name="ios-mail" />
@@ -126,14 +123,11 @@ class listMessage extends Component {
 
 function bindAction(dispatch) {
   return {
-    replaceAt: (routeKey, route, key) => dispatch(replaceAt(routeKey, route, key)),
-    navigateTo: (route, messageDetail) => dispatch(navigateTo(route, messageDetail)),
     listMessageProcess: (token) => dispatch(listMessageProcess(token)),
   };
 }
 
 const mapStateToProps = state => ({
-  navigation: state.cardNavigation,
   item: state.listMessage
 });
 

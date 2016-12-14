@@ -28,10 +28,6 @@ import {getMessages, addMessage} from '../../actions/messageDetail';
 const pratik = require('../../../img/contacts/pratik.png');
 const varun = require('../../../img/contacts/varun.png');
 
-const {
-  replaceAt,
-} = actions;
-
 class messageDetail extends Component {
 
   constructor(props) {
