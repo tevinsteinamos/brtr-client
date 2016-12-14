@@ -45,13 +45,13 @@ class EachMessage extends Component {
   }
 
   render() {
-      const {items, title, itemMessageId} = this.props
+      const {items, title, itemMessageId, navigator} = this.props
       console.log('each item : ', items);
       console.log('each title : ', title);
       console.log('each itemmsg : ', itemMessageId);
 
       return (
-          <ListItem style={styles.noBottomBorder} onPress={() => navigator('messageDetail', itemMessageId, title)}>
+          <ListItem style={styles.noBottomBorder} onPress={() => navigator.push({id: 'messageDetail', itemMessageId: itemMessageId, title: title})}>
             <Thumbnail square size={90} source={{uri: items.Item.User.avatar}} />
             <H3 style={styles.text}>{items.title}</H3>
             <Text note style={styles.text}>By <Text style={styles.name}>{items.Item.User.username}</Text></Text>

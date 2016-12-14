@@ -85,7 +85,7 @@ export function addMessage(token,body,itemMessageId) {
         })
             .then((response) => response.json())
             .then((responseJson) => {
-                dispatch(addMessageSuccess(responseJson))
+                dispatch(getMessages(token, itemMessageId))
             })
             .catch((error) => {
                 console.log("fail add message detail: ", error)

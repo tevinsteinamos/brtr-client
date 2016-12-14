@@ -46,10 +46,6 @@ class listMessage extends Component {
       };
   }
 
-  navigateTo(route) {
-        this.props.navigateTo(route, 'listMessage');
-    }
-
     componentWillMount() {
         this._loadInitialState().done();
     }
@@ -87,7 +83,7 @@ class listMessage extends Component {
       if (this.state.dataUser.id == data.Item.UserId || this.state.dataUser.id == data.Item2.UserId) {
         console.log('user detected : ', data);
         return(
-            <EachMessage key={data.id} items={data} title={data.title} itemMessageId={data.id}, navigator={navigator}/>
+            <EachMessage key={data.id} items={data} title={data.title} itemMessageId={data.id} navigator={navigator}/>
         )
       } else {
         console.log('user not deteceted');
