@@ -6,7 +6,7 @@ import {
     CREATE_MESSAGE_ITEM_SUCCESS
 } from '../actions/createMessageItem';
 
-
+//
 const initialState = []
 
 export default function (state:State = initialState, action:Action): State {
