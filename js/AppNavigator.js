@@ -68,12 +68,11 @@ class AppNavigator extends Component {
         }
     }
 
-    componentDidMount() {
-        // BackAndroid.addEventListener('hardwareBackPress', () => {
-        //     this.props.navigator.pop()
-        //     return true
-        // });
-
+    componentWillMount() {
+        BackAndroid.addEventListener('hardwareBackPress', () => {
+            this.props.navigator.pop()
+            return true
+        });
         this._loadInitialState().done();
     }
 

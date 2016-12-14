@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { TouchableOpacity, Alert, Image } from 'react-native';
+import { TouchableOpacity, Alert, Image, BackAndroid } from 'react-native';
 import { connect } from 'react-redux';
 import { Container, Header, Title, Content, Button, Icon, List, ListItem, InputGroup, Input, Picker, Text, Thumbnail } from 'native-base';
 
@@ -34,6 +34,12 @@ class RegisterPage extends Component {
         });
     }
 
+    componentWillMount() {
+        BackAndroid.addEventListener('hardwareBackPress', () => {
+            this.props.navigator.pop()
+            return true
+        });
+    }
     onRegisterUser(e) {
         e.preventDefault()
         let username = this.state.username.trim()

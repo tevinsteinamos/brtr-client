@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { actions } from 'react-native-navigation-redux-helpers';
 import { Container, Header, Title, Content, Button, Icon, List, ListItem, Text, Thumbnail, H3 } from 'native-base';
-import { Image, AsyncStorage } from 'react-native';
+import { Image, AsyncStorage, BackAndroid } from 'react-native';
 
 import styles from './styles';
 
@@ -47,6 +47,10 @@ class listMessage extends Component {
   }
 
     componentWillMount() {
+        BackAndroid.addEventListener('hardwareBackPress', () => {
+            this.props.navigator.pop()
+            return true
+        });
         this._loadInitialState().done();
     }
 

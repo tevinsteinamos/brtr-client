@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { Image } from 'react-native';
+import { Image, BackAndroid } from 'react-native';
 import { connect } from 'react-redux';
 import { actions } from 'react-native-navigation-redux-helpers';
 import { Container, Header, Title, Content, Button, Icon, Card, CardItem, Text, Thumbnail, Picker } from 'native-base';
@@ -35,6 +35,13 @@ class ProfileEmpty extends Component {
     },
 
   }
+
+    componentWillMount() {
+        BackAndroid.addEventListener('hardwareBackPress', () => {
+            this.props.navigator.pop()
+            return true
+        });
+    }
 
   onValueChange(value: string) {
     this.setState({

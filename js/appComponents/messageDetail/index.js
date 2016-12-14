@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { AsyncStorage } from 'react-native';
+import { AsyncStorage, BackAndroid } from 'react-native';
 import { connect } from 'react-redux';
 import {
   Container,
@@ -57,6 +57,10 @@ class messageDetail extends Component {
   }
 
   componentWillMount() {
+        BackAndroid.addEventListener('hardwareBackPress', () => {
+            this.props.navigator.pop()
+            return true
+        });
     this._loadInitialState().done();
   }
 

@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, BackAndroid } from 'react-native';
 import { connect } from 'react-redux';
 import { Container, Header, Title, Content, Button, Icon, List, ListItem, InputGroup, Input, Picker, Text, Thumbnail } from 'native-base';
 import ArizTheme from '../../themes/custom-theme'
@@ -21,6 +21,13 @@ class LoginPage extends Component {
 
     navigateTo(route) {
         this.props.navigateTo(route, 'loginPage');
+    }
+
+    componentWillMount() {
+        BackAndroid.addEventListener('hardwareBackPress', () => {
+            this.props.navigator.pop()
+            return true
+        });
     }
 
     constructor(props) {
