@@ -101,7 +101,7 @@ class SearchItem extends Component {
                   <Header>
                       <Title style={{alignSelf: 'center'}}>Search Item</Title>
                       <Button transparent onPress={() => navigator.pop()}>
-                          Back
+                          <Icon name='ios-arrow-back'/>
                       </Button>
                       <Button transparent onPress={() => navigator.push({id : 'listMessage'})}>
                           <Icon name="ios-mail" />
