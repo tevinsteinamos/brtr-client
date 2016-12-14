@@ -106,7 +106,7 @@ class ProfileDetail extends Component {
                     <Button transparent onPress={() => this.props.navigator.push({id: 'searchItem'})}>
                         <Icon name="ios-search" />
                     </Button>
-                    <Button transparent onPress={() => this.props.navigator.push({id: 'editProfile'})}>
+                    <Button transparent onPress={() => this.props.navigator.push({id: 'editProfile', avatar: user.avatar})}>
                         Edit
                     </Button>
                 </Header>
