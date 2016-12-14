@@ -259,11 +259,11 @@ class AddItem extends Component {
             <Container theme={myTheme} style={styles.container}>
 
                 <Header>
-                    {title}
-                    <Button transparent onPress={() => navigator.push({id: 'ListItem'})}>
+                    <Title style={{alignSelf: 'center'}}>BRTR</Title>
+                    <Button transparent onPress={() => this.props.navigator.push({id: 'searchItem'})}>
                         <Icon name="ios-search" />
                     </Button>
-                    <Button transparent onPress={() => navigator.push({id: 'listMessage'})}>
+                    <Button transparent onPress={() => this.props.navigator.push({id: 'listMessage'})}>
                         <Icon name="ios-mail" />
                     </Button>
                 </Header>
@@ -278,7 +278,7 @@ class AddItem extends Component {
                                     onPress={this.uploadImage.bind(this)}>
                                     <Image
                                         style={{resizeMode: 'cover',  alignSelf: 'center', width: 200, height: 200 }}
-                                        source={(this.state.avatarSource) ? {uri: this.state.avatarSource} : require('../../../img/img-placeholder.png')}
+                                        source={(this.state.avatarSource) ? {uri: this.state.avatarSource} : require('../../../img/placeholder.png')}
                                     />
                                 </CardItem>
 
