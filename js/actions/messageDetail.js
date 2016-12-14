@@ -11,6 +11,8 @@ import type { Action } from './types';
 export const LOAD_MESSAGES = 'LOAD_MESSAGES'
 export const LOAD_MESSAGES_SUCCESS = 'LOAD_MESSAGES_SUCCESS'
 export const LOAD_MESSAGES_FAILURE = 'LOAD_MESSAGES_FAILURE'
+export const ADD_MESSAGE_SUCCESS = 'ADD_MESSAGE_SUCCESS'
+export const ADD_MESSAGE_FAILURE = 'ADD_MESSAGE_FAILURE'
 
 import decode from 'jwt-decode'
 
@@ -45,7 +47,6 @@ export function getMessages(token,id) {
                 dispatch(loadMessagesSuccess(responseJson))
             })
             .catch((error) => {
-                console.log("fail category: ", error)
                 Alert.alert(
                     'Load Messages Fail',
                     [
@@ -57,8 +58,17 @@ export function getMessages(token,id) {
     }
 }
 
-export function addMessage(token,message) {
+export function addMessageSuccess(message) {
+    return {type: ADD_MESSAGE_SUCCESS, message: message}
+}
+
+export function addMessageFailure() {
+    return {type: ADD_MESSAGE_FAILURE}
+}
+
+export function addMessage(token,body,itemMessageId) {
     return (dispatch) => {
+        const userDecoded = decode(token)
         fetch(`http://br-tr-dev.ap-southeast-1.elasticbeanstalk.com/api/messages`, {
             method: 'POST',
             headers: {
@@ -67,21 +77,20 @@ export function addMessage(token,message) {
                 'Authorization': 'Bearer ' + token
             },
             body: JSON.stringify({
-                TempMessageId: message.TempMessageId,
-                body: message.body,
-                ItemMessageId: message.ItemMessageId,
-                UserId: message.UserId,
-                status: message.status
+                body: body,
+                UserId: userDecoded.id,
+                ItemMessageId: itemMessageId,
+                status: 'unread'
             })
         })
             .then((response) => response.json())
             .then((responseJson) => {
-                dispatch(addMessageSuccess(responseJson))
+                dispatch(getMessages(token, itemMessageId))
             })
             .catch((error) => {
-                console.log("fail category: ", error)
+                console.log("fail add message detail: ", error)
                 Alert.alert(
-                    'Load Messages Fail',
+                    'Add Message Fail',
                     [
                         {text: 'OK', onPress: () => console.log('OK Pressed')},
                     ]

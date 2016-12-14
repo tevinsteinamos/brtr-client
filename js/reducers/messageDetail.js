@@ -4,6 +4,8 @@ import {
     LOAD_MESSAGES,
     LOAD_MESSAGES_SUCCESS,
     LOAD_MESSAGES_FAILURE,
+    ADD_MESSAGE_SUCCESS,
+    ADD_MESSAGE_FAILURE,
 } from '../actions/messageDetail';
 
 
@@ -19,6 +21,12 @@ export default function (state:State = initialState, action:Action): State {
             return action.messages
 
         case LOAD_MESSAGES_FAILURE:
+            return state
+
+        case ADD_MESSAGE_SUCCESS:
+            return action.message
+
+        case ADD_MESSAGE_FAILURE:
             return state
 
         default:

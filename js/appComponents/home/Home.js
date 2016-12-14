@@ -136,7 +136,7 @@ class Home extends Component {
                                     resizeMode: 'cover',
                                     width: null,
                                     opacity: 0.6
-                                }}
+                                }}//
                                         source={require('../../../img/category/books.jpg')}>
                                         <View style={{paddingLeft: 10}}>
                                             <H2 style={{color: 'white'}}>{(categories[1]) ? categories[1].name : ''}</H2>
