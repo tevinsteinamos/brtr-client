@@ -102,10 +102,8 @@ class RegisterPage extends Component {
             <Container style={styles.container}>
 
               <Content>
-                <TouchableOpacity>
-                  <Image source={barter_logo} style={{ alignSelf: 'center', marginTop: 20, marginBottom: 10 }} />
-                </TouchableOpacity>
-                <List style={{marginTop: 40, marginLeft: 30, marginRight: 60}} theme={ArizTheme}>
+                  <Image source={barter_logo} style={{ alignSelf: 'center', marginTop: 60, marginBottom: 70, width: 65, height: 55 }} />
+                <List style={{ marginLeft: 45, marginRight: 60}} theme={ArizTheme}>
                   <ListItem>
                     <InputGroup >
                       <Input

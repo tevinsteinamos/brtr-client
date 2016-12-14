@@ -41,7 +41,7 @@ class LoginPage extends Component {
         if (!username || !password) {
           Alert.alert(
               'Login Failed',
-              'All fields must not empty',
+              'All field must be filled',
               [
                   {text: 'OK', onPress: () => console.log('OK Pressed')},
               ]
@@ -136,30 +136,28 @@ class LoginPage extends Component {
           return (
               <Container style={styles.container}>
 
-                <Content>
-                  <TouchableOpacity>
-                    <Image source={barter_logo} style={{ alignSelf: 'center', marginTop: 20, marginBottom: 10 }} />
-                  </TouchableOpacity>
-                  <List style={{marginTop: 40, marginLeft: 30, marginRight: 60}} theme={ArizTheme}>
+              <Content>
+                <Image source={barter_logo} style={{ alignSelf: 'center', marginTop: 80, marginBottom: 40 }} />
+                <List style={{ marginLeft: 45, marginRight: 60}} theme={ArizTheme}>
                       {warningError}
                       {inputUsername}
                       {inputPassword}
-                    <Text style={{fontSize:14, marginLeft: 25, color: '#2effd0'}} onPress={()=> navigator.push({id: 'askEmail'})}>Forgot Password ?</Text>
-                  </List>
-                  <Button
-                      onPress={this.onLoginUser.bind(this)}
-                      bordered
-                      style={{ alignSelf: 'center', marginTop: 40, marginBottom: 20 , width: 220, borderRadius: 0, borderColor:'#2effd0', height: 50}}>
-                    <Text style={{color: '#FFFFFF'}}>
-                      SIGN IN
-                    </Text>
-                  </Button>
-                  <Text
-                      style={{textAlign: 'center',color: '#FFFFFF', fontSize: 14}}>
-                    Don't have an account yet?
-                    <Text style={{color: '#2effd0', fontSize: 12}}
-                          onPress={() => navigator.replace({id: 'registerPage'})}>   Sign Up !
-                    </Text>
+                  <Text style={{fontSize:14, marginLeft: 25, color: '#68696C'}} onPress={()=>alert('Got to Forgot password page')}>Forgot Password?</Text>
+                </List>
+                <Button
+                    onPress={this.onLoginUser.bind(this)}
+                    bordered
+                    style={{ alignSelf: 'center', marginTop: 40, marginBottom: 20 , width: 220, borderRadius: 0, borderColor:'#2effd0', height: 50}}>
+                  <Text style={{color: '#FFFFFF'}}>
+                    SIGN IN
+                  </Text>
+                </Button>
+                <Text
+                    style={{textAlign: 'center',color: '#FFFFFF', fontSize: 14}}>
+                  Don't have an account yet?
+                  <Text style={{color: '#2effd0', fontSize: 12}}
+                        onPress={() => this.props.navigator.push({id: 'registerPage'})}>   Sign Up !
+                  </Text>
                   </Text>
                 </Content>
               </Container>
