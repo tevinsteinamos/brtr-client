@@ -15,18 +15,37 @@ import {
     Card,
     CardItem,
     Thumbnail,
-    View
+    View,
+    ListItem,
+    Input,
+    InputGroup,
 } from 'native-base';
 import { Grid, Col } from 'react-native-easy-grid';
 
-import {getItemsByUserId} from '../../actions/items';
-import {getUserById} from '../../actions/getUserById';
-import myTheme from '../../themes/base-theme';
+import {updateProfile} from '../../actions/updateProfile';
+import uploader from '../../helper/uploader'
+var ImagePicker = require('react-native-image-picker');
+
+var options = {
+    title: 'Select Avatar',
+    customButtons: [
+        {name: 'fb', title: 'Choose Photo from Facebook'},
+    ],
+    storageOptions: {
+        skipBackup: true,
+        path: 'images'
+    }
+};
+
 import styles from './styles';
+import ArizTheme from '../../themes/additemtheme'
+const logo = require('../../../img/logo.png');
+const cardImage = require('../../../img/drawer-cover.png');
+const camera = require('../../../img/camera.png');
+import myTheme from '../../themes/base-theme';
 
 import decode from 'jwt-decode'
 
-import DataItems from './DataItems'
 
 
 class ProfileDetail extends Component {
@@ -38,7 +57,10 @@ class ProfileDetail extends Component {
             tab2: false,
             tab3: true,
             dataUser: {},
-            messages: []
+            messages: [],
+            avatarSource: this.props.route.avatar,
+            newPassword: '',
+            token: ''
         };
     }
 
@@ -56,15 +78,15 @@ class ProfileDetail extends Component {
             var value = await AsyncStorage.getItem("myKey");
             console.log("value: ", value)
             if (value !== null){
-                this.props.getItemsByUserId(value)
-                this.props.getUserById(value)
+                this.setState({token: value});
+                this.setState({dataUser: decode(value)});
                 this._appendMessage('Recovered selection from disk: ' + value);
             } else {
                 console.log("else")
                 this._appendMessage('Initialized with no selection on disk.');
             }
         } catch (error) {
-            console.log("catch: ", error)
+            console.log("catch")
             this._appendMessage('AsyncStorage error: ' + error.message);
         }
     }
@@ -83,19 +105,58 @@ class ProfileDetail extends Component {
         }
     }
 
+    uploadImage() {
+        ImagePicker.showImagePicker(options, (response) => {
+            console.log('Response = ', response);
+
+            if (response.didCancel) {
+                console.log('User cancelled image picker');
+            }
+            else if (response.error) {
+                console.log('ImagePicker Error: ', response.error);
+            }
+            else if (response.customButton) {
+                console.log('User tapped custom button: ', response.customButton);
+            }
+            else {
+                const source = {uri: response.uri, isStatic: true};
+
+                uploader(source, (res)=> {
+                    console.log("ini respon awS3: ", res)
+                    this.setState({
+                        avatarSource: res.postResponse.location
+                    });
+                })
+
+            }
+        });
+    }
+
+    saveProfile(e) {
+        e.preventDefault()
+        let newPassword = this.state.newPassword
+        if (newPassword) {
+            newPassword = this.state.newPassword.trim()
+        }
+        let photo = this.state.avatarSource
+
+        console.log("photo state: ", photo)
+        if (!photo) {
+            console.log("kosong")
+            return
+        }
+
+        this.props.updateProfile(newPassword, photo, this.state.token, this.props.navigator)
+        this.setState({
+            newPassword: '',
+            photo: '',
+        })
+    }
+
 
     render() {
-        const {navigator, items, user} = this.props
-        console.log("ini props di profile: ", this.props)
-        console.log("ini item props di profile: ", items)
-        console.log("ini props user di profile: ", user)
-
-
-        let ItemNodes = items.map(function (item) {
-            return(
-                <DataItems navigator={navigator} key={item.id} items={item} />
-            )
-        })
+        const {navigator} = this.props
+        console.log("ini photo state di profile: ", this.state.avatarSource)
 
         return (
             <Container theme={myTheme} style={styles.container}>
@@ -104,31 +165,31 @@ class ProfileDetail extends Component {
                     <Button transparent onPress={() => navigator.pop()}>
                         Back
                     </Button>
-                    <Button transparent onPress={() => navigator.push({id: 'editProfile', UserId: user.id, avatar: user.avatar})}>
-                        Edit
-                    </Button>
+
                 </Header>
 
                 <Content>
                     <Card style={{ flex: 0, backgroundColor: '#2c2c2c', borderWidth: 0 }}>
                         <CardItem
                             style={{borderBottomWidth: 0}}
-                        >
+                            onPress={this.uploadImage.bind(this)}>
                             <Image
                                 style={{resizeMode: 'cover',  alignSelf: 'center', width: 200, height: 200 }}
-                                source={{uri: user.avatar}}
+                                source={(this.state.avatarSource) ? {uri: this.state.avatarSource} : require('../../../img/img-placeholder.png')}
                             />
                         </CardItem>
                     </Card>
-                    <Text
-                        style={{
-                            color: '#fff',
-                            alignSelf: 'center',
-                            fontSize: 20,
-                            fontStyle: 'normal',
-                            marginBottom: 20}}>
-                        {user.username}
-                    </Text>
+
+                    <InputGroup
+                        style={{marginTop:50, marginLeft: 30, marginRight: 30}}
+                        theme={ArizTheme} borderType='underline'>
+                        <Input
+                            onChangeText={(newPassword) => this.setState({newPassword: newPassword})}
+                            value={this.state.newPassword}
+                            style={{color: '#FFFFFF'}}
+                            placeholder="New Password"
+                            secureTextEntry/>
+                    </InputGroup>
 
                     <Button
                         bordered style={{
@@ -140,23 +201,9 @@ class ProfileDetail extends Component {
                           borderColor:'#2effd0',
                           height: 50
                     }}
-                        onPress={this.logoutUser.bind(this)}><Text style={{color: '#FFFFFF'}}>LOGOUT</Text></Button>
-
-                    <Text
-                        style={{
-                            color: '#fff',
-                             alignSelf: 'center',
-                             fontSize: 20,
-                             fontStyle: 'normal',
-                             marginTop: 20,
-                             marginBottom: 20
-                        }}>
-                        Items up for BARTER :
-                    </Text>
-
-                    <Card style={{ flex: 0, borderWidth: 0 }}>
-                        {ItemNodes}
-                    </Card>
+                        onPress={this.saveProfile.bind(this)}>
+                        <Text style={{color: '#FFFFFF'}}>SAVE</Text>
+                    </Button>
 
                 </Content>
 
@@ -176,20 +223,15 @@ class ProfileDetail extends Component {
                 </Footer>
 
             </Container>
-        );
+        )
     }
 }
 
 function bindAction(dispatch) {
     return {
-        getItemsByUserId: (token) => dispatch(getItemsByUserId(token)),
-        getUserById: (token) => dispatch(getUserById(token)),
+        updateProfile: (newPassword, photo, token, navigator) => dispatch(updateProfile(newPassword, photo, token, navigator)),
     };
 }
 
-const mapStateToProps = state => ({
-    items: state.items,
-    user: state.getUserById
-});
 
-export default connect(mapStateToProps, bindAction)(ProfileDetail);
+export default connect(null, bindAction)(ProfileDetail);

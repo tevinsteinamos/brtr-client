@@ -17,6 +17,7 @@ import CodeEmail from './appComponents/codeEmail'
 import ListMessage from './appComponents/listMessage'
 import MessageDetail from './appComponents/messageDetail'
 import CreateMessage from './appComponents/createMessage'
+import EditProfile from './appComponents/editProfile'
 
 
 // import Home from './components/home/';
@@ -192,6 +193,8 @@ class AppNavigator extends Component {
                 return <MessageDetail navigator={navigator} route={route}/>
             case 'createMessage':
                 return <CreateMessage navigator={navigator} route={route}/>
+            case 'editProfile':
+                return <EditProfile navigator={navigator} route={route}/>;
 
             default :
                 return this.noRoute(navigator);

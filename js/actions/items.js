@@ -44,7 +44,7 @@ export function loadItemsFailureByUserId() {
 
 export function getItemsByUserId(token) {
     const UserData = decode(token)
-    console.log('user data: ', UserData)
+    // console.log('user data: ', UserData)
     return (dispatch) => {
         dispatch(loadItemsByUserId())
         fetch(`http://br-tr-dev.ap-southeast-1.elasticbeanstalk.com/api/items/user/${UserData.id}`, {
