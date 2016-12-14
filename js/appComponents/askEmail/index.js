@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { BackAndroid, TouchableOpacity, Image } from 'react-native';
+import { BackAndroid, TouchableOpacity, Image, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { Container, Header, Title, Content, Button, Icon, List, ListItem, InputGroup, Input, Picker, Text, Thumbnail, H1, H2, H3 } from 'native-base';
 import ArizTheme from '../../themes/custom-theme'
@@ -51,6 +51,13 @@ class LoginPage extends Component {
             this.setState({email:''})
           } else {
             this.setState({valid: false})
+            Alert.alert(
+                'Email Verification Failed',
+                "Please insert a correct email address to continue",
+                [
+                    {text: 'OK', onPress: () => this.setState({valid: true})},
+                ]
+            )
             console.log('email wrong format');
             return
           }
@@ -144,7 +151,6 @@ class LoginPage extends Component {
                           <Input style={{color: 'white'}} value={this.state.email}/>
                     </InputGroup>
                   </ListItem>
-                    <H3 style={{color: 'white', alignSelf: 'center', margin: 5}}> Wrong Email Format </H3>
                 </List>
 
                 <Button
@@ -152,7 +158,7 @@ class LoginPage extends Component {
                     bordered
                     style={{ alignSelf: 'center', marginTop: 40, marginBottom: 20 , width: 220, borderRadius: 0, borderColor:'#2effd0', height: 50}}>
                   <Text style={{color: '#FFFFFF'}}>
-                    OK
+                    NEXT
                   </Text>
                 </Button>
 
