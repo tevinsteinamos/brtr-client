@@ -14,6 +14,8 @@ import {
     FooterTab,
     Card,
     CardItem,
+    List,
+    ListItem,
     Thumbnail,
     View,
     Input,
@@ -25,53 +27,24 @@ import { openDrawer } from '../../actions/drawer';
 import myTheme from '../../themes/base-theme';
 import styles from './styles';
 import decode from 'jwt-decode'
+import moment from 'moment'
 
 class SearchResult extends Component {
-  static propTypes = {
-      openDrawer: React.PropTypes.func,
-      navigateTo: React.PropTypes.func,
-      navigation: React.PropTypes.shape({
-          key: React.PropTypes.string,
-      }),
-
-  }
-
-  navigateTo(route, data) {
-      console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ini kirim id: ", data)
-      this.props.navigateTo(route, 'itemDetail', data);
-  }
 
   render() {
       const {items} = this.props
+      console.log('searchit : ', items);
       return (
-          <CardItem onPress={() => this.navigateTo('itemDetail', items.id)}>
-              <Image
-                  style={{
-              resizeMode: 'cover',
-              width: null,
-              opacity: 0.6
-          }}
-                  source={{uri: items.photo}}>
-                  <View style={{paddingLeft: 10}}>
-                    <H1 style={{color: 'black'}}>{items.name}</H1>
-                    <Text style={{color: 'black'}} note>by <Text style={{color: '#2EFFD0'}}>{(items.User) ? items.User.username : ''}</Text></Text>
-                  </View>
-              </Image>
+          <ListItem style={styles.container, styles.noBottomBorder} onPress={() => navigator.push('itemDetail', items.id)}>
+            <Thumbnail square size={90} source={{uri: items.photo}} />
+            <H3 style={styles.text}>{items.name}</H3>
+            <Text note style={styles.text}>By <Text style={styles.name}>{(items.User) ? items.User.username : ''}</Text></Text>
+            <Text style={{color: '#fff'}}>{moment(items.createdAt).fromNow()}</Text>
+          </ListItem>
 
-          </CardItem>
       );
   }
 }
 
-function bindAction(dispatch) {
-    return {
-        openDrawer: () => dispatch(openDrawer()),
-        navigateTo: (route, homeRoute) => dispatch(navigateTo(route, homeRoute)),
-    };
-}
 
-const mapStateToProps = state => ({
-    navigation: state.cardNavigation,
-});
-
-export default connect(mapStateToProps, bindAction)(SearchResult);
+export default SearchResult
