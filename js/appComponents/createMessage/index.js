@@ -102,14 +102,13 @@ class CreateMessage extends Component {
     };
 
 
-    onCreateMessage(e) {
-        console.log("cklick add item")
-        e.preventDefault()
+    onCreateMessage() {
         let title = this.state.title.trim()
         let body = this.state.body.trim()
-        let item = this.props.route.ItemId
+        let item = this.props.items[0].id
         let itemBarter = this.state.itemBarter
         let token = this.state.token
+        console.log('nav view : ', this.props.navigator);
         if (!title || !body || !item || !itemBarter) {
             console.log("kosong")
             return
@@ -146,8 +145,8 @@ class CreateMessage extends Component {
         const {navigator, items} = this.props
         console.log("ini props di create message: ", this.props)
         console.log("ini item di create message: ", items)
-        console.log("ini kiriman item id: ", this.props.route.ItemId)
         console.log("ini item barder: ", this.state.itemBarter)
+        console.log("cklick add item : ", this.props.items)
 
         return (
             <Container theme={myTheme} style={styles.container}>
@@ -244,7 +243,7 @@ function bindAction(dispatch) {
     return {
         updateItem: (id, CategoryId, name, description, photo, material, dimension, color, token) => dispatch(updateItem(id, CategoryId, name, description, photo, material, dimension, color, token)),
         getItemsByUserId: (token) => dispatch(getItemsByUserId(token)),
-        addMessage: (title, body, item, itemBarter, token) => dispatch(addMessage(title, body, item, itemBarter, token)),
+        addMessage: (title, body, item, itemBarter, token, navigator) => dispatch(addMessage(title, body, item, itemBarter, token, navigator)),
     };
 }
 
