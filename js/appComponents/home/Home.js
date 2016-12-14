@@ -8,7 +8,7 @@ import {
     Header,
     Title,
     Content,
-    Text, H3, H2, H1,
+    Text, H3, 
     Button,
     Icon,
     Footer,
@@ -93,13 +93,11 @@ class Home extends Component {
 
     render() {
         const {navigator, categories} = this.props
-        console.log("categori di home: ", categories)
-        // console.log("categori 0: ", categories[0].name)
         return (
             <Container theme={myTheme} style={styles.container}>
 
                 <Header>
-                    <Title style={{alignSelf: 'center'}}>BRTR</Title>
+                    <Title style={{alignSelf: 'center', color: '#6CF9C8'}}>B R T R</Title>
                     <Button transparent onPress={() => this.props.navigator.push({id: 'searchItem'})}>
                         <Icon name="ios-search" />
                     </Button>
@@ -125,8 +123,8 @@ class Home extends Component {
                                     opacity: 0.6
                                 }}
                                         source={require('../../../img/category/automotive.jpg')}>
-                                        <View style={{paddingLeft: 10}}>
-                                            <H2 style={{color: 'white'}}>{(categories[0]) ? categories[0].name : ''}</H2>
+                                        <View style={{paddingLeft: 15, paddingTop: 10}}>
+                                            <Text style={styles.text}>{(categories[0]) ? categories[0].name : ''}</Text>
                                         </View>
                                     </Image>
                                 </CardItem>
@@ -140,10 +138,10 @@ class Home extends Component {
                                     resizeMode: 'cover',
                                     width: null,
                                     opacity: 0.6
-                                }}//
+                                }}
                                         source={require('../../../img/category/books.jpg')}>
-                                        <View style={{paddingLeft: 10}}>
-                                            <H2 style={{color: 'white'}}>{(categories[1]) ? categories[1].name : ''}</H2>
+                                        <View style={{paddingLeft: 15, paddingTop: 10}}>
+                                            <Text style={styles.text}>{(categories[1]) ? categories[1].name : ''}</Text>
                                         </View>
                                     </Image>
                                 </CardItem>
@@ -162,8 +160,8 @@ class Home extends Component {
                                     opacity: 0.6,
                                 }}
                                         source={require('../../../img/category/cloth.jpg')}>
-                                        <View style={{paddingLeft: 10}}>
-                                            <H2 style={{color: 'white'}}>{(categories[2]) ? categories[2].name : ''}</H2>
+                                        <View style={{paddingLeft: 15, paddingTop: 10}}>
+                                            <Text style={styles.text}>{(categories[2]) ? categories[2].name : ''}</Text>
                                         </View>
                                     </Image>
                                 </CardItem>
@@ -182,8 +180,8 @@ class Home extends Component {
                                     opacity: 0.6
                                 }}
                                         source={require('../../../img/category/electronic.jpg')}>
-                                        <View style={{paddingLeft: 10}}>
-                                            <H2 style={{color: 'white'}}>{(categories[3]) ? categories[3].name : ''}</H2>
+                                        <View style={{paddingLeft: 15, paddingTop: 10}}>
+                                            <Text style={styles.text}>{(categories[3]) ? categories[3].name : ''}</Text>
                                         </View>
                                     </Image>
                                 </CardItem>
@@ -199,8 +197,8 @@ class Home extends Component {
                                     opacity: 0.6
                                 }}
                                         source={require('../../../img/category/home-tools.jpg')}>
-                                        <View style={{paddingLeft: 10}}>
-                                            <H2 style={{color: 'white'}}>{(categories[4]) ? categories[4].name : ''}</H2>
+                                        <View style={{paddingLeft: 15, paddingTop: 10}}>
+                                            <Text style={styles.text}>{(categories[4]) ? categories[4].name : ''}</Text>
                                         </View>
                                     </Image>
                                 </CardItem>
@@ -219,8 +217,8 @@ class Home extends Component {
                                     opacity: 0.6
                                 }}
                                         source={require('../../../img/category/sport.jpg')}>
-                                        <View style={{paddingLeft: 10}}>
-                                            <H2 style={{color: 'white'}}>{(categories[6]) ? categories[6].name : ''}</H2>
+                                        <View style={{paddingLeft: 15, paddingTop: 10}}>
+                                            <Text style={styles.text}>{(categories[6]) ? categories[6].name : ''}</Text>
                                         </View>
                                     </Image>
                                 </CardItem>
@@ -239,8 +237,8 @@ class Home extends Component {
                                     opacity: 0.6
                                 }}
                                         source={require('../../../img/category/toys.jpg')}>
-                                        <View style={{paddingLeft: 10}}>
-                                            <H2 style={{color: 'white'}}>{(categories[7]) ? categories[7].name : ''}</H2>
+                                        <View style={{paddingLeft: 15, paddingTop: 10}}>
+                                            <Text style={styles.text}>{(categories[7]) ? categories[7].name : ''}</Text>
                                         </View>
                                     </Image>
                                 </CardItem>
@@ -256,8 +254,8 @@ class Home extends Component {
                                     opacity: 0.6
                                 }}
                                         source={require('../../../img/category/others.jpg')}>
-                                        <View style={{paddingLeft: 10}}>
-                                            <H2 style={{color: 'white'}}>{(categories[5]) ? categories[5].name : ''}</H2>
+                                        <View style={{paddingLeft: 15, paddingTop: 10}}>
+                                            <Text style={styles.text}>{(categories[5]) ? categories[5].name : ''}</Text>
                                         </View>
                                     </Image>
                                 </CardItem>

@@ -7,4 +7,8 @@ module.exports = StyleSheet.create({
     container: {
         backgroundColor: '#2C2C2C'
     },
+    text: {
+    	color: 'white',
+    	fontSize: 20
+    }
 });

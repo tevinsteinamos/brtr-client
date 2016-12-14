@@ -96,7 +96,7 @@ class listMessage extends Component {
     return (
       <Container theme={myTheme} style={styles.container}>
           <Header>
-                    <Title style={{alignSelf: 'center', color: '#6CF9C8'}}>BRTR</Title>
+                    <Title style={{alignSelf: 'center', color: '#6CF9C8'}}>M E S S A G E S</Title>
                     <Button transparent onPress={() => navigator.pop()}>
                         <Icon name="ios-arrow-back" />
                     </Button>
