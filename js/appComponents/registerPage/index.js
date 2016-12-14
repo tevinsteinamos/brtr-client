@@ -55,29 +55,49 @@ class RegisterPage extends Component {
                 ]
             )
             return
+        } else {
+          let validateEmail = (value) => {
+            let regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+            return regex.test(value)
+          }
+            let email = this.state.email.trim()
+              console.log(validateEmail(email));
+              if (validateEmail(email)) {
+                if (password !== confirmPassword) {
+                    Alert.alert(
+                        'Register Fail',
+                        "Password doesn't match",
+                        [
+                            {text: 'OK', onPress: () => console.log('OK Pressed')},
+                        ]
+                    )
+                    return
+                } else {
+                  this.props.registerUser(username, password, email, confirmPassword, this.props.navigator)
+                  this.setState({
+                      username: '',
+                      password: '',
+                      email: '',
+                      confirmPassword: ''
+                  })
+                }
+              } else {
+                this.setState({valid: false})
+                Alert.alert(
+                    'Email Verification Failed',
+                    "Please insert a correct email address to continue",
+                    [
+                        {text: 'OK', onPress: () => this.setState({valid: true})},
+                    ]
+                )
+                console.log('email wrong format');
+                return
+              }
         }
-
-        if (password !== confirmPassword) {
-            Alert.alert(
-                'Register Fail',
-                "Password doesn't match",
-                [
-                    {text: 'OK', onPress: () => console.log('OK Pressed')},
-                ]
-            )
-            return
-        }
-
-        this.props.registerUser(username, password, email, confirmPassword)
-        this.setState({
-            username: '',
-            password: '',
-            email: '',
-            confirmPassword: ''
-        })
     }
 
     render() {
+      const {navigator} = this.props
         return (
             <Container style={styles.container}>
 
@@ -133,7 +153,7 @@ class RegisterPage extends Component {
                       fontSize: 14}}>
                   Already have an account ?
                   <Text style={{color: '#2effd0', fontSize: 12}}
-                        onPress={()=>this.props.navigator.push({id: 'loginPage'})}>   Sign In !</Text></Text>
+                        onPress={()=>navigator.replace({id: 'loginPage'})}>   Sign In !</Text></Text>
               </Content>
             </Container>
         );
@@ -142,7 +162,7 @@ class RegisterPage extends Component {
 
 function bindAction(dispatch) {
     return {
-        registerUser: (username, password, email, confirmPassword) => dispatch(registerUser(username, password, email, confirmPassword)),
+        registerUser: (username, password, email, confirmPassword, navigator) => dispatch(registerUser(username, password, email, confirmPassword, navigator)),
     };
 }
 

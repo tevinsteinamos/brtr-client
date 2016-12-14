@@ -12,6 +12,7 @@ var {
 
 import type { Action } from './types';
 
+export const USER_LOGIN = 'USER_LOGIN';
 export const USER_LOGIN_SUCCESS = 'USER_LOGIN_SUCCESS';
 export const USER_LOGIN_FAILURE = 'USER_LOGIN_FAILURE';
 
@@ -58,16 +59,22 @@ export function registerUser(username, password, email, confirmPassword, navigat
                 console.log("fail", error)
                 Alert.alert(
                     'Register Fail',
-                    'something wrong, please register again',
+                    'Username or Password has been used',
                     [
                         {text: 'OK', onPress: () => console.log('OK Pressed')},
                     ]
                 )
                 dispatch(userRegisterFailure())
+                navigator.replace('loginPage')
             });
     }
 }
-
+export function userLoginNormalize() {
+  console.log('action normalize 58757845685685');
+  return {
+      type: USER_LOGIN
+  };
+}
 
 export function userLoginSuccess(user):Action {
     return {
@@ -78,7 +85,8 @@ export function userLoginSuccess(user):Action {
 
 export function userLoginFailure():Action {
     return {
-        type: USER_LOGIN_FAILURE
+        type: USER_LOGIN_FAILURE,
+        user: false
     };
 }
 
@@ -105,15 +113,12 @@ export function loginUser(username, password, navigator) {
                 }
             })
             .catch((error) => {
-                console.log("fail", error)
-                Alert.alert(
-                    'Login Fail',
-                    `${error.message}`,
-                    [
-                        {text: 'OK', onPress: () => console.log('OK Pressed')},
-                    ]
-                )
-                dispatch(userLoginFailure())
+                console.log(error)
+                if (error == 'SyntaxError: Unexpected token U in JSON at position 0(…)') {
+                  dispatch(userLoginFailure())
+                } else {
+                  dispatch(userLoginFailure())
+                }
             });
     }
 }
