@@ -36,6 +36,8 @@ import {updateItem} from '../../actions/items';
 import {getItemsById} from '../../actions/itemId';
 import DataCategories from './DataCategories'
 
+import uploader from '../../helper/uploader'
+
 import {getCategories} from '../../actions/categories';
 
 
@@ -139,18 +141,23 @@ class AddItem extends Component {
             }
             else {
                 // You can display the image using either data...
-                const source = {uri: 'data:image/jpeg;base64,' + response.data, isStatic: true};
+                // const source = {uri: 'data:image/jpeg;base64,' + response.data, isStatic: true};
 
                 // or a reference to the platform specific asset location
-                if (Platform.OS === 'ios') {
-                    const source = {uri: response.uri.replace('file://', ''), isStatic: true};
-                } else {
-                    const source = {uri: response.uri, isStatic: true};
-                }
+                // if (Platform.OS === 'ios') {
+                //     const source = {uri: response.uri.replace('file://', ''), isStatic: true};
+                // } else {
+                //     const source = {uri: response.uri, isStatic: true};
+                // }
+                const source = {uri: response.uri, isStatic: true};
 
-                this.setState({
-                    avatarSource: source
-                });
+                uploader(source, (res)=> {
+                    console.log("ini respon awS3: ", res)
+                    this.setState({
+                        avatarSource: res.postResponse.location
+                    });
+                })
+
             }
         });
     }
@@ -166,6 +173,8 @@ class AddItem extends Component {
         let photo = this.state.avatarSource
         let category = this.state.category
         let color = this.state.color.trim()
+
+        console.log("photo state: ", photo)
         if (!name || !category || !description || !dimension || !material || !color || !photo) {
             console.log("kosong")
             return
@@ -268,7 +277,7 @@ class AddItem extends Component {
                                     <Image
                                         style={{resizeMode: 'cover',  alignSelf: 'center', width: 200, height: 200 }}
                                         onPress={this.uploadImage.bind(this)}
-                                        source={(this.state.avatarSource) ? this.state.avatarSource : require('../../../img/img-placeholder.png')}
+                                        source={(this.state.avatarSource) ? {uri: this.state.avatarSource} : require('../../../img/img-placeholder.png')}
                                     />
                                 </CardItem>
 

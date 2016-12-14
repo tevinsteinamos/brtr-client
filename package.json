@@ -16,6 +16,7 @@
     "native-base": "0.5.13",
     "react": "15.3.2",
     "react-native": "0.35.0",
+    "react-native-aws3": "0.0.3",
     "react-native-blur": "^1.2.0",
     "react-native-code-push": "1.15.0-beta",
     "react-native-easy-grid": "0.1.6",
