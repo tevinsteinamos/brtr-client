@@ -15,7 +15,9 @@ import {
     Card,
     CardItem,
     Thumbnail,
-    View
+    View,
+    List,
+    ListItem
 } from 'native-base';
 import { Grid, Col } from 'react-native-easy-grid';
 
@@ -154,10 +156,9 @@ class ProfileDetail extends Component {
                         Items up for BARTER :
                     </Text>
 
-                    <Card style={{ flex: 0, borderWidth: 0 }}>
+                      <List>
                         {ItemNodes}
-                    </Card>
-
+                      </List>
                 </Content>
 
                 <Footer>

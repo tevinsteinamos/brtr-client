@@ -5,13 +5,17 @@ const { StyleSheet } = React;
 
 module.exports = StyleSheet.create({
   container: {
-    backgroundColor: '#2c2c2c',
+    backgroundColor: '#1E1E1E',
   },
   text: {
-    alignSelf: 'center',
-    marginBottom: 7,
+    marginBottom: 3,
+    color: '#fff',
   },
-  mb: {
-    marginBottom: 15,
+  name: {
+    color: '#6CF9C8'
   },
+  noBottomBorder: {
+  	borderBottomColor: '#313233',
+  	borderBottomWidth: 1
+  }
 });
