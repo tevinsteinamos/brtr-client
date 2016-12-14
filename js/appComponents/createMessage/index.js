@@ -23,9 +23,10 @@ import {
     Input,
     InputGroup,
     Picker,
-    Item,
     Textarea
 } from 'native-base';
+
+const Item = Picker.Item;
 
 import { addMessage } from '../../actions/createMessageItem';
 import myTheme from '../../themes/base-theme';

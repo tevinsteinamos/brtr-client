@@ -21,9 +21,10 @@ import {
     ListItem,
     Input,
     InputGroup,
-    Picker,
-    Item
+    Picker
 } from 'native-base';
+
+const Item = Picker.Item;
 
 import myTheme from '../../themes/base-theme';
 import styles from './styles';
@@ -71,13 +72,13 @@ class AddItem extends Component {
             messages: [],
             avatarSource: '',
             token: '',
-            name: '' || this.props.itemId.name,
-            description: '' || this.props.itemId.description,
-            dimension: '' || this.props.itemId.dimension,
-            material: '' || this.props.itemId.material,
-            photo: '' || this.props.itemId.photo,
-            color: '' || this.props.itemId.color,
-            category: 'key0' || this.props.itemId.category,
+            name: (this.props.route.ItemId) ? this.props.itemId.name : '',
+            description: (this.props.route.ItemId) ? this.props.itemId.description : '',
+            dimension: (this.props.route.ItemId) ? this.props.itemId.dimension : '',
+            material: (this.props.route.ItemId) ? this.props.itemId.material : '',
+            photo: (this.props.route.ItemId) ? this.props.itemId.photo : '',
+            color: (this.props.route.ItemId) ? this.props.itemId.color : '',
+            category: (this.props.route.ItemId) ? this.props.itemId.CategoryId : 'key0',
             results: {
                 items: []
             }
@@ -107,8 +108,9 @@ class AddItem extends Component {
                 this.setState({token: value});
                 this.setState({dataUser: decode(value)});
                 this.props.getCategories(value)
-                console.log("ini props route: ", this.props.route.ItemId)
+                console.log("ini props route: ", typeof this.props.route.ItemId)
                 if (this.props.route.ItemId) {
+                    console.log("masuk======================")
                     this.props.getItemsById(value, this.props.route.ItemId)
                 }
                 this._appendMessage('Recovered selection from disk: ' + value);
@@ -269,7 +271,7 @@ class AddItem extends Component {
                 <Content>
 
                     <Card style={{ flex: 0, backgroundColor: '#444444', borderWidth: 0 }}>
-                      <Grid>
+                        <Grid>
                             <Col>
                                 <CardItem
                                     style={{borderBottomWidth: 0}}
@@ -281,7 +283,7 @@ class AddItem extends Component {
                                 </CardItem>
 
                             </Col>
-                      </Grid>
+                        </Grid>
 
                         <Grid style={{marginTop: 120}}>
                             <Col>
@@ -384,7 +386,7 @@ class AddItem extends Component {
                             active={this.state.tab1} onPress={() => navigator.replace({id: 'home'})}>
                             Feed
                         </Button>
-                        <Button active={this.state.tab2} >
+                        <Button active={this.state.tab2} onPress={() => navigator.replace({id: 'addItem'})} >
                             Add Item
                         </Button>
                         <Button active={this.state.tab3} onPress={() => navigator.replace({id: 'profileDetail'})} >
