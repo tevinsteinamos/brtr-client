@@ -19,7 +19,6 @@ import {
     View
 } from 'native-base';
 
-import navigateTo from '../../actions/bottomNav';
 import {getCategories} from '../../actions/categories';
 import { openDrawer } from '../../actions/drawer';
 import myTheme from '../../themes/base-theme';
@@ -28,11 +27,6 @@ const star_button = require('../../../img/star_button.png');
 
 
 class Home extends Component {
-
-    static propTypes = {
-        openDrawer: React.PropTypes.func,
-        navigateTo: React.PropTypes.func,
-    }
 
     constructor(props) {
         super(props);
@@ -44,9 +38,6 @@ class Home extends Component {
         };
     }
 
-    navigateTo(route, data) {
-        this.props.navigateTo(route, 'home', data);
-    }
 
     toggleTab1() {
         this.setState({
@@ -97,7 +88,7 @@ class Home extends Component {
     };
 
     render() {
-        const {categories} = this.props
+        const {navigator, categories} = this.props
         console.log("categori di home: ", categories)
         // console.log("categori 0: ", categories[0].name)
         return (
@@ -105,10 +96,10 @@ class Home extends Component {
 
                 <Header>
                     <Title style={{alignSelf: 'center'}}>BRTR</Title>
-                    <Button transparent onPress={() => this.navigateTo('searchItem')}>
+                    <Button transparent onPress={() => this.props.navigator.push({id: 'searchItem'})}>
                         <Icon name="ios-search" />
                     </Button>
-                    <Button transparent onPress={() => this.navigateTo('listMessage')}>
+                    <Button transparent onPress={() => this.props.navigator.push({id: 'listMessage'})}>
                         <Icon name="ios-mail" />
                     </Button>
                 </Header>
@@ -122,7 +113,7 @@ class Home extends Component {
                             <Col>
                                 <CardItem
                                     style={{borderBottomWidth: 0}}
-                                    onPress={() => this.navigateTo('listItemCategory', (categories[0]) ? categories[0].id : '')}>
+                                    onPress={() => this.props.navigator.push({id: 'listItemCategory', CategoryId: (categories[0]) ? categories[0].id : ''})}>
                                     <Image
                                         style={{
                                     resizeMode: 'cover',
@@ -139,7 +130,7 @@ class Home extends Component {
                             <Col>
                                 <CardItem
                                     style={{borderBottomWidth: 0}}
-                                    onPress={() => this.navigateTo('listItemCategory', (categories[1]) ? categories[1].id : '')}>
+                                    onPress={() => this.props.navigator.push({id: 'listItemCategory', CategoryId: (categories[1]) ? categories[1].id : ''})}>
                                     <Image
                                         style={{
                                     resizeMode: 'cover',
@@ -159,7 +150,7 @@ class Home extends Component {
                             <Col>
                                 <CardItem
                                     style={{borderBottomWidth: 0}}
-                                    onPress={() => this.navigateTo('listItemCategory', (categories[2]) ? categories[2].id : '')}>
+                                    onPress={() => this.props.navigator.push({id: 'listItemCategory', CategoryId: (categories[2]) ? categories[2].id : ''})}>
                                     <Image
                                         style={{
                                     resizeMode: 'cover',
@@ -179,7 +170,7 @@ class Home extends Component {
                             <Col>
                                 <CardItem
                                     style={{borderBottomWidth: 0}}
-                                    onPress={() => this.navigateTo('listItemCategory', (categories[3]) ? categories[3].id : '')}>
+                                    onPress={() => this.props.navigator.push({id: 'listItemCategory', CategoryId: (categories[3]) ? categories[3].id : ''})}>
                                     <Image
                                         style={{
                                     resizeMode: 'cover',
@@ -196,7 +187,7 @@ class Home extends Component {
                             <Col>
                                 <CardItem
                                     style={{borderBottomWidth: 0}}
-                                    onPress={() => this.navigateTo('listItemCategory', (categories[4]) ? categories[4].id : '')}>
+                                    onPress={() => this.props.navigator.push({id: 'listItemCategory', CategoryId: (categories[4]) ? categories[4].id : ''})}>
                                     <Image
                                         style={{
                                     resizeMode: 'cover',
@@ -216,7 +207,7 @@ class Home extends Component {
                             <Col>
                                 <CardItem
                                     style={{borderBottomWidth: 0}}
-                                    onPress={() => this.navigateTo('listItemCategory', (categories[6]) ? categories[6].id : '')}>
+                                    onPress={() => this.props.navigator.push({id: 'listItemCategory', CategoryId: (categories[6]) ? categories[6].id : ''})}>
                                     <Image
                                         style={{
                                     resizeMode: 'cover',
@@ -236,7 +227,7 @@ class Home extends Component {
                             <Col>
                                 <CardItem
                                     style={{borderBottomWidth: 0}}
-                                    onPress={() => this.navigateTo('listItemCategory', (categories[7]) ? categories[7].id : '')}>
+                                    onPress={() => this.props.navigator.push({id: 'listItemCategory', CategoryId: (categories[7]) ? categories[7].id : ''})}>
                                     <Image
                                         style={{
                                     resizeMode: 'cover',
@@ -253,7 +244,7 @@ class Home extends Component {
                             <Col>
                                 <CardItem
                                     style={{borderBottomWidth: 0}}
-                                    onPress={() => this.navigateTo('listItemCategory', (categories[5]) ? categories[5].id : '')}>
+                                    onPress={() => this.props.navigator.push({id: 'listItemCategory', CategoryId: (categories[5]) ? categories[5].id : ''})}>
                                     <Image
                                         style={{
                                     resizeMode: 'cover',
@@ -275,13 +266,13 @@ class Home extends Component {
                 <Footer>
                     <FooterTab>
                         <Button
-                            active={this.state.tab1} onPress={() => this.navigateTo('home')}>
+                            active={this.state.tab1} onPress={() => navigator.replace({id: 'home'})}>
                             Feed
                         </Button>
-                        <Button active={this.state.tab2} onPress={() => this.navigateTo('addItem')} >
-                          Add Item
+                        <Button active={this.state.tab2} onPress={() => navigator.replace({id: 'addItem'})} >
+                            Add Item
                         </Button>
-                        <Button active={this.state.tab3} onPress={() => this.navigateTo('profileDetail')} >
+                        <Button active={this.state.tab3} onPress={() => navigator.replace({id: 'profileDetail'})} >
                             Profile
                         </Button>
                     </FooterTab>
@@ -295,7 +286,6 @@ function bindAction(dispatch) {
     return {
         openDrawer: () => dispatch(openDrawer()),
         getCategories: (token) => dispatch(getCategories(token)),
-        navigateTo: (route, homeRoute, data) => dispatch(navigateTo(route, homeRoute, data)),
     };
 }
 

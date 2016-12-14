@@ -5,9 +5,7 @@ import { connect } from 'react-redux';
 import { Container, Header, Title, Content, Button, Icon, List, ListItem, InputGroup, Input, Picker, Text, Thumbnail } from 'native-base';
 import ArizTheme from '../../themes/custom-theme'
 
-import { openDrawer } from '../../actions/drawer';
 import styles from './styles';
-import navigateTo from '../../actions/bottomNav';
 import {loginUser} from '../../actions/auth';
 
 const Item = Picker.Item;
@@ -16,14 +14,6 @@ const barter_logo = require('../../../img/barter_logo.png');
 import decode from 'jwt-decode'
 
 class LoginPage extends Component {
-
-    static propTypes = {
-        navigateTo: React.PropTypes.func,
-    }
-
-    navigateTo(route) {
-        this.props.navigateTo(route, 'loginPage');
-    }
 
     constructor(props) {
         super(props);
@@ -55,7 +45,7 @@ class LoginPage extends Component {
         } else {
           console.log(username);
           console.log(password);
-          this.props.loginUser(username, password)
+          this.props.loginUser(username, password, this.props.navigator)
           this.setState({
               username: '',
               password: ''
@@ -67,29 +57,7 @@ class LoginPage extends Component {
     componentDidMount() {
         this._loadInitialState().done();
     }
-    _loadInitialState = async () => {
-        try {
-            var value = await AsyncStorage.getItem("myKey");
-            console.log("value: ", value)
-            if (value !== null){
-                // this.navigateTo('home')
-            } else {
-                console.log("else")
-                this._appendMessage('Initialized with no selection on disk.');
-            }
-        } catch (error) {
-            console.log("catch")
-            this._appendMessage('AsyncStorage error: ' + error.message);
-        }
-    }
 
-    _appendMessage = (message) => {
-        this.setState({messages: this.state.messages.concat(message)});
-    };
-
-    componentDidMount() {
-        this._loadInitialState().done();
-    }
 
     _loadInitialState = async () => {
         try {
@@ -97,6 +65,7 @@ class LoginPage extends Component {
             console.log("value: ", value)
             if (value !== null){
                 this.navigateTo('home')
+                this.props.navigator.replace({id: 'home'});
             } else {
                 console.log("else")
                 this._appendMessage('Initialized with no selection on disk.');
@@ -112,6 +81,7 @@ class LoginPage extends Component {
     };
 
     render() {
+        const {navigator} =  this.props
         return (
             <Container style={styles.container}>
 
@@ -148,7 +118,7 @@ class LoginPage extends Component {
                     style={{textAlign: 'center',color: '#FFFFFF', fontSize: 14}}>
                   Don't have an account yet?
                   <Text style={{color: '#2effd0', fontSize: 12}}
-                        onPress={() => this.navigateTo('registerPage')}>   Sign Up !
+                        onPress={() => this.props.navigator.push({id: 'registerPage'})}>   Sign Up !
                   </Text>
                 </Text>
               </Content>
@@ -159,13 +129,9 @@ class LoginPage extends Component {
 
 function bindAction(dispatch) {
     return {
-        navigateTo: (route, homeRoute) => dispatch(navigateTo(route, homeRoute)),
-        loginUser: (username, password) => dispatch(loginUser(username, password)),
+        loginUser: (username, password, navigator) => dispatch(loginUser(username, password, navigator)),
     };
 }
 
-const mapStateToProps = state => ({
-    navigation: state.cardNavigation,
-});
 
-export default connect(mapStateToProps, bindAction)(LoginPage);
+export default connect(null, bindAction)(LoginPage);

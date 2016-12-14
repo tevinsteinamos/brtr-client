@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 import { Image, AsyncStorage } from 'react-native';
 import { connect } from 'react-redux';
-import { actions } from 'react-native-navigation-redux-helpers';
 import {
     Container,
     Header,
@@ -19,32 +18,19 @@ import {
     View
 } from 'native-base';
 import { Grid, Col } from 'react-native-easy-grid';
-import navigateTo from '../../actions/bottomNav';
 import styles from './styles';
 
 import decode from 'jwt-decode'
 
 class DataItemCategory extends Component {
 
-    static propTypes = {
-        openDrawer: React.PropTypes.func,
-        navigateTo: React.PropTypes.func,
-        navigation: React.PropTypes.shape({
-            key: React.PropTypes.string,
-        }),
-
-    }
-
-    navigateTo(route, data) {
-        this.props.navigateTo(route, 'listItemCategory', data);
-    }
-
     render() {
-        const {items} = this.props
+        const {navigator, items} = this.props
         return (
             <CardItem
                 style={{borderBottomWidth: 0}}
-                onPress={() => this.navigateTo('itemDetail', items.id)}>
+                onPress={() => navigator.push({id: 'itemDetail', ItemId: items.id})}
+            >
                 <Image
                     style={{
                                     resizeMode: 'cover',
@@ -62,14 +48,4 @@ class DataItemCategory extends Component {
     }
 }
 
-function bindAction(dispatch) {
-    return {
-        navigateTo: (route, homeRoute, data) => dispatch(navigateTo(route, homeRoute, data)),
-    };
-}
-
-const mapStateToProps = state => ({
-    navigation: state.cardNavigation,
-});
-
-export default connect(mapStateToProps, bindAction)(DataItemCategory);
+export default DataItemCategory

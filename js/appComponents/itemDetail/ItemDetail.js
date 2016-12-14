@@ -1,9 +1,8 @@
 
 import React, { Component } from 'react';
-import { Image, AsyncStorage, Alert } from 'react-native';
+import { BackAndroid, Image, AsyncStorage, Alert } from 'react-native';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import { connect } from 'react-redux';
-import { actions } from 'react-native-navigation-redux-helpers';
 import {
     Container,
     Header,
@@ -20,8 +19,6 @@ import {
     View
 } from 'native-base';
 
-import navigateTo from '../../actions/bottomNav';
-import { openDrawer } from '../../actions/drawer';
 import myTheme from '../../themes/base-theme';
 import styles from './styles';
 
@@ -30,24 +27,7 @@ import decode from 'jwt-decode'
 import {getItemsById} from '../../actions/itemId';
 import {deleteItem} from '../../actions/items';
 
-const {
-    replaceAt,
-} = actions;
-
 class ItemDetail extends Component {
-
-    static propTypes = {
-        openDrawer: React.PropTypes.func,
-        navigateTo: React.PropTypes.func,
-        replaceAt: React.PropTypes.func,
-        navigation: React.PropTypes.shape({
-            key: React.PropTypes.string,
-        }),
-    }
-
-    replaceAt(route) {
-        this.props.replaceAt('ItemDetail', { key: route }, this.props.navigation.key);
-    }
 
     constructor(props) {
         super(props);
@@ -59,10 +39,6 @@ class ItemDetail extends Component {
             dataUser: {},
             messages: []
         };
-    }
-
-    navigateTo(route, data) {
-        this.props.navigateTo(route, 'ItemDetail', data);
     }
 
     toggleTab1() {
@@ -90,6 +66,10 @@ class ItemDetail extends Component {
     }
 
     componentDidMount() {
+        BackAndroid.addEventListener('hardwareBackPress', () => {
+            this.props.navigator.pop()
+            return true
+        });
         this._loadInitialState().done();
     }
 
@@ -98,11 +78,9 @@ class ItemDetail extends Component {
             var value = await AsyncStorage.getItem("myKey");
             console.log("value token di item detail: ", value)
             if (value !== null){
-                let ItemId = this.props.navigation.routes[this.props.navigation.routes.length - 1].data
-                console.log("dapet item id: ", ItemId)
                 this.setState({token: value});
                 this.setState({dataUser: decode(value)});
-                this.props.getItemsById(value, ItemId)
+                this.props.getItemsById(value, this.props.route.ItemId)
 
                 this._appendMessage('Recovered selection from disk: ' + value);
             } else {
@@ -137,7 +115,7 @@ class ItemDetail extends Component {
 
 
     render() {
-        const {itemId} = this.props
+        const {navigator, route, itemId} = this.props
         console.log('>>>> item detail props: ', this.props)
         console.log('>>>> item detail: ', itemId)
         console.log('>>>> item detail User: ', itemId.User)
@@ -151,14 +129,14 @@ class ItemDetail extends Component {
                     onPress={this.onDeleteItem.bind(this)}
                     block danger> Delete </Button>
 
-                editButton = <Button transparent onPress={() => this.navigateTo('addItem', itemId.id)}>
+                editButton = <Button transparent onPress={() => navigator.push({id: 'addItem', ItemId: itemId.id})}>
 
                     Edit
                 </Button>
             }
             else {
                 actionButton = <Button
-                    onPress={() => this.navigateTo('createMessage', itemId.id)}
+                    onPress={() => navigator.push({id: 'createMessage', ItemId: itemId.id})}
                     block success> Barter </Button>
                 editButton = ''
             }
@@ -169,7 +147,7 @@ class ItemDetail extends Component {
 
                 <Header>
                     <Title style={{alignSelf: 'center'}}>Item Detail</Title>
-                    <Button transparent onPress={() => this.navigateTo('ListItem')}>
+                    <Button transparent onPress={() => navigator.push({id: 'searchItem'})}>
                         <Icon name="ios-search" />
                     </Button>
                     {editButton}
@@ -227,13 +205,13 @@ class ItemDetail extends Component {
                 <Footer>
                     <FooterTab>
                         <Button
-                            active={this.state.tab1} onPress={() => this.navigateTo('home')}>
+                            active={this.state.tab1} onPress={() => navigator.replace({id: 'home'})}>
                             Feed
                         </Button>
-                        <Button active={this.state.tab2} onPress={() => this.navigateTo('addItem')} >
+                        <Button active={this.state.tab2} onPress={() => navigator.replace({id: 'addItem'})} >
                             Add Item
                         </Button>
-                        <Button active={this.state.tab3} onPress={() => this.navigateTo('profileDetail')} >
+                        <Button active={this.state.tab3} onPress={() => navigator.replace({id: 'profileDetail'})} >
                             Profile
                         </Button>
                     </FooterTab>
@@ -245,15 +223,12 @@ class ItemDetail extends Component {
 
 function bindAction(dispatch) {
     return {
-        navigateTo: (route, homeRoute, data) => dispatch(navigateTo(route, homeRoute, data)),
         getItemsById: (token, ItemId) => dispatch(getItemsById(token, ItemId)),
         deleteItem: (id, token) => dispatch(deleteItem(id, token)),
     };
 }
 
 const mapStateToProps = state => ({
-    navigation: state.cardNavigation,
-    // item: state.items
     itemId: state.itemId
 });
 
