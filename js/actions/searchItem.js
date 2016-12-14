@@ -12,7 +12,6 @@ var {
 import decode from 'jwt-decode'
 
 import type { Action } from './types';
-import navigateTo from './bottomNav';
 
 export const SEARCH_ITEM = 'SEARCH_ITEM';
 export const SEARCH_ITEM_SUCCESS = 'SEARCH_ITEM_SUCCESS';

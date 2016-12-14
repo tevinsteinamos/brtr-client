@@ -12,7 +12,6 @@ var {
 import decode from 'jwt-decode'
 
 import type { Action } from './types';
-import navigateTo from './bottomNav';
 
 export const LIST_MESSAGE = 'LIST_MESSAGE';
 export const LIST_MESSAGE_SUCCESS = 'LIST_MESSAGE_SUCCESS';

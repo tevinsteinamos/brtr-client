@@ -6,7 +6,6 @@ var {
     AsyncStorage
 } = ReactNative;
 
-import navigateTo from './bottomNav';
 
 import type { Action } from './types';
 

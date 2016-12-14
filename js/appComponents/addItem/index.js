@@ -167,7 +167,7 @@ class AddItem extends Component {
             return
         }
 
-        this.props.addItem(category, name, description, photo, material, dimension, color, this.state.token)
+        this.props.addItem(category, name, description, photo, material, dimension, color, this.state.token, this.props.navigator)
         this.setState({
             name: '',
             description: '',
@@ -193,7 +193,7 @@ class AddItem extends Component {
             return
         }
 
-        this.props.updateItem(ItemIdFrom, category, name, description, photo, material, dimension, color, this.state.token)
+        this.props.updateItem(ItemIdFrom, category, name, description, photo, material, dimension, color, this.state.token, this.props.navigator)
         this.setState({
             name: '',
             description: '',

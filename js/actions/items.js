@@ -6,8 +6,6 @@ var {
     AsyncStorage
 } = ReactNative;
 
-import navigateTo from './bottomNav';
-
 import type { Action } from './types';
 
 export const LOAD_ITEMS_BY_USER = 'LOAD_ITEMS_BY_USER'
@@ -89,7 +87,7 @@ export function createItemSuccess(item) {
     return {type: CREATE_ITEM_SUCCESS, item}
 }
 
-export function addItem(CategoryId, name, description, photo, material, dimension, color, token) {
+export function addItem(CategoryId, name, description, photo, material, dimension, color, token, navigator) {
     const userDecoded = decode(token)
     return (dispatch) => {
         fetch(`http://br-tr-dev.ap-southeast-1.elasticbeanstalk.com/api/items`, {
@@ -115,7 +113,7 @@ export function addItem(CategoryId, name, description, photo, material, dimensio
             .then((responseJson) => {
                 console.log('respon create: ', responseJson)
                 dispatch(createItemSuccess(responseJson))
-                dispatch(navigateTo('itemDetail', 'addItem', responseJson.data.id))
+                navigator.replace({id: 'itemDetail', ItemId: responseJson.data.id})
             })
             .catch((error) => {
                 console.log("fail", error)
@@ -161,7 +159,7 @@ export function deleteItem(id, token){
             .then((responseJson) => {
                 console.log("ini respon item: ", responseJson)
                 dispatch(deleteItemSuccess(responseJson))
-                dispatch(navigateTo('profileDetail', 'itemDetail'))
+                navigator.replace({id: 'profileDetail'})
             })
             .catch((error) => {
                 console.log("fail byUser: ", error)
@@ -223,7 +221,7 @@ export function updateItem(id, CategoryId, name, description, photo, material, d
             .then((responseJson) => {
                 console.log('respon create: ', responseJson)
                 dispatch(updateItemSuccess(responseJson))
-                dispatch(navigateTo('itemDetail', 'addItem', responseJson.data.id))
+                navigator.replace({id: 'itemDetail', ItemId: responseJson.data.id})
             })
             .catch((error) => {
                 console.log("fail", error)
