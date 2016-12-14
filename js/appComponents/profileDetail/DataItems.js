@@ -15,26 +15,27 @@ import {
     Card,
     CardItem,
     Thumbnail,
-    View
+    View,
+    List,
+    ListItem
 } from 'native-base';
 import { Grid, Col } from 'react-native-easy-grid';
 
+import styles from './styles.js'
 import decode from 'jwt-decode'
-
+import moment from 'moment'
 class ProfileDetail extends Component {
 
     render() {
         const {navigator, items} = this.props
         return (
-            <CardItem onPress={() => navigator.push({id: 'itemDetail', ItemId: items.id})}>
-                <Image
-                    style={{
-                        resizeMode: 'cover',
-                        width: null
-                    }}
-                    source={{uri: items.photo}}>
-                </Image>
-            </CardItem>
+            <ListItem style={styles.container, styles.noBottomBorder} onPress={() => navigator.push({id: 'itemDetail', ItemId: items.id})}>
+              <Thumbnail square size={90} source={{uri: items.photo}} />
+              <H3 style={styles.text}>{items.name}</H3>
+              <Text note style={styles.text}>By <Text style={styles.name}>{(items.User) ? items.User.username : ''}</Text></Text>
+              <Text style={{color: '#fff'}}>{moment(items.createdAt).fromNow()}</Text>
+            </ListItem>
+
         );
     }
 }
