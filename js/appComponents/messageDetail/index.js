@@ -21,7 +21,7 @@ import {
 } from 'native-base';
 
 import styles from './styles';
-
+import moment from 'moment';
 import myTheme from '../../themes/base-theme';
 import {getMessages, addMessage} from '../../actions/messageDetail';
 
@@ -87,7 +87,7 @@ class messageDetail extends Component {
           <ListItem key={messages[index].id} style={styles.noBottomBorder}>
             <Thumbnail source={{uri: messages[index].User.avatar}} />
             <Text style={styles.text}>{messages[index].body}</Text>
-            <Text note>At: {messages[index].createdAt}</Text>
+            <Text note>{moment(messages[index].createdAt).fromNow()}</Text>
           </ListItem>
           )
       }else{
