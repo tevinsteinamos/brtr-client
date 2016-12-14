@@ -47,8 +47,8 @@ class ProfileDetail extends Component {
 
     componentDidMount() {
         BackAndroid.addEventListener('hardwareBackPress', () => {
-            this.props.navigator.pop()
-            return true
+            // this.props.navigator.pop()
+            return false
         });
         this._loadInitialState().done();
     }
@@ -106,8 +106,8 @@ class ProfileDetail extends Component {
                     <Button transparent onPress={() => this.props.navigator.push({id: 'searchItem'})}>
                         <Icon name="ios-search" />
                     </Button>
-                    <Button transparent onPress={() => this.props.navigator.push({id: 'listMessage'})}>
-                        <Icon name="ios-mail" />
+                    <Button transparent onPress={() => this.props.navigator.push({id: 'editProfile'})}>
+                        Edit
                     </Button>
                 </Header>
 
@@ -118,7 +118,7 @@ class ProfileDetail extends Component {
                         >
                             <Image
                                 style={{resizeMode: 'cover',  alignSelf: 'center', width: 200, height: 200 }}
-                                source={{uri: user.avatar}}
+                                source={(user.avatar) ? {uri: user.avatar} : require('../../../img/img-placeholder.png')}
                             />
                         </CardItem>
                     </Card>
