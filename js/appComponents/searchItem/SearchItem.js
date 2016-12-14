@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { Image, AsyncStorage } from 'react-native';
+import { Image, AsyncStorage, BackAndroid } from 'react-native';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import { connect } from 'react-redux';
 import {
@@ -15,14 +15,14 @@ import {
     FooterTab,
     Card,
     CardItem,
+    List,
+    ListItem,
     Thumbnail,
     View,
     Input,
     InputGroup
 } from 'native-base';
 
-import navigateTo from '../../actions/sideBarNav';
-import { openDrawer } from '../../actions/drawer';
 import myTheme from '../../themes/base-theme';
 import styles from './styles';
 import decode from 'jwt-decode'
@@ -32,11 +32,6 @@ import SearchResult from './searchResult'
 import {searchProcess} from '../../actions/searchItem'
 
 class SearchItem extends Component {
-
-    static propTypes = {
-        openDrawer: React.PropTypes.func,
-        navigateTo: React.PropTypes.func,
-    }
 
     constructor(props) {
         super(props);
@@ -60,10 +55,6 @@ class SearchItem extends Component {
       } catch (error) {
           console.log("catch error: ", error)
       }
-    }
-
-    navigateTo(route) {
-        this.props.navigateTo(route, 'SearchItem');
     }
 
     toggleTab1() {
@@ -90,8 +81,15 @@ class SearchItem extends Component {
         });
     }
 
+    componentDidMount() {
+      BackAndroid.addEventListener('hardwareBackPress', () => {
+        this.props.navigator.pop()
+        return true
+      })
+    }
+
     render() {
-      const {item} = this.props
+      const {item, navigator} = this.props
         let ItemNodes = item.map((data)=> {
           return(
               <SearchResult key={data.id} items={data} />
@@ -102,34 +100,34 @@ class SearchItem extends Component {
 
                   <Header>
                       <Title style={{alignSelf: 'center'}}>Search Item</Title>
-                      <Button transparent onPress={() => this.navigateTo('SearchItem')}>
+                      <Button transparent onPress={() => navigator.pop()}>
                           Back
                       </Button>
-                      <Button transparent onPress={() => this.navigateTo('listAvatar')}>
+                      <Button transparent onPress={() => navigator.push({id : 'listMessage'})}>
                           <Icon name="ios-mail" />
                       </Button>
                   </Header>
 
                   <Content>
-                      <InputGroup borderType='regular' >
-                          <Icon name='ios-search' style={{color:'#384850'}}/>
-                          <Input style={{color: '#fff'}} placeholder='Type your text here' onChangeText={(event) => this.searchProcessInput(event)}/>
+                      <InputGroup style={styles.noBottomBorder} iconRight>
+                          <Icon name='ios-search' style={{color: '#6CF9C8'}} />
+                          <Input returnKeyType='send' placeholder='Type here to search item...' style={styles.text} onChangeText={(event) => this.searchProcessInput(event)}></Input>
                       </InputGroup>
-                      <Card>
+
+                      <List>
                         {ItemNodes}
-                      </Card>
+                      </List>
                   </Content>
 
                   <Footer>
                       <FooterTab>
-                          <Button
-                              onPress={() => this.navigateTo('Home')} >
+                          <Button active={this.state.tab1} onPress={() => navigator.replace('home')} >
                               Feed
                           </Button>
-                          <Button active={this.state.tab2} onPress={() => this.toggleTab2()} >
+                          <Button active={this.state.tab2} onPress={() => navigator.replace('addItem')} >
                               Add Item
                           </Button>
-                          <Button active={this.state.tab3} onPress={() => this.toggleTab3()} >
+                          <Button active={this.state.tab3} onPress={() => navigator.replace('profileDetail')} >
                               Profile
                           </Button>
                       </FooterTab>
@@ -141,14 +139,11 @@ class SearchItem extends Component {
 
 function bindAction(dispatch) {
     return {
-        openDrawer: () => dispatch(openDrawer()),
-        navigateTo: (route, homeRoute) => dispatch(navigateTo(route, homeRoute)),
         searchProcess: (token, text) => dispatch(searchProcess(token, text))
     };
 }
 
 const mapStateToProps = state => ({
-    navigation: state.cardNavigation,
     item: state.searchItem
 });
 
