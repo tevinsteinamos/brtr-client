@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { Image, AsyncStorage } from 'react-native';
+import { Image, AsyncStorage, Platform } from 'react-native';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import { connect } from 'react-redux';
 import {
@@ -43,6 +43,20 @@ import decode from 'jwt-decode'
 
 let ItemIdFrom = 0
 
+var ImagePicker = require('react-native-image-picker');
+
+// More info on all the options is below in the README...just some common use cases shown here
+var options = {
+    title: 'Select Avatar',
+    customButtons: [
+        {name: 'fb', title: 'Choose Photo from Facebook'},
+    ],
+    storageOptions: {
+        skipBackup: true,
+        path: 'images'
+    }
+};
+
 class AddItem extends Component {
 
     constructor(props) {
@@ -53,6 +67,7 @@ class AddItem extends Component {
             tab3: false,
             dataUser: {},
             messages: [],
+            avatarSource: '',
             token: '',
             name: '' || this.props.itemId.name,
             description: '' || this.props.itemId.description,
@@ -105,6 +120,37 @@ class AddItem extends Component {
         this.setState({messages: this.state.messages.concat(message)});
     };
 
+    uploadImage() {
+        ImagePicker.showImagePicker(options, (response) => {
+            console.log('Response = ', response);
+
+            if (response.didCancel) {
+                console.log('User cancelled image picker');
+            }
+            else if (response.error) {
+                console.log('ImagePicker Error: ', response.error);
+            }
+            else if (response.customButton) {
+                console.log('User tapped custom button: ', response.customButton);
+            }
+            else {
+                // You can display the image using either data...
+                const source = {uri: 'data:image/jpeg;base64,' + response.data, isStatic: true};
+
+                // or a reference to the platform specific asset location
+                if (Platform.OS === 'ios') {
+                    const source = {uri: response.uri.replace('file://', ''), isStatic: true};
+                } else {
+                    const source = {uri: response.uri, isStatic: true};
+                }
+
+                this.setState({
+                    avatarSource: source
+                });
+            }
+        });
+    }
+
 
     onAddItem(e) {
         console.log("cklick add item")
@@ -113,11 +159,10 @@ class AddItem extends Component {
         let description = this.state.description.trim()
         let dimension = this.state.dimension.trim()
         let material = this.state.material.trim()
-        // let photo = this.state.photo.trim()
-        let photo = ''
+        let photo = this.state.avatarSource
         let category = this.state.category
         let color = this.state.color.trim()
-        if (!name || !category || !description || !dimension || !material || !color) {
+        if (!name || !category || !description || !dimension || !material || !color || !photo) {
             console.log("kosong")
             return
         }
@@ -140,11 +185,10 @@ class AddItem extends Component {
         let description = this.state.description.trim()
         let dimension = this.state.dimension.trim()
         let material = this.state.material.trim()
-        // let photo = this.state.photo.trim()
+        let photo = this.state.avatarSource
         let category = this.state.category
-        let photo = ''
         let color = this.state.color.trim()
-        if (!name || !category || !description || !dimension || !material || !color) {
+        if (!name || !category || !description || !dimension || !material || !color || !photo) {
             console.log("kosong")
             return
         }
@@ -158,6 +202,7 @@ class AddItem extends Component {
             photo: '',
             size: '',
             color: '',
+            avatarSource: ''
         })
     }
 
@@ -165,6 +210,7 @@ class AddItem extends Component {
         const {navigator, route, itemId, categories} = this.props
         console.log("ini props di add item: ", this.props)
         console.log("ini item di add item: ", itemId)
+        console.log("ini image di add item: ", this.state.avatarSource)
 
         let title
         let actionButton
@@ -212,13 +258,20 @@ class AddItem extends Component {
                     <Card style={{ flex: 0, backgroundColor: '#444444', borderWidth: 0 }}>
                       <Grid>
                             <Col>
-                              <Icon barterColor name="ios-add-circle-outline" onPress={()=> alert('upload an image')}
-                                     style={{ fontSize: 150, alignSelf: 'center', color:'#2effd0' }}
-                                     />
+                                <CardItem
+                                    style={{borderBottomWidth: 0}}
+                                    onPress={this.uploadImage.bind(this)}>
+                                    <Image
+                                        style={{resizeMode: 'cover',  alignSelf: 'center', width: 200, height: 200 }}
+                                        onPress={this.uploadImage.bind(this)}
+                                        source={(this.state.avatarSource) ? this.state.avatarSource : require('../../../img/img-placeholder.png')}
+                                    />
+                                </CardItem>
+
                             </Col>
                       </Grid>
 
-                        <Grid style={{marginTop: 90}}>
+                        <Grid style={{marginTop: 120}}>
                             <Col>
                                 <InputGroup
                                     style={{marginLeft: 30, marginRight: 30}}

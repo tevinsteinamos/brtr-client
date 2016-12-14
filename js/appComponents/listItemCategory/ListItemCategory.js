@@ -65,6 +65,10 @@ class ListItemCategory extends Component {
     }
 
     componentWillMount() {
+        BackAndroid.addEventListener('hardwareBackPress', () => {
+            this.props.navigator.pop()
+            return true
+        });
         this._loadInitialState().done();
     }
 

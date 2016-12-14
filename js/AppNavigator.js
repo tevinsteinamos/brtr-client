@@ -68,20 +68,14 @@ class AppNavigator extends Component {
         }
     }
 
-    // componentDidMount() {
-    //     BackAndroid.addEventListener('hardwareBackPress', () => {
-    //         const routes = this.props.navigation.routes;
-    //
-    //         if (routes[routes.length - 1].key === 'home') {
-    //             return false;
-    //         }
-    //
-    //         this.props.popRoute(this.props.navigation.key);
-    //         return true;
-    //     });
-    //
-    //     this._loadInitialState().done();
-    // }
+    componentDidMount() {
+        // BackAndroid.addEventListener('hardwareBackPress', () => {
+        //     this.props.navigator.pop()
+        //     return true
+        // });
+
+        this._loadInitialState().done();
+    }
 
     _loadInitialState = async () => {
         try {
