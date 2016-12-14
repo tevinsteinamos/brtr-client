@@ -124,21 +124,25 @@ class CreateMessage extends Component {
 
 
     selectItem() {
-    console.log('selectItem / picker : ', this.state.itemBarter);
-    return (
-        <Picker
-            style={{marginLeft: 30, marginRight: 30, color: 'white'}}
-            iosHeader="Select one"
-            mode="dropdown"
-            selectedValue={this.state.itemBarter}
-            onValueChange={this.onValueChange.bind(this)} >
-            {
-                this.props.items.map(function (item) {
-                 return (<Item key={item.id} label={item.name} value={item.id} />)
-              })
-            }
-        </Picker>
-    )
+        console.log('selectItem / picker : ', this.state.itemBarter);
+        if (this.props.items.length !== 0) {
+            if (this.props.items[0].id !== 'key0')
+                this.props.items.unshift({id:'key0', name:'Tap to Select Item'})
+        }
+        return (
+            <Picker
+                style={{marginLeft: 30, marginRight: 30, color: 'white'}}
+                iosHeader="Select one"
+                mode="dropdown"
+                selectedValue={this.state.itemBarter}
+                onValueChange={this.onValueChange.bind(this)} >
+                {
+                    this.props.items.map(function (item) {
+                        return (<Item key={item.id} label={item.name} value={item.id} />)
+                    })
+                }
+            </Picker>
+        )
 }
 
 
@@ -164,7 +168,7 @@ class CreateMessage extends Component {
 
                 <Content>
                       <List>
-                        <Grid>
+                        <Grid style={{marginTop: 20}}>
                             <Col>
                                 <InputGroup
                                     style={{marginLeft: 30, marginRight: 30}}
@@ -179,7 +183,7 @@ class CreateMessage extends Component {
                             </Col>
                         </Grid>
 
-                        <Grid>
+                        <Grid  style={{marginTop: 20}}>
                             <Col>
                                 <List>
                                     <ListItem
@@ -189,20 +193,18 @@ class CreateMessage extends Component {
                                         <Textarea
                                             onChangeText={(body) => this.setState({body: body})}
                                             value={this.state.body}
-                                            style={{height: 100, color: '#FFFFFF'}}
+                                            style={{paddingTop: 5, paddingBottom:5, color: '#FFFFFF'}}
                                             placeholder="Message"/>
                                     </ListItem>
                                 </List>
                             </Col>
                         </Grid>
 
-                        <Grid style={{marginTop: 60}}>
-                              <Col style={{marginTop: 15}}>
-                                <Text style={{color: 'white', alignSelf: 'center'}}>Select Item to Barter : </Text>
-                              </Col>
+                        <Grid style={{marginTop: 40}}>
                               <Col>
                                   {this.selectItem()}
                               </Col>
+
                         </Grid>
 
 
