@@ -397,6 +397,7 @@ function bindAction(dispatch) {
 const mapStateToProps = state => ({
     itemId: state.itemId,
     categories: state.categories
+
 });
 
 export default connect(mapStateToProps, bindAction)(AddItem);
