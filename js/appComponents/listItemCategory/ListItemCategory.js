@@ -15,6 +15,8 @@ import {
     FooterTab,
     Card,
     CardItem,
+    List,
+    ListItem,
     Thumbnail,
     View
 } from 'native-base';
@@ -115,10 +117,9 @@ class ListItemCategory extends Component {
                 </Header>
 
                 <Content>
-
-                    <Card style={{ flex: 0, backgroundColor: 'black', borderWidth: 0 }}>
-                        {ItemCategoryNodes}
-                    </Card>
+                  <List>
+                    {ItemCategoryNodes}
+                  </List>
                 </Content>
 
                 <Footer>
