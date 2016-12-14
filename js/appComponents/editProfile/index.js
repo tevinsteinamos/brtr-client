@@ -161,9 +161,12 @@ class ProfileDetail extends Component {
         return (
             <Container theme={myTheme} style={styles.container}>
                 <Header>
-                    <Title style={{alignSelf: 'center'}}>BRTR</Title>
                     <Button transparent onPress={() => navigator.pop()}>
-                        Back
+                        <Icon name="ios-arrow-back" />
+                    </Button>
+                    <Title style={{alignSelf: 'center'}}>BRTR</Title>
+                    <Button transparent>
+                        <Text style={{color: 'black'}}>Back</Text>
                     </Button>
 
                 </Header>
