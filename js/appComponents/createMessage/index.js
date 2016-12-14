@@ -63,6 +63,7 @@ class CreateMessage extends Component {
     }
 
     onValueChange (value) {
+      console.log('onValueChange : ', value);
         this.setState({
             itemBarter : value
         });
@@ -70,6 +71,7 @@ class CreateMessage extends Component {
 
 
     componentDidMount() {
+      console.log('proprrrr : ', this.props);
         this._loadInitialState().done();
     }
 
@@ -79,9 +81,7 @@ class CreateMessage extends Component {
             var value = await AsyncStorage.getItem("myKey");
             console.log("value: ", value)
             if (value !== null){
-                this.setState({token: value});
-                let item = this.props.navigation.routes[this.props.navigation.routes.length - 1].data
-                this.setState({item: item})
+                this.setState({token: value})
                 this.props.getItemsByUserId(value)
                 this._appendMessage('Recovered selection from disk: ' + value);
             } else {
@@ -89,7 +89,7 @@ class CreateMessage extends Component {
                 this._appendMessage('Initialized with no selection on disk.');
             }
         } catch (error) {
-            console.log("catch")
+            console.log("catch : ", error)
             this._appendMessage('AsyncStorage error: ' + error.message);
         }
     }
@@ -104,7 +104,7 @@ class CreateMessage extends Component {
         e.preventDefault()
         let title = this.state.title.trim()
         let body = this.state.body.trim()
-        let item = this.state.item
+        let item = this.props.route.ItemId
         let itemBarter = this.state.itemBarter
         let token = this.state.token
         if (!title || !body || !item || !itemBarter) {
@@ -121,11 +121,7 @@ class CreateMessage extends Component {
 
 
     selectItem() {
-
-    // let ItemNodes = [<Item label="test1" value="key0" />, <Item label="test2" value="key1" />]
-    //     this.props.items.map(function (item) {
-    //     ItemNodes.push(<Item label={item.name} value={item.id} />)
-    // })
+    console.log('selectItem / picker : ', this.state.itemBarter);
     return (
         <Picker
             style={{marginLeft: 30, marginRight: 30, color: 'white'}}
@@ -135,8 +131,8 @@ class CreateMessage extends Component {
             onValueChange={this.onValueChange.bind(this)} >
             {
                 this.props.items.map(function (item) {
-                 return (<Item label={item.name} value={item.id} />)
-            })
+                 return (<Item key={item.id} label={item.name} value={item.id} />)
+              })
             }
         </Picker>
     )
@@ -147,43 +143,35 @@ class CreateMessage extends Component {
         const {navigator, items} = this.props
         console.log("ini props di create message: ", this.props)
         console.log("ini item di create message: ", items)
-        console.log("ini kiriman item id: ", this.state.item)
+        console.log("ini kiriman item id: ", this.props.route.ItemId)
         console.log("ini item barder: ", this.state.itemBarter)
 
         return (
             <Container theme={myTheme} style={styles.container}>
 
                 <Header>
-                    Create Message
                     <Button transparent onPress={() => this.navigateTo('ListItem')}>
                         <Icon name="ios-search" />
                     </Button>
+                    <Title style={{alignSelf: 'center'}}>Create Message</Title>
                     <Button transparent onPress={() => this.navigateTo('listMessage')}>
                         <Icon name="ios-mail" />
                     </Button>
                 </Header>
 
                 <Content>
-
-                    <Card style={{ flex: 0, backgroundColor: '#444444', borderWidth: 0 }}>
-                      <Grid>
-                            <Col>
-                                {this.selectItem()}
-                            </Col>
-                      </Grid>
-
+                      <List>
                         <Grid>
                             <Col>
                                 <InputGroup
                                     style={{marginLeft: 30, marginRight: 30}}
                                     theme={ArizTheme}
-                                    borderType='underline'
-                                >
+                                    borderType='underline'>
                                     <Input
                                         onChangeText={(title) => this.setState({title: title})}
                                         value={this.state.title}
                                         style={{color: '#FFFFFF'}}
-                                        placeholder="Message Title"/>
+                                        placeholder='Title'/>
                                 </InputGroup>
                             </Col>
                         </Grid>
@@ -194,33 +182,40 @@ class CreateMessage extends Component {
                                     <ListItem
                                         style={{marginLeft: 30, marginRight: 30}}
                                         theme={ArizTheme}
-                                        borderType='underline'
-                                    >
+                                        borderType='underline'>
                                         <Textarea
                                             onChangeText={(body) => this.setState({body: body})}
                                             value={this.state.body}
                                             style={{height: 100, color: '#FFFFFF'}}
-                                            placeholder="Message Body"
-                                        />
+                                            placeholder="Message"/>
                                     </ListItem>
                                 </List>
                             </Col>
                         </Grid>
+
+                        <Grid style={{marginTop: 60}}>
+                              <Col style={{marginTop: 15}}>
+                                <Text style={{color: 'white', alignSelf: 'center'}}>Select Item to Barter : </Text>
+                              </Col>
+                              <Col>
+                                  {this.selectItem()}
+                              </Col>
+                        </Grid>
+
 
 
 
                         <Button
                             onPress={this.onCreateMessage.bind(this)}
                             bordered
-                            style={{ alignSelf: 'center', marginTop: 40, marginBottom: 20 , width: 220, borderRadius: 0, borderColor:'#2effd0', height: 50}}>
+                            style={{ alignSelf: 'center', marginTop: 80, marginBottom: 20 , width: 220, borderRadius: 0, borderColor:'#2effd0', height: 50}}>
                             <Text style={{color: '#FFFFFF'}}>
-                                Create Message
+                                Send Barter Request
                             </Text>
                         </Button>
+                      </List>
 
 
-
-                    </Card>
                 </Content>
 
                 <Footer>
