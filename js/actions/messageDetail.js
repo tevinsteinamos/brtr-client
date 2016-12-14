@@ -13,6 +13,7 @@ export const LOAD_MESSAGES_SUCCESS = 'LOAD_MESSAGES_SUCCESS'
 export const LOAD_MESSAGES_FAILURE = 'LOAD_MESSAGES_FAILURE'
 export const ADD_MESSAGE_SUCCESS = 'ADD_MESSAGE_SUCCESS'
 export const ADD_MESSAGE_FAILURE = 'ADD_MESSAGE_FAILURE'
+export const NEW_MESSAGE = 'NEW_MESSAGE'
 
 import decode from 'jwt-decode'
 
@@ -58,6 +59,10 @@ export function getMessages(token,id) {
     }
 }
 
+export function newMessage(body,itemMessageId, User, temp) {
+    return {type: NEW_MESSAGE, body,itemMessageId, User, temp}
+}
+
 export function addMessageSuccess(message) {
     return {type: ADD_MESSAGE_SUCCESS, message: message}
 }
@@ -66,8 +71,9 @@ export function addMessageFailure() {
     return {type: ADD_MESSAGE_FAILURE}
 }
 
-export function addMessage(token,body,itemMessageId) {
+export function addMessage(token,body,itemMessageId, User, temp) {
     return (dispatch) => {
+        dispatch(newMessage(body,itemMessageId, User, temp))
         const userDecoded = decode(token)
         fetch(`http://br-tr-dev.ap-southeast-1.elasticbeanstalk.com/api/messages`, {
             method: 'POST',
@@ -77,6 +83,7 @@ export function addMessage(token,body,itemMessageId) {
                 'Authorization': 'Bearer ' + token
             },
             body: JSON.stringify({
+                TempMessageId: temp,
                 body: body,
                 UserId: userDecoded.id,
                 ItemMessageId: itemMessageId,
@@ -85,7 +92,9 @@ export function addMessage(token,body,itemMessageId) {
         })
             .then((response) => response.json())
             .then((responseJson) => {
-                dispatch(getMessages(token, itemMessageId))
+                // dispatch(getMessages(token, itemMessageId))
+                console.log("respon add message: ", responseJson)
+                dispatch(addMessageSuccess(responseJson))
             })
             .catch((error) => {
                 console.log("fail add message detail: ", error)

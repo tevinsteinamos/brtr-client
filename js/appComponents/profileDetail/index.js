@@ -103,11 +103,11 @@ class ProfileDetail extends Component {
             <Container theme={myTheme} style={styles.container}>
                 <Header>
                     <Title style={{alignSelf: 'center'}}>BRTR</Title>
-                    <Button transparent onPress={() => navigator.pop()}>
-                        Back
+                    <Button transparent onPress={() => this.props.navigator.push({id: 'searchItem'})}>
+                        <Icon name="ios-search" />
                     </Button>
-                    <Button transparent onPress={() => navigator.push({id: 'editProfile', UserId: user.id, avatar: user.avatar})}>
-                        Edit
+                    <Button transparent onPress={() => this.props.navigator.push({id: 'listMessage'})}>
+                        <Icon name="ios-mail" />
                     </Button>
                 </Header>
 
