@@ -27,8 +27,6 @@ import {
     Textarea
 } from 'native-base';
 
-import navigateTo from '../../actions/sideBarNav';
-import { openDrawer } from '../../actions/drawer';
 import { addMessage } from '../../actions/createMessageItem';
 import myTheme from '../../themes/base-theme';
 import styles from './styles';
@@ -40,26 +38,10 @@ const star_button = require('../../../img/star_button.png');
 import {getItemsByUserId} from '../../actions/items';
 import decode from 'jwt-decode'
 
-const {
-    replaceAt,
-} = actions;
 
-let ItemIdFrom = 0
 
 class CreateMessage extends Component {
 
-    static propTypes = {
-        openDrawer: React.PropTypes.func,
-        navigateTo: React.PropTypes.func,
-        replaceAt: React.PropTypes.func,
-        navigation: React.PropTypes.shape({
-            key: React.PropTypes.string,
-        }),
-    }
-
-    replaceAt(route) {
-        this.props.replaceAt('CreateMessage', { key: route }, this.props.navigation.key);
-    }
 
     constructor(props) {
         super(props);
@@ -85,11 +67,6 @@ class CreateMessage extends Component {
         this.setState({
             itemBarter : value
         });
-    }
-
-
-    navigateTo(route) {
-        this.props.navigateTo(route, 'addItem');
     }
 
 
@@ -135,7 +112,7 @@ class CreateMessage extends Component {
             return
         }
 
-        this.props.addMessage(title, body, item, itemBarter, token)
+        this.props.addMessage(title, body, item, itemBarter, token, this.props.navigator)
         this.setState({
             title: '',
             body: '',
@@ -163,7 +140,7 @@ class CreateMessage extends Component {
 
 
     render() {
-        const {items} = this.props
+        const {navigator, items} = this.props
         console.log("ini props di create message: ", this.props)
         console.log("ini item di create message: ", items)
         console.log("ini kiriman item id: ", this.props.route.ItemId)
@@ -262,7 +239,6 @@ class CreateMessage extends Component {
 
 function bindAction(dispatch) {
     return {
-        navigateTo: (route, homeRoute) => dispatch(navigateTo(route, homeRoute)),
         updateItem: (id, CategoryId, name, description, photo, material, dimension, color, token) => dispatch(updateItem(id, CategoryId, name, description, photo, material, dimension, color, token)),
         getItemsByUserId: (token) => dispatch(getItemsByUserId(token)),
         addMessage: (title, body, item, itemBarter, token) => dispatch(addMessage(title, body, item, itemBarter, token)),
@@ -270,9 +246,7 @@ function bindAction(dispatch) {
 }
 
 const mapStateToProps = state => ({
-    navigation: state.cardNavigation,
-    items: state.items,
-    stt: state
+    items: state.items
 });
 
 export default connect(mapStateToProps, bindAction)(CreateMessage);
