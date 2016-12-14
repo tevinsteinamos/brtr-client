@@ -69,7 +69,7 @@ export default {
 
 
     // Card
-  cardDefaultBg: '#fff',
+  cardDefaultBg: '#2c2c2c',
 
 
   // Check Box
@@ -89,7 +89,7 @@ export default {
 
   // Font
   fontFamily: (Platform.OS === 'ios') ? 'HelveticaNeue' : 'Roboto',
-  fontSizeBase: 16,
+  fontSizeBase: 15,
 
   get fontSizeH1() {
     return this.fontSizeBase * 1.8;
@@ -103,13 +103,13 @@ export default {
 
 
   // Footer
-  footerHeight: 55,
+  footerHeight: 100,
   footerDefaultBg: (Platform.OS === 'ios') ? 'black' : 'black',
 
   // FooterTab
-  tabBarTextColor: (Platform.OS === 'ios') ? '#6b6b6b' : '#b3c7f9',
-  tabBarActiveTextColor: (Platform.OS === 'ios') ? '#2EFFD0' : '#2EFFD0',
-  tabBarActiveTopBorderColor: (Platform.OS === 'ios') ? '#2EFFD0' : '#2EFFD0',
+  tabBarTextColor: (Platform.OS === 'ios') ? '#6b6b6b' : '#2effd0',
+  tabBarActiveTextColor: (Platform.OS === 'ios') ? '#2EFFD0' : '#2effd0',
+  tabBarActiveTopBorderColor: (Platform.OS === 'ios') ? '#2EFFD0' : '#2effd0',
   tabActiveBgColor: (Platform.OS === 'ios') ? '#e4f0fe' : undefined,
 
   // Header
@@ -119,7 +119,7 @@ export default {
   toolbarIconSize: (Platform.OS === 'ios') ? 20 : 22,
   toolbarInputColor: '#CECDD2',
   toolbarInverseBg: '#222',
-  toolbarTextColor: (Platform.OS === 'ios') ? '#000' : '#fff',
+  toolbarTextColor: (Platform.OS === 'ios') ? '#000' : '#2effd0',
   get statusBarColor() {
     return color(this.toolbarDefaultBg).darken(0.2).hexString();
   },
