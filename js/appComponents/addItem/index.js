@@ -387,7 +387,7 @@ class AddItem extends Component {
 
 function bindAction(dispatch) {
     return {
-        addItem: (CategoryId, name, description, photo, material, dimension, color, token) => dispatch(addItem(CategoryId, name, description, photo, material, dimension, color, token)),
+        addItem: (CategoryId, name, description, photo, material, dimension, color, token, navigator) => dispatch(addItem(CategoryId, name, description, photo, material, dimension, color, token, navigator)),
         updateItem: (id, CategoryId, name, description, photo, material, dimension, color, token) => dispatch(updateItem(id, CategoryId, name, description, photo, material, dimension, color, token)),
         getItemsById: (token, ItemId) => dispatch(getItemsById(token, ItemId)),
         getCategories: (token) => dispatch(getCategories(token)),

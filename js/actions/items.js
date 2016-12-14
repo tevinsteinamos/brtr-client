@@ -88,6 +88,7 @@ export function createItemSuccess(item) {
 }
 
 export function addItem(CategoryId, name, description, photo, material, dimension, color, token, navigator) {
+    // console.log("navigator di add item: ", navigator)
     const userDecoded = decode(token)
     return (dispatch) => {
         fetch(`http://br-tr-dev.ap-southeast-1.elasticbeanstalk.com/api/items`, {
