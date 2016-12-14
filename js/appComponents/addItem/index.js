@@ -276,7 +276,6 @@ class AddItem extends Component {
                                     onPress={this.uploadImage.bind(this)}>
                                     <Image
                                         style={{resizeMode: 'cover',  alignSelf: 'center', width: 200, height: 200 }}
-                                        onPress={this.uploadImage.bind(this)}
                                         source={(this.state.avatarSource) ? {uri: this.state.avatarSource} : require('../../../img/img-placeholder.png')}
                                     />
                                 </CardItem>

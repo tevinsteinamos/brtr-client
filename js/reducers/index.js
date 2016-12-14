@@ -9,6 +9,8 @@ import searchItem from './searchItem';
 import categoryId from './categoryId';
 import listMessage from './listMessage';
 import createMessageItem from './createMessageItem';
+import updateProfile from './updateProfile';
+import getUserById from './getUserById';
 
 
 import messageDetail from './messageDetail';
@@ -23,6 +25,8 @@ export default combineReducers({
     categoryId,
     listMessage,
     createMessageItem,
-    messageDetail
+    messageDetail,
+    updateProfile,
+    getUserById
 
 });
