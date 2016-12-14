@@ -67,7 +67,7 @@ export function addMessage(token,message) {
                 'Authorization': 'Bearer ' + token
             },
             body: JSON.stringify({
-                TempMessageId: message.TempMessageId
+                TempMessageId: message.TempMessageId,
                 body: message.body,
                 ItemMessageId: message.ItemMessageId,
                 UserId: message.UserId,
