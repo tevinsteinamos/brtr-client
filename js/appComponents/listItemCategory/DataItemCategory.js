@@ -12,6 +12,8 @@ import {
     Icon,
     Footer,
     FooterTab,
+    List,
+    ListItem,
     Card,
     CardItem,
     Thumbnail,
@@ -21,29 +23,20 @@ import { Grid, Col } from 'react-native-easy-grid';
 import styles from './styles';
 
 import decode from 'jwt-decode'
+import moment from 'moment'
 
 class DataItemCategory extends Component {
 
     render() {
         const {navigator, items} = this.props
         return (
-            <CardItem
-                style={{borderBottomWidth: 0}}
-                onPress={() => navigator.push({id: 'itemDetail', ItemId: items.id})}
-            >
-                <Image
-                    style={{
-                                    resizeMode: 'cover',
-                                    width: null,
-                                    opacity: 0.6
-                                }}
-                    source={{uri: items.photo}}>
-                    <View style={{paddingLeft: 10}}>
-                        <H1 style={{color: 'white'}}>{items.name}</H1>
-                        <Text style={styles.textColor} note>by <Text style={{color: '#2EFFD0'}}>{(items.User) ? items.User.username : ''}</Text></Text>
-                    </View>
-                </Image>
-            </CardItem>
+            <ListItem style={styles.container, styles.noBottomBorder} onPress={() => navigator.push({id: 'itemDetail', ItemId: items.id})}>
+              <Thumbnail square size={90} source={{uri: items.photo}} />
+              <H3 style={styles.text}>{items.name}</H3>
+              <Text note style={styles.text}>By <Text style={styles.name}>{(items.User) ? items.User.username : ''}</Text></Text>
+              <Text style={{color: '#fff'}}>{moment(items.createdAt).fromNow()}</Text>
+            </ListItem>
+
         );
     }
 }
