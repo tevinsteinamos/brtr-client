@@ -32,6 +32,7 @@ export function createItemMessageSuccess(messageItem) {
 }
 
 export function addMessage(title, body, item, itemBarter, token, navigator) {
+  console.log('nav : ', navigator);
     const userDecoded = decode(token)
     return (dispatch) => {
         fetch(`http://br-tr-dev.ap-southeast-1.elasticbeanstalk.com/api/messages/itemMessage`, {
@@ -49,7 +50,7 @@ export function addMessage(title, body, item, itemBarter, token, navigator) {
         })
             .then((response) => response.json())
             .then((responseJson) => {
-                console.log('respon create: ', responseJson)
+                console.log('respon create item messages : ', responseJson)
                 const itemMessageId = responseJson.id
                 fetch(`http://br-tr-dev.ap-southeast-1.elasticbeanstalk.com/api/messages`, {
                     method: 'POST',
@@ -67,7 +68,7 @@ export function addMessage(title, body, item, itemBarter, token, navigator) {
                 })
                     .then((response) => response.json())
                     .then((responseJson) => {
-                        console.log('respon create: ', responseJson)
+                        console.log('respon create messages : ', responseJson)
                         dispatch(createItemMessageSuccess(responseJson))
                         navigator.push({id: 'messageDetail', itemMessageId: itemMessageId, title: title})
                     })
@@ -85,7 +86,3 @@ export function addMessage(title, body, item, itemBarter, token, navigator) {
             });
     }
 }
-
-
-
-

@@ -45,20 +45,39 @@ class EachMessage extends Component {
   }
 
   render() {
-      const {items, title, itemMessageId, navigator} = this.props
+      const {items, title, itemMessageId, navigator, activeUser} = this.props
       console.log('each item : ', items);
       console.log('each title : ', title);
       console.log('each itemmsg : ', itemMessageId);
-
-      return (
-          <ListItem style={styles.noBottomBorder} onPress={() => navigator.push({id: 'messageDetail', itemMessageId: itemMessageId, title: title})}>
-            <Thumbnail square size={90} source={{uri: items.Item.User.avatar}} />
-            <H3 style={styles.text}>{items.title}</H3>
-            <Text note style={styles.text}>By <Text style={styles.name}>{items.Item.User.username}</Text></Text>
-            <Text style={{color: '#fff'}}>{moment(items.createdAt).fromNow()}</Text>
-          </ListItem>
-
-      );
+      console.log('active user : ', activeUser);
+      if (activeUser.id == items.Item.User.id) {
+        return (
+            <ListItem style={styles.noBottomBorder} onPress={() => navigator.push({id: 'messageDetail', itemMessageId: itemMessageId, title: title})}>
+              <Thumbnail square size={90} source={{uri: items.Item2.User.avatar}} />
+              <H3 style={styles.text}>{items.title}</H3>
+              <Text note style={styles.text}>From <Text style={styles.name}>{items.Item2.User.username}</Text></Text>
+              <Text style={{color: '#fff'}}>{moment(items.createdAt).fromNow()}</Text>
+            </ListItem>
+        );
+      } else if (activeUser.id == items.Item2.User.id){
+        return (
+            <ListItem style={styles.noBottomBorder} onPress={() => navigator.push({id: 'messageDetail', itemMessageId: itemMessageId, title: title})}>
+              <Thumbnail square size={90} source={{uri: items.Item.User.avatar}} />
+              <H3 style={styles.text}>{items.title}</H3>
+              <Text note style={styles.text}>To <Text style={styles.name}>{items.Item.User.username}</Text></Text>
+              <Text style={{color: '#fff'}}>{moment(items.createdAt).fromNow()}</Text>
+            </ListItem>
+        );
+      } else {
+        return (
+            <ListItem style={styles.noBottomBorder} onPress={() => navigator.push({id: 'messageDetail', itemMessageId: itemMessageId, title: title})}>
+              <Thumbnail square size={90} source={{uri: items.Item.User.avatar}} />
+              <H3 style={styles.text}>I'M DIZZY</H3>
+              <Text note style={styles.text}>To <Text style={styles.name}>{items.Item.User.username}</Text></Text>
+              <Text style={{color: '#fff'}}>{moment(items.createdAt).fromNow()}</Text>
+            </ListItem>
+        );
+      }
   }
 }
 
