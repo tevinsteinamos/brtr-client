@@ -33,7 +33,8 @@ class messageDetail extends Component {
         super(props);
         this.state = {
             body: '',
-            dataUser: {}
+            dataUser: {},
+            token: ''
         }
     }
 
@@ -73,6 +74,7 @@ class messageDetail extends Component {
             if (value !== null){
                 let itemMessageId = this.props.route.itemMessageId
                 console.log('itemmessageid: ' + itemMessageId)
+                this.setState({token: value})
                 this.setState({dataUser: decode(value)})
                 this.props.getMessages(value,itemMessageId)
             } else {
@@ -114,7 +116,7 @@ class messageDetail extends Component {
                         <Icon name="ios-search" />
                     </Button>
                     <Button transparent>
-                        <Icon style={{color: '#6CF9C8'}} name="ios-mail" />
+                        <Icon onPress={() => {this.props.getMessages(this.state.token, this.props.route.itemMessageId)}} name="ios-sync" />
                     </Button>
                 </Header>
 
