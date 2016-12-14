@@ -145,7 +145,7 @@ export function deleteItemSuccess(item){
     return {type: DELETE_ITEM_SUCCESS, item}
 }
 
-export function deleteItem(id, token){
+export function deleteItem(id, token, navigator){
     return dispatch => {
         dispatch(deleteDataItem(id))
         fetch(`http://br-tr-dev.ap-southeast-1.elasticbeanstalk.com/api/items/${id}`, {
@@ -196,7 +196,8 @@ export function updateItemSuccess(item) {
     return {type: UPDATE_ITEM_SUCCESS, item}
 }
 
-export function updateItem(id, CategoryId, name, description, photo, material, dimension, color, token) {
+export function updateItem(id, CategoryId, name, description, photo, material, dimension, color, token, navigator) {
+    console.log()
     const userDecoded = decode(token)
     return (dispatch) => {
         fetch(`http://br-tr-dev.ap-southeast-1.elasticbeanstalk.com/api/items/${id}`, {

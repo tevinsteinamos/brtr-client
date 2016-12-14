@@ -193,7 +193,7 @@ class AddItem extends Component {
             return
         }
 
-        this.props.updateItem(ItemIdFrom, category, name, description, photo, material, dimension, color, this.state.token, this.props.navigator)
+        this.props.updateItem(this.props.route.ItemId, category, name, description, photo, material, dimension, color, this.state.token, this.props.navigator)
         this.setState({
             name: '',
             description: '',
