@@ -43,6 +43,13 @@ class SearchItem extends Component {
         };
     }
 
+    componentWillMount() {
+        BackAndroid.addEventListener('hardwareBackPress', () => {
+            this.props.navigator.pop()
+            return true
+        });
+    }
+
     async searchProcessInput(text){
       try {
         var value = await AsyncStorage.getItem("myKey");
@@ -81,12 +88,6 @@ class SearchItem extends Component {
         });
     }
 
-    componentDidMount() {
-      BackAndroid.addEventListener('hardwareBackPress', () => {
-        this.props.navigator.pop()
-        return true
-      })
-    }
 
     render() {
       const {item, navigator} = this.props
