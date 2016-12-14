@@ -103,7 +103,7 @@ class ItemDetail extends Component {
             null,
             [
                 {text: 'OK', onPress: () => {
-                    this.props.deleteItem(this.props.itemId.id, this.state.token)
+                    this.props.deleteItem(this.props.itemId.id, this.state.token, this.props.navigator)
                 }},
                 {text: 'Cancel', onPress: () => {
                     // console.log('Cancel Pressed!')
@@ -224,7 +224,7 @@ class ItemDetail extends Component {
 function bindAction(dispatch) {
     return {
         getItemsById: (token, ItemId) => dispatch(getItemsById(token, ItemId)),
-        deleteItem: (id, token) => dispatch(deleteItem(id, token)),
+        deleteItem: (id, token, navigator) => dispatch(deleteItem(id, token, navigator)),
     };
 }
 
