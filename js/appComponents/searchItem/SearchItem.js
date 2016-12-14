@@ -92,7 +92,7 @@ class SearchItem extends Component {
       const {item, navigator} = this.props
         let ItemNodes = item.map((data)=> {
           return(
-              <SearchResult key={data.id} items={data} />
+              <SearchResult key={data.id} items={data} navigator={navigator}/>
           )
         })
           return (
