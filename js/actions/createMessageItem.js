@@ -32,7 +32,7 @@ export function createItemMessageSuccess(messageItem) {
     return {type: CREATE_MESSAGE_ITEM_SUCCESS, messageItem}
 }
 
-export function addMessage(title, body, item, itemBarter, token) {
+export function addMessage(title, body, item, itemBarter, token, navigator) {
     const userDecoded = decode(token)
     return (dispatch) => {
         fetch(`http://br-tr-dev.ap-southeast-1.elasticbeanstalk.com/api/messages/itemMessage`, {
@@ -70,7 +70,7 @@ export function addMessage(title, body, item, itemBarter, token) {
                     .then((responseJson) => {
                         console.log('respon create: ', responseJson)
                         dispatch(createItemMessageSuccess(responseJson))
-                        dispatch(navigateTo('messageDetail', 'createMessage', itemMessageId, title))
+                        navigator.push({id: 'messageDetail', itemMessageId: itemMessageId, title: title})
                     })
             })
             .catch((error) => {

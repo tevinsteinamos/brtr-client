@@ -64,7 +64,6 @@ class LoginPage extends Component {
             var value = await AsyncStorage.getItem("myKey");
             console.log("value: ", value)
             if (value !== null){
-                this.navigateTo('home')
                 this.props.navigator.replace({id: 'home'});
             } else {
                 console.log("else")
