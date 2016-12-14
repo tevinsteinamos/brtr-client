@@ -6,8 +6,6 @@ var {
     AsyncStorage
 } = ReactNative;
 
-import navigateTo from './bottomNav';
-
 import type { Action } from './types';
 
 export const LOAD_ITEMS_BY_CATEGORY_ID = 'LOAD_ITEMS_BY_CATEGORY_ID'
