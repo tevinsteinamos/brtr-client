@@ -51,11 +51,6 @@ class LoginPage extends Component {
           console.log(username);
           console.log(password);
           this.props.loginUser(username, password, this.props.navigator)
-          this.setState({
-              username: '',
-              password: ''
-          })
-
         }
     }
 
@@ -98,8 +93,7 @@ class LoginPage extends Component {
           warningError = <Text style={{fontSize:14, marginLeft: 25, color: '#d9534f'}} >Wrong Username or Password</Text>
           inputUsername =
           <ListItem>
-          <InputGroup iconRight error>
-            <Icon name='ios-close-circle' style={{color:'red'}}/>
+          <InputGroup>
             <Input
                 onChangeText={(username) => this.setState({username})}
                 placeholder="Username" style={{color: '#FFFFFF'}}/>
@@ -107,8 +101,7 @@ class LoginPage extends Component {
         </ListItem>
           inputPassword =
           <ListItem>
-          <InputGroup iconRight error>
-            <Icon name='ios-close-circle' style={{color:'red'}}/>
+          <InputGroup>
             <Input
                 onChangeText={(password) => this.setState({password})}
                 placeholder="Password" style={{color: '#FFFFFF'}} secureTextEntry />
@@ -142,7 +135,7 @@ class LoginPage extends Component {
                       {warningError}
                       {inputUsername}
                       {inputPassword}
-                  <Text style={{fontSize:14, marginLeft: 25, color: '#68696C'}} onPress={()=>alert('Got to Forgot password page')}>Forgot Password?</Text>
+                  <Text style={{fontSize:14, marginLeft: 25, color: '#68696C'}} onPress={()=>navigator.push({id: 'askEmail'})}>Forgot Password?</Text>
                 </List>
                 <Button
                     onPress={this.onLoginUser.bind(this)}
