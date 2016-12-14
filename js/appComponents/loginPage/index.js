@@ -103,7 +103,7 @@ class LoginPage extends Component {
                           placeholder="Password" style={{color: '#FFFFFF'}} secureTextEntry />
                     </InputGroup>
                   </ListItem>
-                  <Text style={{fontSize:14, marginLeft: 25, color: '#2effd0'}} onPress={()=>alert('Got to Forgot password page')}>Forgot Password ?</Text>
+                  <Text style={{fontSize:14, marginLeft: 25, color: '#2effd0'}} onPress={()=>this.props.navigator.push({id: 'askEmail'})}>Forgot Password ?</Text>
                 </List>
                 <Button
                     onPress={this.onLoginUser.bind(this)}
