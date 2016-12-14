@@ -1,8 +1,7 @@
 
 import React, { Component } from 'react';
-import { Image, AsyncStorage } from 'react-native';
+import { BackAndroid, Image, AsyncStorage } from 'react-native';
 import { connect } from 'react-redux';
-import { actions } from 'react-native-navigation-redux-helpers';
 import {
     Container,
     Header,
@@ -21,7 +20,6 @@ import {
 import { Grid, Col } from 'react-native-easy-grid';
 
 import {getItemsByUserId} from '../../actions/items';
-import navigateTo from '../../actions/bottomNav';
 
 import styles from './styles';
 import ArizTheme from '../../themes/prof-empty-theme.js'
@@ -37,21 +35,8 @@ import decode from 'jwt-decode'
 
 import DataItems from './DataItems'
 
-const {
-    replaceAt,
-} = actions;
 
 class ProfileDetail extends Component {
-
-    static propTypes = {
-        openDrawer: React.PropTypes.func,
-        navigateTo: React.PropTypes.func,
-        replaceAt: React.PropTypes.func,
-        navigation: React.PropTypes.shape({
-            key: React.PropTypes.string,
-        }),
-
-    }
 
     constructor(props) {
         super(props);
@@ -66,6 +51,10 @@ class ProfileDetail extends Component {
 
 
     componentDidMount() {
+        BackAndroid.addEventListener('hardwareBackPress', () => {
+            this.props.navigator.pop()
+            return true
+        });
         this._loadInitialState().done();
     }
 
@@ -91,14 +80,11 @@ class ProfileDetail extends Component {
         this.setState({messages: this.state.messages.concat(message)});
     };
 
-    navigateTo(route) {
-        this.props.navigateTo(route, 'profileDetail');
-    }
 
     logoutUser = async() => {
         try {
             await AsyncStorage.removeItem("myKey");
-            this.navigateTo('loginPage')
+            this.props.navigator({id: 'loginPage'})
         } catch (error) {
             console.log("err")
         }
@@ -106,14 +92,14 @@ class ProfileDetail extends Component {
 
 
     render() {
-        const {items} = this.props
+        const {navigator, items} = this.props
         console.log("ini props di profile: ", this.props)
         console.log("ini item props di profile: ", items)
 
 
         let ItemNodes = items.map(function (item) {
             return(
-                <DataItems key={item.id} items={item} />
+                <DataItems navigator={navigator} key={item.id} items={item} />
             )
         })
 
@@ -121,10 +107,10 @@ class ProfileDetail extends Component {
             <Container theme={myTheme} style={styles.container}>
                 <Header>
                     <Title style={{alignSelf: 'center'}}>BRTR</Title>
-                    <Button transparent onPress={() => this.navigateTo('home')}>
+                    <Button transparent onPress={() => navigator.pop()}>
                         Back
                     </Button>
-                    <Button transparent onPress={() => this.navigateTo('editProfile')}>
+                    <Button transparent onPress={() => navigator.push({id: 'editProfile', UserId: this.state.dataUser.id})}>
                         Edit
                     </Button>
                 </Header>
@@ -176,13 +162,13 @@ class ProfileDetail extends Component {
                 <Footer>
                     <FooterTab>
                         <Button
-                            active={this.state.tab1} onPress={() => this.navigateTo('home')} >
+                            active={this.state.tab1} onPress={() => navigator.replace({id: 'home'})}>
                             Feed
                         </Button>
-                        <Button active={this.state.tab2} onPress={() => this.navigateTo('addItem')} >
+                        <Button active={this.state.tab2} onPress={() => navigator.replace({id: 'addItem'})} >
                             Add Item
                         </Button>
-                        <Button active={this.state.tab3} onPress={() => this.navigateTo('profileDetail')} >
+                        <Button active={this.state.tab3} onPress={() => navigator.replace({id: 'profileDetail'})} >
                             Profile
                         </Button>
                     </FooterTab>
@@ -195,13 +181,11 @@ class ProfileDetail extends Component {
 
 function bindAction(dispatch) {
     return {
-        navigateTo: (route, homeRoute) => dispatch(navigateTo(route, homeRoute)),
         getItemsByUserId: (token) => dispatch(getItemsByUserId(token)),
     };
 }
 
 const mapStateToProps = state => ({
-    navigation: state.cardNavigation,
     items: state.items
 });
 

@@ -19,17 +19,10 @@ import {
     View
 } from 'native-base';
 
-import navigateTo from '../../actions/sideBarNav';
-import { openDrawer } from '../../actions/drawer';
 import myTheme from '../../themes/base-theme';
 import styles from './styles';
 
 class ListItem extends Component {
-
-    static propTypes = {
-        openDrawer: React.PropTypes.func,
-        navigateTo: React.PropTypes.func,
-    }
 
     constructor(props) {
         super(props);
@@ -40,9 +33,6 @@ class ListItem extends Component {
         };
     }
 
-    navigateTo(route) {
-        this.props.navigateTo(route, 'ListItem');
-    }
 
     toggleTab1() {
         this.setState({
@@ -69,15 +59,16 @@ class ListItem extends Component {
     }
 
     render() {
+        const {navigator} = this.props
         return (
             <Container theme={myTheme} style={styles.container}>
 
                 <Header>
                     <Title style={{alignSelf: 'center'}}>List Item By Category</Title>
-                    <Button transparent onPress={() => this.navigateTo('SearchItem')}>
+                    <Button transparent onPress={() => navigator.push({id: 'SearchItem'})}>
                         <Icon name="ios-search" />
                     </Button>
-                    <Button transparent onPress={() => this.navigateTo('listAvatar')}>
+                    <Button transparent onPress={() => navigator.push({id: 'listMessage'})}>
                         <Icon name="ios-mail" />
                     </Button>
                 </Header>
@@ -85,7 +76,7 @@ class ListItem extends Component {
                 <Content>
 
                     <Card style={{ flex: 0, backgroundColor: 'black', borderWidth: 0 }}>
-                        <CardItem onPress={() => this.navigateTo('ItemDetail')}>
+                        <CardItem onPress={() => navigator.push({id: 'ItemDetail'})}>
                             <Image
                                 style={{
                                     resizeMode: 'cover',

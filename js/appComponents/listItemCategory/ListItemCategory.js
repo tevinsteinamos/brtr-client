@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { Image, AsyncStorage } from 'react-native';
+import { BackAndroid, Image, AsyncStorage } from 'react-native';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import { connect } from 'react-redux';
 import {
@@ -19,20 +19,13 @@ import {
     View
 } from 'native-base';
 
-import navigateTo from '../../actions/sideBarNav';
 import {getItemsByCategoryId} from '../../actions/categoryId';
-import { openDrawer } from '../../actions/drawer';
 import myTheme from '../../themes/base-theme';
 import styles from './styles';
 
 import DataItemCategory from './DataItemCategory'
 
 class ListItemCategory extends Component {
-
-    static propTypes = {
-        openDrawer: React.PropTypes.func,
-        navigateTo: React.PropTypes.func,
-    }
 
     constructor(props) {
         super(props);
@@ -44,9 +37,6 @@ class ListItemCategory extends Component {
         };
     }
 
-    navigateTo(route) {
-        this.props.navigateTo(route, 'ListItem');
-    }
 
     toggleTab1() {
         this.setState({
@@ -73,6 +63,10 @@ class ListItemCategory extends Component {
     }
 
     componentWillMount() {
+        BackAndroid.addEventListener('hardwareBackPress', () => {
+            this.props.navigator.pop()
+            return true
+        });
         this._loadInitialState().done();
     }
 
@@ -80,8 +74,7 @@ class ListItemCategory extends Component {
         try {
             var value = await AsyncStorage.getItem("myKey");
             if (value !== null){
-                let CategoryId = this.props.navigation.routes[this.props.navigation.routes.length - 1].data
-                this.props.getItemsByCategoryId(value, CategoryId)
+                this.props.getItemsByCategoryId(value, this.props.route.CategoryId)
                 this._appendMessage('Recovered selection from disk: ' + value);
             } else {
                 console.log("else")
@@ -98,12 +91,13 @@ class ListItemCategory extends Component {
     };
 
     render() {
-        const {items} = this.props
+        const {navigator, route, items} = this.props
         console.log('item category: ', items)
+        console.log('route di list item category: ', route)
 
         let ItemCategoryNodes = items.map(function (item) {
             return(
-                <DataItemCategory key={item.id} items={item} />
+                <DataItemCategory navigator={navigator} key={item.id} items={item} />
             )
         })
 
@@ -112,10 +106,10 @@ class ListItemCategory extends Component {
 
                 <Header>
                     <Title style={{alignSelf: 'center'}}>List Item By Category</Title>
-                    <Button transparent onPress={() => this.navigateTo('SearchItem')}>
+                    <Button transparent onPress={() => this.props.navigator.push({id: 'searchItem'})}>
                         <Icon name="ios-search" />
                     </Button>
-                    <Button transparent onPress={() => this.navigateTo('listAvatar')}>
+                    <Button transparent onPress={() => this.props.navigator.push({id: 'listAvatar'})}>
                         <Icon name="ios-mail" />
                     </Button>
                 </Header>
@@ -129,15 +123,13 @@ class ListItemCategory extends Component {
 
                 <Footer>
                     <FooterTab>
-                        <Button
-                            active={this.state.tab1}
-                            onPress={() => this.navigateTo('home')} >
+                        <Button active={this.state.tab1} onPress={() => this.props.navigator.replace({id: 'home'})}>
                             Feed
                         </Button>
-                        <Button active={this.state.tab2} onPress={() => this.toggleTab2()} >
+                        <Button active={this.state.tab2} onPress={() => this.props.navigator.push({id: 'addItem'})} >
                             Add Item
                         </Button>
-                        <Button active={this.state.tab3} onPress={() => this.toggleTab3()} >
+                        <Button active={this.state.tab3} onPress={() => this.props.navigator.push({id: 'profileDetail'})} >
                             Profile
                         </Button>
                     </FooterTab>
@@ -149,14 +141,11 @@ class ListItemCategory extends Component {
 
 function bindAction(dispatch) {
     return {
-        openDrawer: () => dispatch(openDrawer()),
-        navigateTo: (route, homeRoute) => dispatch(navigateTo(route, homeRoute)),
         getItemsByCategoryId: (token, id) => dispatch(getItemsByCategoryId(token, id)),
     };
 }
 
 const mapStateToProps = state => ({
-    navigation: state.cardNavigation,
     items: state.categoryId
 });
 

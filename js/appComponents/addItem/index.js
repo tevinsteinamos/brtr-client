@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { Image, AsyncStorage } from 'react-native';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import { connect } from 'react-redux';
-import { actions } from 'react-native-navigation-redux-helpers';
 import {
     Container,
     Header,
@@ -26,8 +25,6 @@ import {
     Item
 } from 'native-base';
 
-import navigateTo from '../../actions/sideBarNav';
-import { openDrawer } from '../../actions/drawer';
 import myTheme from '../../themes/base-theme';
 import styles from './styles';
 import ArizTheme from '../../themes/additemtheme'
@@ -44,26 +41,9 @@ import {getCategories} from '../../actions/categories';
 
 import decode from 'jwt-decode'
 
-const {
-    replaceAt,
-} = actions;
-
 let ItemIdFrom = 0
 
 class AddItem extends Component {
-
-    static propTypes = {
-        openDrawer: React.PropTypes.func,
-        navigateTo: React.PropTypes.func,
-        replaceAt: React.PropTypes.func,
-        navigation: React.PropTypes.shape({
-            key: React.PropTypes.string,
-        }),
-    }
-
-    replaceAt(route) {
-        this.props.replaceAt('AddItem', { key: route }, this.props.navigation.key);
-    }
 
     constructor(props) {
         super(props);
@@ -93,12 +73,6 @@ class AddItem extends Component {
         });
     }
 
-
-    navigateTo(route) {
-        this.props.navigateTo(route, 'addItem');
-    }
-
-
     componentDidMount() {
         this._loadInitialState().done();
     }
@@ -112,6 +86,10 @@ class AddItem extends Component {
                 this.setState({token: value});
                 this.setState({dataUser: decode(value)});
                 this.props.getCategories(value)
+                console.log("ini props route: ", this.props.route.ItemId)
+                if (this.props.route.ItemId) {
+                    this.props.getItemsById(value, this.props.route.ItemId)
+                }
                 this._appendMessage('Recovered selection from disk: ' + value);
             } else {
                 console.log("else")
@@ -184,14 +162,14 @@ class AddItem extends Component {
     }
 
     render() {
-        const {itemId, categories} = this.props
+        const {navigator, route, itemId, categories} = this.props
         console.log("ini props di add item: ", this.props)
         console.log("ini item di add item: ", itemId)
 
         let title
         let actionButton
 
-        if (ItemIdFrom) {
+        if (route.ItemId) {
             title = <Title style={{alignSelf: 'center'}}>Edit Item {(itemId) ? itemId.name : ''}</Title>
             actionButton =
                 <Button
@@ -221,10 +199,10 @@ class AddItem extends Component {
 
                 <Header>
                     {title}
-                    <Button transparent onPress={() => this.navigateTo('ListItem')}>
+                    <Button transparent onPress={() => navigator.push({id: 'ListItem'})}>
                         <Icon name="ios-search" />
                     </Button>
-                    <Button transparent onPress={() => this.navigateTo('listMessage')}>
+                    <Button transparent onPress={() => navigator.push({id: 'listMessage'})}>
                         <Icon name="ios-mail" />
                     </Button>
                 </Header>
@@ -338,13 +316,13 @@ class AddItem extends Component {
                 <Footer>
                     <FooterTab>
                         <Button
-                            active={this.state.tab1} onPress={() => this.navigateTo('home')}>
+                            active={this.state.tab1} onPress={() => navigator.replace({id: 'home'})}>
                             Feed
                         </Button>
-                        <Button active={this.state.tab2} onPress={() => this.navigateTo('addItem')} >
+                        <Button active={this.state.tab2} >
                             Add Item
                         </Button>
-                        <Button active={this.state.tab3} onPress={() => this.navigateTo('profileDetail')} >
+                        <Button active={this.state.tab3} onPress={() => navigator.replace({id: 'profileDetail'})} >
                             Profile
                         </Button>
                     </FooterTab>
@@ -356,7 +334,6 @@ class AddItem extends Component {
 
 function bindAction(dispatch) {
     return {
-        navigateTo: (route, homeRoute) => dispatch(navigateTo(route, homeRoute)),
         addItem: (CategoryId, name, description, photo, material, dimension, color, token) => dispatch(addItem(CategoryId, name, description, photo, material, dimension, color, token)),
         updateItem: (id, CategoryId, name, description, photo, material, dimension, color, token) => dispatch(updateItem(id, CategoryId, name, description, photo, material, dimension, color, token)),
         getItemsById: (token, ItemId) => dispatch(getItemsById(token, ItemId)),
@@ -365,7 +342,6 @@ function bindAction(dispatch) {
 }
 
 const mapStateToProps = state => ({
-    navigation: state.cardNavigation,
     itemId: state.itemId,
     categories: state.categories
 });

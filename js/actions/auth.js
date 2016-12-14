@@ -11,7 +11,6 @@ var {
 } = ReactNative;
 
 import type { Action } from './types';
-import navigateTo from './bottomNav';
 
 export const USER_LOGIN_SUCCESS = 'USER_LOGIN_SUCCESS';
 export const USER_LOGIN_FAILURE = 'USER_LOGIN_FAILURE';
@@ -34,7 +33,7 @@ export function userRegisterFailure():Action {
     };
 }
 
-export function registerUser(username, password, email, confirmPassword) {
+export function registerUser(username, password, email, confirmPassword, navigator) {
     return (dispatch) => {
         fetch(`http://br-tr-dev.ap-southeast-1.elasticbeanstalk.com/api/auth/register`, {
             method: 'POST',
@@ -53,7 +52,7 @@ export function registerUser(username, password, email, confirmPassword) {
             .then((responseJson) => {
                 dispatch(userRegisterSuccess(responseJson))
                 AsyncStorage.setItem('myKey', responseJson);
-                dispatch(navigateTo('home', 'registerPage'))
+                navigator.replace({id: 'home'})
             })
             .catch((error) => {
                 console.log("fail", error)
@@ -83,7 +82,7 @@ export function userLoginFailure():Action {
     };
 }
 
-export function loginUser(username, password) {
+export function loginUser(username, password, navigator) {
   console.log('func login action');
     return (dispatch) => {
         fetch(`http://br-tr-dev.ap-southeast-1.elasticbeanstalk.com/api/auth/login`, {
@@ -102,7 +101,7 @@ export function loginUser(username, password) {
                 if (responseJson) {
                     dispatch(userLoginSuccess(responseJson))
                     AsyncStorage.setItem('myKey', responseJson);
-                    dispatch(navigateTo('home', 'loginPage'))
+                    navigator.replace({id: 'home'})
                 }
             })
             .catch((error) => {

@@ -1,9 +1,6 @@
 
 import React, { Component } from 'react';
-import { BackAndroid, StatusBar, NavigationExperimental, AsyncStorage } from 'react-native';
-import { connect } from 'react-redux';
-import { Drawer } from 'native-base';
-import { actions } from 'react-native-navigation-redux-helpers';
+import { BackAndroid, StatusBar, NavigationExperimental, AsyncStorage, Navigator } from 'react-native';
 
 import { closeDrawer } from './actions/drawer';
 
@@ -59,13 +56,6 @@ import RegisterPage from './appComponents/registerPage';
 
 import decode from 'jwt-decode'
 
-const {
-    popRoute,
-} = actions;
-
-const {
-    CardStack: NavigationCardStack,
-} = NavigationExperimental;
 
 class AppNavigator extends Component {
 
@@ -78,30 +68,20 @@ class AppNavigator extends Component {
         }
     }
 
-    static propTypes = {
-        drawerState: React.PropTypes.string,
-        popRoute: React.PropTypes.func,
-        closeDrawer: React.PropTypes.func,
-        navigation: React.PropTypes.shape({
-            key: React.PropTypes.string,
-            routes: React.PropTypes.array,
-        }),
-    }
-
-    componentDidMount() {
-        BackAndroid.addEventListener('hardwareBackPress', () => {
-            const routes = this.props.navigation.routes;
-
-            if (routes[routes.length - 1].key === 'home') {
-                return false;
-            }
-
-            this.props.popRoute(this.props.navigation.key);
-            return true;
-        });
-
-        this._loadInitialState().done();
-    }
+    // componentDidMount() {
+    //     BackAndroid.addEventListener('hardwareBackPress', () => {
+    //         const routes = this.props.navigation.routes;
+    //
+    //         if (routes[routes.length - 1].key === 'home') {
+    //             return false;
+    //         }
+    //
+    //         this.props.popRoute(this.props.navigation.key);
+    //         return true;
+    //     });
+    //
+    //     this._loadInitialState().done();
+    // }
 
     _loadInitialState = async () => {
         try {
@@ -125,28 +105,11 @@ class AppNavigator extends Component {
         this.setState({messages: this.state.messages.concat(message)});
     };
 
-    componentDidUpdate() {
-        if (this.props.drawerState === 'opened') {
-            this.openDrawer();
-        }
 
-        if (this.props.drawerState === 'closed') {
-            this._drawer.close();
-        }
 
-    }
-
-    popRoute() {
-        this.props.popRoute();
-    }
-
-    openDrawer() {
-        this._drawer.open();
-    }
-
-    _renderScene(props) { // eslint-disable-line class-methods-use-this
-
-        switch (props.scene.route.key) {
+    renderScene(route, navigator) {
+        var routeId = route.id;
+        switch (routeId) {
             case 'splashscreen':
                 return <SplashPage />;
             case 'anatomy':
@@ -205,40 +168,40 @@ class AppNavigator extends Component {
                 return <NHTypography />;
 
             case 'home':
-                return <Home />;
+                return <Home navigator={navigator}/>;
             case 'authPage':
-                return <AuthPage />;
+                return <AuthPage navigator={navigator}/>;
             case 'loginPage':
-                return <LoginPage />;
+                return <LoginPage navigator={navigator}/>;
             case 'registerPage':
-                return <RegisterPage />;
+                return <RegisterPage navigator={navigator}/>;
             case 'itemDetail':
-                return <ItemDetail />;
+                return <ItemDetail navigator={navigator} route={route}/>;
             case 'listItem':
-                return <ListItem />;
+                return <ListItem navigator={navigator}/>;
             case 'listItemCategory':
-                return <ListItemCategory />;
+                return <ListItemCategory navigator={navigator} route={route}/>;
             case 'searchItem':
-                return <SearchItem />;
+                return <SearchItem navigator={navigator}/>;
             case 'profileEmpty':
-                return <ProfileEmpty />;
+                return <ProfileEmpty navigator={navigator}/>;
             case 'profileDetail':
-                return <ProfileDetail />;
+                return <ProfileDetail navigator={navigator} route={route}/>;
             case 'addItem':
-                return <AddItem />;
+                return <AddItem navigator={navigator} route={route}/>;
             case 'askEmail':
-                return <AskEmail />;
+                return <AskEmail navigator={navigator}/>;
             case 'codeEmail':
-                return <CodeEmail />;
+                return <CodeEmail navigator={navigator}/>;
             case 'listMessage':
-                return <ListMessage />
+                return <ListMessage navigator={navigator} route={route}/>
             case 'messageDetail':
-                return <MessageDetail />
+                return <MessageDetail navigator={navigator} route={route}/>
             case 'createMessage':
-                return <CreateMessage />
+                return <CreateMessage navigator={navigator} route={route}/>
 
             default :
-                return <Home />;
+                return this.noRoute(navigator);
         }
     }
 
@@ -249,56 +212,31 @@ class AppNavigator extends Component {
     }
 
     render() {
+
         return (
-            <Drawer
-                ref={(ref) => { this._drawer = ref; }}
-                type="overlay"
-                tweenDuration={150}
-                content={<SideBar navigator={this._navigator} />}
-                tapToClose
-                acceptPan={false}
-                onClose={() => this.closeDrawer()}
-                openDrawerOffset={0.2}
-                panCloseMask={0.2}
-                styles={{
-          drawer: {
-            shadowColor: '#000000',
-            shadowOpacity: 0.8,
-            shadowRadius: 3,
-          },
-        }}
-                tweenHandler={(ratio) => {  // eslint-disable-line
-          return {
-            drawer: { shadowRadius: ratio < 0.2 ? ratio * 5 * 5 : 5 },
-            main: {
-              opacity: (2 - ratio) / 2,
-            },
-          };
-        }}
-                negotiatePan
-            >
-                <StatusBar
-                    backgroundColor={statusBarColor.statusBarColor}
-                    barStyle="default"
-                />
-                <NavigationCardStack
-                    navigationState={this.props.navigation}
-                    renderOverlay={this._renderOverlay}
-                    renderScene={this._renderScene}
-                />
-            </Drawer>
+            <Navigator
+                initialRoute={{id: 'loginPage'}}
+                renderScene={this.renderScene.bind(this)}
+                configureScene={(route) => {
+                        if (route.sceneConfig) {
+                            return route.sceneConfig;
+                        }
+                        return Navigator.SceneConfigs.FloatFromRight;
+                    }}
+            />
+        );
+    }
+
+    noRoute(navigator) {
+        return (
+            <View style={{flex: 1, alignItems: 'stretch', justifyContent: 'center'}}>
+                <TouchableOpacity style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}
+                                  onPress={() => navigator.pop()}>
+                    <Text style={{color: 'red', fontWeight: 'bold'}}>Back To Home</Text>
+                </TouchableOpacity>
+            </View>
         );
     }
 }
 
-const bindAction = dispatch => ({
-    closeDrawer: () => dispatch(closeDrawer()),
-    popRoute: key => dispatch(popRoute(key)),
-});
-
-const mapStateToProps = state => ({
-    drawerState: state.drawer.drawerState,
-    navigation: state.cardNavigation,
-});
-
-export default connect(mapStateToProps, bindAction)(AppNavigator);
+export default AppNavigator

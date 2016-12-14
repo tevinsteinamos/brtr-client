@@ -11,17 +11,8 @@ import {registerUser} from '../../actions/auth'
 
 const Item = Picker.Item;
 const barter_logo = require('../../../img/barter_logo.png');
-import navigateTo from '../../actions/bottomNav';
 
 class RegisterPage extends Component {
-
-    static propTypes = {
-        navigateTo: React.PropTypes.func,
-    }
-
-    navigateTo(route) {
-        this.props.navigateTo(route, 'registerPage');
-    }
 
     constructor(props) {
         super(props);
@@ -136,7 +127,7 @@ class RegisterPage extends Component {
                       fontSize: 14}}>
                   Already have an account ?
                   <Text style={{color: '#2effd0', fontSize: 12}}
-                        onPress={()=>this.navigateTo('loginPage')}>   Sign In !</Text></Text>
+                        onPress={()=>this.props.navigator.push({id: 'loginPage'})}>   Sign In !</Text></Text>
               </Content>
             </Container>
         );
@@ -145,7 +136,6 @@ class RegisterPage extends Component {
 
 function bindAction(dispatch) {
     return {
-        navigateTo: (route, homeRoute) => dispatch(navigateTo(route, homeRoute)),
         registerUser: (username, password, email, confirmPassword) => dispatch(registerUser(username, password, email, confirmPassword)),
     };
 }
