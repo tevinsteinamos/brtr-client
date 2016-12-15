@@ -93,55 +93,44 @@ class ListItemCategory extends Component {
             )
         })
 
-        // if (loading) {
-        //     return(
-        //         <Container theme={myTheme} style={styles.container}>
-        //             <Content>
-        //                 <Spinner color='green' />
-        //             </Content>
-        //         </Container>
-        //     )
-        // }
-        // else {
-            return (
-                <Container theme={myTheme} style={styles.container}>
+        return (
+            <Container theme={myTheme} style={styles.container}>
 
-                    <Header>
-                        <Title
-                            style={{alignSelf: 'center', color: '#6CF9C8'}}>{this.props.route.CategoryName.toUpperCase()}</Title>
-                        <Button transparent onPress={() => this.props.navigator.push({id: 'searchItem'})}>
-                            <Icon name="ios-search"/>
+                <Header>
+                    <Title
+                        style={{alignSelf: 'center', color: '#6CF9C8'}}>{this.props.route.CategoryName.toUpperCase()}</Title>
+                    <Button transparent onPress={() => this.props.navigator.push({id: 'searchItem'})}>
+                        <Icon name="ios-search"/>
+                    </Button>
+                    <Button transparent onPress={() => this.props.navigator.push({id: 'listMessage'})}>
+                        <Icon name="ios-mail"/>
+                    </Button>
+                </Header>
+
+                <Content>
+                    <List>
+                        {ItemCategoryNodes}
+                    </List>
+                </Content>
+
+                <Footer>
+                    <FooterTab>
+                        <Button
+                            active={this.state.tab1} onPress={() => navigator.replace({id: 'home'})}>
+                            <Icon name='md-home'/>
                         </Button>
-                        <Button transparent onPress={() => this.props.navigator.push({id: 'listMessage'})}>
-                            <Icon name="ios-mail"/>
+                        <Button active={this.state.tab2} onPress={() => navigator.replace({id: 'addItem'})}>
+
+                            <Icon name='md-add-circle'/>
                         </Button>
-                    </Header>
+                        <Button active={this.state.tab3} onPress={() => navigator.replace({id: 'profileDetail'})}>
 
-                    <Content>
-                        <List>
-                            {ItemCategoryNodes}
-                        </List>
-                    </Content>
-
-                    <Footer>
-                        <FooterTab>
-                            <Button
-                                active={this.state.tab1} onPress={() => navigator.replace({id: 'home'})}>
-                                <Icon name='md-home'/>
-                            </Button>
-                            <Button active={this.state.tab2} onPress={() => navigator.replace({id: 'addItem'})}>
-
-                                <Icon name='md-add-circle'/>
-                            </Button>
-                            <Button active={this.state.tab3} onPress={() => navigator.replace({id: 'profileDetail'})}>
-
-                                <Icon name='ios-person'/>
-                            </Button>
-                        </FooterTab>
-                    </Footer>
-                </Container>
-            );
-        // }
+                            <Icon name='ios-person'/>
+                        </Button>
+                    </FooterTab>
+                </Footer>
+            </Container>
+        );
     }
 }
 
