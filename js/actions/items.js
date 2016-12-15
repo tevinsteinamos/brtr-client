@@ -7,7 +7,7 @@ var {
 } = ReactNative;
 
 import type { Action } from './types';
-
+import {stopLoading} from './loading'
 export const LOAD_ITEMS_BY_USER = 'LOAD_ITEMS_BY_USER'
 export const LOAD_ITEMS_BY_USER_SUCCESS = 'LOAD_ITEMS_BY_USER_SUCCESS'
 export const LOAD_ITEMS_BY_USER_FAILURE = 'LOAD_ITEMS_BY_USER_FAILURE'
@@ -44,7 +44,7 @@ export function loadItemsFailureByUserId() {
 
 export function getItemsByUserId(token, id) {
     const UserData = decode(token)
-    // console.log('user data: ', UserData)
+
     return (dispatch) => {
         // dispatch(loadItemsByUserId())
         fetch(`http://br-tr-dev.ap-southeast-1.elasticbeanstalk.com/api/items/user/${id}`, {
@@ -57,15 +57,16 @@ export function getItemsByUserId(token, id) {
         })
             .then((response) => response.json())
             .then((responseJson) => {
-                console.log("ini respon item: ", responseJson)
+
                 dispatch(loadItemsSuccessByUserId(responseJson))
+                // dispatch(stopLoading())
             })
             .catch((error) => {
-                console.log("fail byUser: ", error)
+
                 Alert.alert(
                     'Load Items Fail',
                     [
-                        {text: 'OK', onPress: () => console.log('OK Pressed')},
+                        {text: 'OK'},
                     ]
                 )
                 dispatch(loadItemsFailureByUserId())
@@ -88,7 +89,6 @@ export function createItemSuccess(item) {
 }
 
 export function addItem(CategoryId, name, description, photo, material, dimension, color, token, navigator) {
-    // console.log("navigator di add item: ", navigator)
     const userDecoded = decode(token)
     return (dispatch) => {
         fetch(`http://br-tr-dev.ap-southeast-1.elasticbeanstalk.com/api/items`, {
@@ -112,17 +112,15 @@ export function addItem(CategoryId, name, description, photo, material, dimensio
         })
             .then((response) => response.json())
             .then((responseJson) => {
-                console.log('respon create: ', responseJson)
                 dispatch(createItemSuccess(responseJson))
                 navigator.replace({id: 'itemDetail', ItemId: responseJson.data.id})
             })
             .catch((error) => {
-                console.log("fail", error)
                 Alert.alert(
                     'Register Fail',
                     'something wrong, please register again',
                     [
-                        {text: 'OK', onPress: () => console.log('OK Pressed')},
+                        {text: 'OK'},
                     ]
                 )
                 dispatch(createItemFailure())
@@ -158,16 +156,14 @@ export function deleteItem(id, token, navigator){
         })
             .then((response) => response.json())
             .then((responseJson) => {
-                console.log("ini respon item: ", responseJson)
                 dispatch(deleteItemSuccess(responseJson))
                 navigator.replace({id: 'profileDetail'})
             })
             .catch((error) => {
-                console.log("fail byUser: ", error)
                 Alert.alert(
                     'Load Items Fail',
                     [
-                        {text: 'OK', onPress: () => console.log('OK Pressed')},
+                        {text: 'OK'},
                     ]
                 )
                 dispatch(deleteItemFailure())
@@ -197,18 +193,7 @@ export function updateItemSuccess(item) {
 }
 
 export function updateItem(id, CategoryId, name, description, photo, material, dimension, color, token, navigator) {
-    // console.log('id : ', id)
-    // console.log('CategoryId : ', CategoryId);
-    // console.log('name : ', name);
-    // console.log('description : ', description);
-    // console.log('photo : ', photo);
-    // console.log('material : ', material);
-    // console.log('dimension : ', dimension);
-    // console.log('color : ', color);
-    // console.log('token : ', token);
-    // console.log('nav : ', navigator);
     const userDecoded = decode(token)
-    console.log('user : ', userDecoded);
     return (dispatch) => {
         fetch(`http://br-tr-dev.ap-southeast-1.elasticbeanstalk.com/api/items/${id}`, {
             method: 'PUT',
@@ -231,17 +216,15 @@ export function updateItem(id, CategoryId, name, description, photo, material, d
         })
             .then((response) => response.json())
             .then((responseJson) => {
-                console.log('respon create: ', responseJson)
                 dispatch(updateItemSuccess(responseJson))
                 navigator.replace({id: 'itemDetail', ItemId: responseJson.data.id})
             })
             .catch((error) => {
-                console.log("fail", error)
                 Alert.alert(
                     'Register Fail',
                     'something wrong, please register again',
                     [
-                        {text: 'OK', onPress: () => console.log('OK Pressed')},
+                        {text: 'OK'},
                     ]
                 )
                 dispatch(updateItemFailure())

@@ -13,11 +13,9 @@ import {
     ListItem,
     Text,
     Thumbnail,
-    H3,
     InputGroup,
     Input,
     Footer,
-    FooterTab
 } from 'native-base';
 
 import styles from './styles';
@@ -53,10 +51,10 @@ class messageDetail extends Component {
                     body: ''
                 })
             } else {
-                console.log("else")
+
             }
         } catch (error) {
-            console.log("catch: ", error)
+
         }
     }
 
@@ -73,24 +71,21 @@ class messageDetail extends Component {
             var value = await AsyncStorage.getItem("myKey");
             if (value !== null){
                 let itemMessageId = this.props.route.itemMessageId
-                console.log('itemmessageid: ' + itemMessageId)
                 this.setState({token: value})
                 this.setState({dataUser: decode(value)})
                 this.props.getMessages(value,itemMessageId)
             } else {
-                console.log("else")
+
             }
         } catch (error) {
-            console.log("catch: ", error)
+
         }
     }
 
     render() {
         var {navigator, messages} = this.props
-        // console.log('messages: ' + messages)
         var title = this.props.route.title
         var showMessages = messages.map((message,index) => {
-            // console.log(messages[index])
             if(messages[index]){
                 return (
                     <ListItem key={messages[index].id || messages[index].TempMessageId} style={styles.noBottomBorder}>

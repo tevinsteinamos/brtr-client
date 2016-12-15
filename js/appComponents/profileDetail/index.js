@@ -7,19 +7,16 @@ import {
     Header,
     Title,
     Content,
-    Text, H3, H2, H1,
+    Text,
     Button,
     Icon,
     Footer,
     FooterTab,
     Card,
     CardItem,
-    Thumbnail,
-    View,
     List,
-    ListItem
+    Spinner
 } from 'native-base';
-import { Grid, Col } from 'react-native-easy-grid';
 
 import {getItemsByUserId} from '../../actions/items';
 import {getUserById} from '../../actions/getUserById';
@@ -56,11 +53,11 @@ class ProfileDetail extends Component {
     _loadInitialState = async () => {
         try {
             var value = await AsyncStorage.getItem("myKey");
-            console.log("value: ", value)
             this.setState({dataUser: decode(value)})
             if (value !== null){
 
                 if (this.props.route.UserId) {
+
                     this.props.getItemsByUserId(value, this.props.route.UserId)
                     this.props.getUserById(value, this.props.route.UserId)
                     if (this.props.route.UserId === this.state.dataUser.id) {
@@ -77,11 +74,9 @@ class ProfileDetail extends Component {
 
                 this._appendMessage('Recovered selection from disk: ' + value);
             } else {
-                console.log("else")
                 this._appendMessage('Initialized with no selection on disk.');
             }
         } catch (error) {
-            console.log("catch: ", error)
             this._appendMessage('AsyncStorage error: ' + error.message);
         }
     }
@@ -96,18 +91,12 @@ class ProfileDetail extends Component {
             await AsyncStorage.removeItem("myKey");
             this.props.navigator.replace({id: 'loginPage'})
         } catch (error) {
-            console.log("err")
         }
     }
 
 
     render() {
-        const {navigator, items, user} = this.props
-        console.log("ini props di profile: ", this.props)
-        console.log("ini item props di profile: ", items)
-        console.log("ini props user di profile: ", user)
-
-
+        const {navigator, items, user, loading} = this.props
         let buttonLogout
 
         if(this.props.route.UserId) {
@@ -156,45 +145,56 @@ class ProfileDetail extends Component {
             )
         })
 
-        return (
-            <Container theme={myTheme} style={styles.container}>
-                <Header>
-                    <Title style={{alignSelf: 'center', color: '#6CF9C8'}}>
-                        {(this.props.route.UserId) ? ((this.props.route.UserId === this.state.dataUser.id) ? 'MY PROFILE' : `${user.username} PROFILE` ) : 'MY PROFILE'}
-                    </Title>
-                    <Button transparent onPress={() => this.props.navigator.push({id: 'searchItem'})}>
-                        <Icon name="ios-search" />
-                    </Button>
-                    <Button transparent onPress={() => this.props.navigator.push({id: 'editProfile', avatar: user.avatar})}>
-                        <Icon name="ios-settings" />
-                    </Button>
-                </Header>
+        if(loading) {
+            return(
+                <Container theme={myTheme} style={styles.container}>
+                    <Content>
+                        <Spinner color='green' />
+                    </Content>
+                </Container>
+            )
+        }
+        else {
+            return (
+                <Container theme={myTheme} style={styles.container}>
+                    <Header>
+                        <Title style={{alignSelf: 'center', color: '#6CF9C8'}}>
+                            {(this.props.route.UserId) ? ((this.props.route.UserId === this.state.dataUser.id) ? 'MY PROFILE' : `${user.username} PROFILE` ) : 'MY PROFILE'}
+                        </Title>
+                        <Button transparent onPress={() => this.props.navigator.push({id: 'searchItem'})}>
+                            <Icon name="ios-search"/>
+                        </Button>
+                        <Button transparent
+                                onPress={() => this.props.navigator.push({id: 'editProfile', avatar: user.avatar})}>
+                            <Icon name="ios-settings"/>
+                        </Button>
+                    </Header>
 
-                <Content>
-                    <Card style={{ flex: 0, backgroundColor: '#1E1E1E', borderWidth: 0 }}>
-                        <CardItem
-                            style={{borderBottomWidth: 0}}
-                        >
-                            <Image
-                                style={{resizeMode: 'cover',  alignSelf: 'center', width: 200, height: 200 }}
-                                source={(user.avatar) ? {uri: user.avatar} : require('../../../img/img-placeholder.png')}
-                            />
-                        </CardItem>
-                    </Card>
-                    <Text
-                        style={{
+                    <Content>
+                        <Card style={{ flex: 0, backgroundColor: '#1E1E1E', borderWidth: 0 }}>
+                            <CardItem
+                                style={{borderBottomWidth: 0}}
+                            >
+                                <Image
+                                    style={{resizeMode: 'cover',  alignSelf: 'center', width: 200, height: 200 }}
+                                    source={(user.avatar) ? {uri: user.avatar} : require('../../../img/img-placeholder.png')}
+                                />
+                            </CardItem>
+                        </Card>
+                        <Text
+                            style={{
                             color: '#fff',
                             alignSelf: 'center',
                             fontSize: 20,
                             fontStyle: 'normal',
                             marginBottom: 20}}>
-                        {user.username}
-                    </Text>
+                            {user.username}
+                        </Text>
 
-                    {buttonLogout}
+                        {buttonLogout}
 
-                    <Text
-                        style={{
+                        <Text
+                            style={{
                             color: '#fff',
                              alignSelf: 'center',
                              fontSize: 20,
@@ -202,32 +202,33 @@ class ProfileDetail extends Component {
                              marginTop: 20,
                              marginBottom: 20
                         }}>
-                    </Text>
+                        </Text>
 
-                      <List>
-                        {ItemNodes}
-                      </List>
-                </Content>
+                        <List>
+                            {ItemNodes}
+                        </List>
+                    </Content>
 
-                <Footer>
-                    <FooterTab>
-                        <Button
-                            active={this.state.tab1} onPress={() => navigator.replace({id: 'home'})}>
-                            <Icon name='md-home' />
-                        </Button>
-                        <Button active={this.state.tab2} onPress={() => navigator.replace({id: 'addItem'})} >
-                            
-                            <Icon name='md-add-circle' />
-                        </Button>
-                        <Button active={this.state.tab3} onPress={() => navigator.replace({id: 'profileDetail'})} >
-                            
-                            <Icon name='ios-person' />
-                        </Button>
-                    </FooterTab>
-                </Footer>
+                    <Footer>
+                        <FooterTab>
+                            <Button
+                                active={this.state.tab1} onPress={() => navigator.replace({id: 'home'})}>
+                                <Icon name='md-home'/>
+                            </Button>
+                            <Button active={this.state.tab2} onPress={() => navigator.replace({id: 'addItem'})}>
 
-            </Container>
-        );
+                                <Icon name='md-add-circle'/>
+                            </Button>
+                            <Button active={this.state.tab3} onPress={() => navigator.replace({id: 'profileDetail'})}>
+
+                                <Icon name='ios-person'/>
+                            </Button>
+                        </FooterTab>
+                    </Footer>
+
+                </Container>
+            );
+        }
     }
 }
 
@@ -240,7 +241,8 @@ function bindAction(dispatch) {
 
 const mapStateToProps = state => ({
     items: state.items,
-    user: state.getUserById
+    user: state.getUserById,
+    loading: state.loading
 });
 
 export default connect(mapStateToProps, bindAction)(ProfileDetail);

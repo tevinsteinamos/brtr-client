@@ -13,7 +13,7 @@ export const LOAD_ITEMS_BY_ID_SUCCESS = 'LOAD_ITEMS_BY_ID_SUCCESS'
 export const LOAD_ITEMS_BY_ID_FAILURE = 'LOAD_ITEMS_BY_ID_FAILURE'
 
 import decode from 'jwt-decode'
-
+import {stopLoading} from './loading'
 const SERVER_URL_USERS = 'http://localhost:3000/api'
 
 
@@ -30,7 +30,6 @@ export function loadItemsFailureById() {
 }
 
 export function getItemsById(token, id) {
-    console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> dapet id nya: ", id)
     return (dispatch) => {
         // dispatch(loadItemsById())
         fetch(`http://br-tr-dev.ap-southeast-1.elasticbeanstalk.com/api/items/${id}`, {
@@ -43,15 +42,14 @@ export function getItemsById(token, id) {
         })
             .then((response) => response.json())
             .then((responseJson) => {
-                console.log("dapet by id: ", responseJson)
                 dispatch(loadItemsSuccessById(responseJson))
+                dispatch(stopLoading())
             })
             .catch((error) => {
-                console.log("fail by id: ", error)
                 Alert.alert(
                     'Load Items Fail',
                     [
-                        {text: 'OK', onPress: () => console.log('OK Pressed')},
+                        {text: 'OK'},
                     ]
                 )
                 dispatch(loadItemsFailureById())

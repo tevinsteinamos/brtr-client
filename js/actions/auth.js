@@ -36,7 +36,6 @@ export function userRegisterFailure():Action {
 }
 
 export function registerUser(username, password, email, confirmPassword, navigator) {
-  console.log('func register action ');
     return (dispatch) => {
         fetch(`http://br-tr-dev.ap-southeast-1.elasticbeanstalk.com/api/auth/register`, {
             method: 'POST',
@@ -53,23 +52,20 @@ export function registerUser(username, password, email, confirmPassword, navigat
         })
             .then((response) => response.json())
             .then((responseJson) => {
-              console.log('regis response : ', responseJson.message);
-              if (responseJson.name == "SequelizeValidationError") {
-                console.log('masuk error');
-                dispatch(userRegisterFailure())
-              } else {
-                dispatch(userRegisterSuccess(responseJson))
-                AsyncStorage.setItem('myKey', responseJson);
-                navigator.replace({id: 'home'})
-              }
+                if (responseJson.name == "SequelizeValidationError") {
+                    dispatch(userRegisterFailure())
+                } else {
+                    dispatch(userRegisterSuccess(responseJson))
+                    AsyncStorage.setItem('myKey', responseJson);
+                    navigator.replace({id: 'home'})
+                }
             })
             .catch((error) => {
-                console.log("fail", error)
                 Alert.alert(
                     'Register Fail',
                     'Username or Password has been used',
                     [
-                        {text: 'OK', onPress: () => console.log('OK Pressed')},
+                        {text: 'OK'},
                     ]
                 )
                 dispatch(userRegisterFailure())
@@ -78,10 +74,9 @@ export function registerUser(username, password, email, confirmPassword, navigat
     }
 }
 export function userLoginNormalize() {
-  console.log('action normalize 58757845685685');
-  return {
-      type: USER_LOGIN
-  };
+    return {
+        type: USER_LOGIN
+    };
 }
 
 export function userLoginSuccess(user):Action {
@@ -99,7 +94,6 @@ export function userLoginFailure():Action {
 }
 
 export function loginUser(username, password, navigator) {
-  console.log('func login action');
     return (dispatch) => {
         fetch(`http://br-tr-dev.ap-southeast-1.elasticbeanstalk.com/api/auth/login`, {
             method: 'POST',
@@ -112,8 +106,7 @@ export function loginUser(username, password, navigator) {
                 password: password
             })
         }).then((response) => response.json())
-          .then((responseJson) => {
-            console.log("ini respon json: ", responseJson)
+            .then((responseJson) => {
                 if (responseJson) {
                     dispatch(userLoginSuccess(responseJson))
                     AsyncStorage.setItem('myKey', responseJson);
@@ -121,11 +114,10 @@ export function loginUser(username, password, navigator) {
                 }
             })
             .catch((error) => {
-                console.log(error)
                 if (error == 'SyntaxError: Unexpected token U in JSON at position 0(…)') {
-                  dispatch(userLoginFailure())
+                    dispatch(userLoginFailure())
                 } else {
-                  dispatch(userLoginFailure())
+                    dispatch(userLoginFailure())
                 }
             });
     }

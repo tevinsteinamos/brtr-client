@@ -1,24 +1,18 @@
 
 import React, { Component } from 'react';
 import { BackAndroid, Image, AsyncStorage } from 'react-native';
-import { Col, Row, Grid } from 'react-native-easy-grid';
 import { connect } from 'react-redux';
 import {
     Container,
     Header,
     Title,
     Content,
-    Text, H3, H2, H1,
     Button,
     Icon,
     Footer,
     FooterTab,
-    Card,
-    CardItem,
     List,
-    ListItem,
-    Thumbnail,
-    View
+    Spinner
 } from 'native-base';
 
 import {getItemsByCategoryId} from '../../actions/categoryId';
@@ -79,11 +73,9 @@ class ListItemCategory extends Component {
                 this.props.getItemsByCategoryId(value, this.props.route.CategoryId)
                 this._appendMessage('Recovered selection from disk: ' + value);
             } else {
-                console.log("else")
                 this._appendMessage('Initialized with no selection on disk.');
             }
         } catch (error) {
-            console.log("catch: ", error)
             this._appendMessage('AsyncStorage error: ' + error.message);
         }
     }
@@ -93,9 +85,7 @@ class ListItemCategory extends Component {
     };
 
     render() {
-        const {navigator, route, items} = this.props
-        console.log('item category: ', items)
-        console.log('route di list item category: ', route)
+        const {navigator, route, items, loading} = this.props
 
         let ItemCategoryNodes = items.map(function (item) {
             return(
@@ -103,43 +93,55 @@ class ListItemCategory extends Component {
             )
         })
 
-        return (
-            <Container theme={myTheme} style={styles.container}>
+        if (loading) {
+            return(
+                <Container theme={myTheme} style={styles.container}>
+                    <Content>
+                        <Spinner color='green' />
+                    </Content>
+                </Container>
+            )
+        }
+        else {
+            return (
+                <Container theme={myTheme} style={styles.container}>
 
-                <Header>
-                    <Title style={{alignSelf: 'center', color: '#6CF9C8'}}>{this.props.route.CategoryName.toUpperCase()}</Title>
-                    <Button transparent onPress={() => this.props.navigator.push({id: 'searchItem'})}>
-                        <Icon name="ios-search" />
-                    </Button>
-                    <Button transparent onPress={() => this.props.navigator.push({id: 'listAvatar'})}>
-                        <Icon name="ios-mail" />
-                    </Button>
-                </Header>
+                    <Header>
+                        <Title
+                            style={{alignSelf: 'center', color: '#6CF9C8'}}>{this.props.route.CategoryName.toUpperCase()}</Title>
+                        <Button transparent onPress={() => this.props.navigator.push({id: 'searchItem'})}>
+                            <Icon name="ios-search"/>
+                        </Button>
+                        <Button transparent onPress={() => this.props.navigator.push({id: 'listAvatar'})}>
+                            <Icon name="ios-mail"/>
+                        </Button>
+                    </Header>
 
-                <Content>
-                  <List>
-                    {ItemCategoryNodes}
-                  </List>
-                </Content>
+                    <Content>
+                        <List>
+                            {ItemCategoryNodes}
+                        </List>
+                    </Content>
 
-                <Footer>
-                    <FooterTab>
-                        <Button
-                            active={this.state.tab1} onPress={() => navigator.replace({id: 'home'})}>
-                            <Icon name='md-home' />
-                        </Button>
-                        <Button active={this.state.tab2} onPress={() => navigator.replace({id: 'addItem'})} >
-                            
-                            <Icon name='md-add-circle' />
-                        </Button>
-                        <Button active={this.state.tab3} onPress={() => navigator.replace({id: 'profileDetail'})} >
-                            
-                            <Icon name='ios-person' />
-                        </Button>
-                    </FooterTab>
-                </Footer>
-            </Container>
-        );
+                    <Footer>
+                        <FooterTab>
+                            <Button
+                                active={this.state.tab1} onPress={() => navigator.replace({id: 'home'})}>
+                                <Icon name='md-home'/>
+                            </Button>
+                            <Button active={this.state.tab2} onPress={() => navigator.replace({id: 'addItem'})}>
+
+                                <Icon name='md-add-circle'/>
+                            </Button>
+                            <Button active={this.state.tab3} onPress={() => navigator.replace({id: 'profileDetail'})}>
+
+                                <Icon name='ios-person'/>
+                            </Button>
+                        </FooterTab>
+                    </Footer>
+                </Container>
+            );
+        }
     }
 }
 
@@ -150,7 +152,8 @@ function bindAction(dispatch) {
 }
 
 const mapStateToProps = state => ({
-    items: state.categoryId
+    items: state.categoryId,
+    loading: state.loading
 });
 
 export default connect(mapStateToProps, bindAction)(ListItemCategory);

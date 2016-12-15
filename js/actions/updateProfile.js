@@ -24,7 +24,6 @@ export function updateProfileSuccess(profile) {
 }
 
 export function updateProfile(newPassword, photo, token, navigator) {
-    console.log("masuk: ",newPassword, photo, token, navigator)
     const userDecoded = decode(token)
     return (dispatch) => {
         fetch(`http://br-tr-dev.ap-southeast-1.elasticbeanstalk.com/api/auth/edit_profile/${userDecoded.id}`, {
@@ -41,17 +40,15 @@ export function updateProfile(newPassword, photo, token, navigator) {
         })
             .then((response) => response.json())
             .then((responseJson) => {
-                console.log('respon update: ', responseJson)
                 dispatch(updateProfileSuccess(responseJson))
                 navigator.replace({id: 'profileDetail'})
             })
             .catch((error) => {
-                console.log("fail", error)
                 Alert.alert(
                     'update Fail',
                     'something wrong, please register again',
                     [
-                        {text: 'OK', onPress: () => console.log('OK Pressed')},
+                        {text: 'OK'},
                     ]
                 )
                 dispatch(updateProfileFailure())

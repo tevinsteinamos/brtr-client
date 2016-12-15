@@ -25,8 +25,6 @@ export default function (state:State = initialState, action:Action): State {
             return state
 
         case NEW_MESSAGE:
-            console.log("state di reduc: ", state)
-            console.log("action di reduc: ", action)
             return [
                 ...state,
                 {
@@ -40,26 +38,15 @@ export default function (state:State = initialState, action:Action): State {
             ]
 
         case ADD_MESSAGE_SUCCESS:
-            console.log("state timeline: ", state)
-            console.log("init dari reducers: ", action.message)
             let idObjects = state.map(function (x) {
-                console.log("isi x object: ", x)
                 return x.TempMessageId
             })
 
-            console.log("isi id object: ", idObjects)
-            console.log("isi action: ", action)
-
-            // console.log("isi id action timeline id: ", action.note.Note.TempNoteId)
-
             let idObject = idObjects.indexOf(action.message.TempMessageId)
-            console.log("isi id object seletah: ", idObject)
             if (idObject > -1) {
                 let newMessageFilter = state.filter((data) => {
-                    console.log("isi filter: ", data)
                     return data.fake != true
                 })
-                console.log("new timeline filter: ", newMessageFilter)
                 return [...newMessageFilter, action.message]
             }
             else {

@@ -8,7 +8,7 @@ import {
     Header,
     Title,
     Content,
-    Text, H3, H2, H1,
+    Text, H3, H1,
     Button,
     Icon,
     Footer,
@@ -16,8 +16,8 @@ import {
     Card,
     CardItem,
     Thumbnail,
-    View,
-    ListItem
+    ListItem,
+    Spinner
 } from 'native-base';
 
 import myTheme from '../../themes/base-theme';
@@ -77,7 +77,6 @@ class ItemDetail extends Component {
     _loadInitialState = async () => {
         try {
             var value = await AsyncStorage.getItem("myKey");
-            console.log("value token di item detail: ", value)
             if (value !== null){
                 this.setState({token: value});
                 this.setState({dataUser: decode(value)});
@@ -85,11 +84,9 @@ class ItemDetail extends Component {
 
                 this._appendMessage('Recovered selection from disk: ' + value);
             } else {
-                console.log("else")
                 this._appendMessage('Initialized with no selection on disk.');
             }
         } catch (error) {
-            console.log("catch")
             this._appendMessage('AsyncStorage error: ' + error.message);
         }
     }
@@ -107,7 +104,7 @@ class ItemDetail extends Component {
                     this.props.deleteItem(this.props.itemId.id, this.state.token, this.props.navigator)
                 }},
                 {text: 'Cancel', onPress: () => {
-                    // console.log('Cancel Pressed!')
+
                 }},
             ]
         )
@@ -116,12 +113,7 @@ class ItemDetail extends Component {
 
 
     render() {
-        const {navigator, route, itemId} = this.props
-        console.log('>>>> item detail props: ', this.props)
-        console.log('>>>> item detail: ', itemId)
-        console.log('>>>> item detail User: ', itemId.User)
-
-
+        const {navigator, route, itemId, loading} = this.props
         let actionButton
         let deleteButton
         if (itemId.User) {
@@ -141,93 +133,103 @@ class ItemDetail extends Component {
             }
         }
 
-        return (
-            <Container theme={myTheme} style={styles.container}>
+        if (loading) {
+            return(
+                <Container theme={myTheme} style={styles.container}>
+                    <Content>
+                        <Spinner color='green' />
+                    </Content>
+                </Container>
+            )
+        }
+        else {
+            return (
+                <Container theme={myTheme} style={styles.container}>
 
-                <Header>
-                    <Title style={{alignSelf: 'center', color: '#6CF9C8'}}>{itemId.name}</Title>
-                    <Button transparent onPress={() => navigator.push({id: 'searchItem'})}>
-                        <Icon name="ios-search" />
-                    </Button>
-                    {actionButton}
-                </Header>
+                    <Header>
+                        <Title style={{alignSelf: 'center', color: '#6CF9C8'}}>{itemId.name}</Title>
+                        <Button transparent onPress={() => navigator.push({id: 'searchItem'})}>
+                            <Icon name="ios-search"/>
+                        </Button>
+                        {actionButton}
+                    </Header>
 
-                <Content>
+                    <Content>
 
-                    <Card style={{ flex: 0, backgroundColor: '#1E1E1E', borderWidth: 0 }}>
-                        <CardItem>
-                            <H1 style={{color: 'white', paddingBottom: 10}}>{itemId.name}</H1>
-                            <ListItem
-                                onPress={() => navigator.push({id: 'profileDetail', UserId: itemId.User.id})}
-                                style={{borderBottomWidth: 0}}>
-                                <Thumbnail
-                                    source={(itemId.User) ? ((itemId.User.avatar) ? {uri: itemId.User.avatar} : require('../../../img/img-placeholder.png')) : require('../../../img/img-placeholder.png')} />
-                                <Text
-                                    note>
-                                    {(itemId.User) ? itemId.User.username : ''}
+                        <Card style={{ flex: 0, backgroundColor: '#1E1E1E', borderWidth: 0 }}>
+                            <CardItem>
+                                <H1 style={{color: 'white', paddingBottom: 10}}>{itemId.name}</H1>
+                                <ListItem
+                                    onPress={() => navigator.push({id: 'profileDetail', UserId: itemId.User.id})}
+                                    style={{borderBottomWidth: 0}}>
+                                    <Thumbnail
+                                        source={(itemId.User) ? ((itemId.User.avatar) ? {uri: itemId.User.avatar} : require('../../../img/img-placeholder.png')) : require('../../../img/img-placeholder.png')}/>
+                                    <Text
+                                        note>
+                                        {(itemId.User) ? itemId.User.username : ''}
+                                    </Text>
+                                </ListItem>
+                            </CardItem>
+
+                            <CardItem>
+                                <Text style={styles.textColor}>
+                                    {itemId.description}
                                 </Text>
-                            </ListItem>
-                        </CardItem>
+                            </CardItem>
 
-                        <CardItem>
-                            <Text style={styles.textColor}>
-                                {itemId.description}
-                            </Text>
-                        </CardItem>
+                            <CardItem>
+                                <Image
+                                    style={{ resizeMode: 'cover', width: null }}
+                                    source={{uri: itemId.photo}}/>
+                            </CardItem>
 
-                        <CardItem>
-                            <Image
-                                style={{ resizeMode: 'cover', width: null }}
-                                source={{uri: itemId.photo}} />
-                        </CardItem>
+                            <CardItem>
+                                <H3 style={styles.textColor}>Dimension</H3>
+                                <Text style={styles.textColor}>{itemId.dimension}</Text>
+                            </CardItem>
 
-                        <CardItem>
-                            <H3 style={styles.textColor}>Dimension</H3>
-                            <Text style={styles.textColor}>{itemId.dimension}</Text>
-                        </CardItem>
+                            <Grid>
+                                <Col>
+                                    <CardItem>
+                                        <H3 style={styles.textColor}>Material</H3>
+                                        <Text style={styles.textColor}>{itemId.material}</Text>
+                                    </CardItem>
+                                </Col>
+                                <Col>
+                                    <CardItem>
+                                        <H3 style={styles.textColor}>Color</H3>
+                                        <Text style={styles.textColor}>{itemId.color}</Text>
+                                    </CardItem>
+                                </Col>
+                            </Grid>
 
-                        <Grid>
-                            <Col>
-                                <CardItem>
-                                    <H3 style={styles.textColor}>Material</H3>
-                                    <Text style={styles.textColor}>{itemId.material}</Text>
-                                </CardItem>
-                            </Col>
-                            <Col>
-                                <CardItem>
-                                    <H3 style={styles.textColor}>Color</H3>
-                                    <Text style={styles.textColor}>{itemId.color}</Text>
-                                </CardItem>
-                            </Col>
-                        </Grid>
-
-                        <CardItem>
-                            {deleteButton}
-                        </CardItem>
+                            <CardItem>
+                                {deleteButton}
+                            </CardItem>
 
 
+                        </Card>
+                    </Content>
 
-                    </Card>
-                </Content>
+                    <Footer>
+                        <FooterTab>
+                            <Button
+                                active={this.state.tab1} onPress={() => navigator.replace({id: 'home'})}>
+                                <Icon name='md-home'/>
+                            </Button>
+                            <Button active={this.state.tab2} onPress={() => navigator.replace({id: 'addItem'})}>
 
-                <Footer>
-                    <FooterTab>
-                        <Button
-                            active={this.state.tab1} onPress={() => navigator.replace({id: 'home'})}>
-                            <Icon name='md-home' />
-                        </Button>
-                        <Button active={this.state.tab2} onPress={() => navigator.replace({id: 'addItem'})} >
+                                <Icon name='md-add-circle'/>
+                            </Button>
+                            <Button active={this.state.tab3} onPress={() => navigator.replace({id: 'profileDetail'})}>
 
-                            <Icon name='md-add-circle' />
-                        </Button>
-                        <Button active={this.state.tab3} onPress={() => navigator.replace({id: 'profileDetail'})} >
-
-                            <Icon name='ios-person' />
-                        </Button>
-                    </FooterTab>
-                </Footer>
-            </Container>
-        );
+                                <Icon name='ios-person'/>
+                            </Button>
+                        </FooterTab>
+                    </Footer>
+                </Container>
+            );
+        }
     }
 }
 
@@ -239,7 +241,8 @@ function bindAction(dispatch) {
 }
 
 const mapStateToProps = state => ({
-    itemId: state.itemId
+    itemId: state.itemId,
+    loading: state.loading
 });
 
 export default connect(mapStateToProps, bindAction)(ItemDetail);

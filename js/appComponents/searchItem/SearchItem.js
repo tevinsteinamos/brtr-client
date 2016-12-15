@@ -8,27 +8,16 @@ import {
     Header,
     Title,
     Content,
-    Text, H3, H2, H1,
     Button,
     Icon,
-    Footer,
-    FooterTab,
-    Card,
-    CardItem,
     List,
-    ListItem,
-    Thumbnail,
-    View,
     Input,
     InputGroup
 } from 'native-base';
 
 import myTheme from '../../themes/base-theme';
 import styles from './styles';
-import decode from 'jwt-decode'
-
 import SearchResult from './searchResult'
-
 import {searchProcess} from '../../actions/searchItem'
 
 class SearchItem extends Component {
@@ -57,10 +46,10 @@ class SearchItem extends Component {
           this.setState({searchInput: text})
           this.props.searchProcess(value, text)
         } else {
-            console.log("else")
+
         }
       } catch (error) {
-          console.log("catch error: ", error)
+
       }
     }
 

@@ -3,39 +3,20 @@ import { Image, AsyncStorage } from 'react-native';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import { connect } from 'react-redux';
 import {
-    Container,
-    Header,
-    Title,
-    Content,
-    Text, H3, H2, H1,
-    Button,
-    Icon,
-    Footer,
-    FooterTab,
-    Card,
-    CardItem,
-    List,
+    Text, H3,
     ListItem,
     Thumbnail,
-    View,
-    Input,
-    InputGroup
 } from 'native-base';
 
-import navigateTo from '../../actions/sideBarNav';
-import { openDrawer } from '../../actions/drawer';
-import myTheme from '../../themes/base-theme';
 import styles from './styles';
-import decode from 'jwt-decode'
 import moment from 'moment'
 
 class SearchResult extends Component {
 
   render() {
       const {items, navigator} = this.props
-      console.log('searchit : ', items);
       return (
-          <ListItem style={styles.container, styles.noBorder} onPress={() => navigator.push({id: 'itemDetail', ItemId: items.id})}>
+          <ListItem style={[styles.container, styles.noBorder]} onPress={() => navigator.push({id: 'itemDetail', ItemId: items.id})}>
             <Thumbnail square size={90} source={{uri: items.photo}} />
             <H3 style={styles.text}>{items.name}</H3>
             <Text note style={styles.text}>By <Text style={styles.name}>{(items.User) ? items.User.username : ''}</Text></Text>

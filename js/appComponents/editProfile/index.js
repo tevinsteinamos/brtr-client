@@ -7,20 +7,16 @@ import {
     Header,
     Title,
     Content,
-    Text, H3, H2, H1,
+    Text,
     Button,
     Icon,
     Footer,
     FooterTab,
     Card,
     CardItem,
-    Thumbnail,
-    View,
-    ListItem,
     Input,
     InputGroup,
 } from 'native-base';
-import { Grid, Col } from 'react-native-easy-grid';
 
 import {updateProfile} from '../../actions/updateProfile';
 import uploader from '../../helper/uploader'
@@ -39,14 +35,8 @@ var options = {
 
 import styles from './styles';
 import ArizTheme from '../../themes/additemtheme'
-const logo = require('../../../img/logo.png');
-const cardImage = require('../../../img/drawer-cover.png');
-const camera = require('../../../img/camera.png');
 import myTheme from '../../themes/base-theme';
-
 import decode from 'jwt-decode'
-
-
 
 class ProfileDetail extends Component {
 
@@ -76,17 +66,14 @@ class ProfileDetail extends Component {
     _loadInitialState = async () => {
         try {
             var value = await AsyncStorage.getItem("myKey");
-            console.log("value: ", value)
             if (value !== null){
                 this.setState({token: value});
                 this.setState({dataUser: decode(value)});
                 this._appendMessage('Recovered selection from disk: ' + value);
             } else {
-                console.log("else")
                 this._appendMessage('Initialized with no selection on disk.');
             }
         } catch (error) {
-            console.log("catch")
             this._appendMessage('AsyncStorage error: ' + error.message);
         }
     }
@@ -101,28 +88,25 @@ class ProfileDetail extends Component {
             await AsyncStorage.removeItem("myKey");
             this.props.navigator.replace({id: 'loginPage'})
         } catch (error) {
-            console.log("err")
+
         }
     }
 
     uploadImage() {
         ImagePicker.showImagePicker(options, (response) => {
-            console.log('Response = ', response);
 
             if (response.didCancel) {
-                console.log('User cancelled image picker');
+
             }
             else if (response.error) {
-                console.log('ImagePicker Error: ', response.error);
+
             }
             else if (response.customButton) {
-                console.log('User tapped custom button: ', response.customButton);
+
             }
             else {
                 const source = {uri: response.uri, isStatic: true};
-
                 uploader(source, (res)=> {
-                    console.log("ini respon awS3: ", res)
                     this.setState({
                         avatarSource: res.postResponse.location
                     });
@@ -139,14 +123,12 @@ class ProfileDetail extends Component {
             newPassword = this.state.newPassword.trim()
         }
         let photo = this.state.avatarSource
-
-        console.log("photo state: ", photo)
         if (!photo) {
           Alert.alert(
               'Change Password Failed',
               'Please add an avatar to proceed changing password',
               [
-                  {text: 'OK', onPress: () => console.log('OK Pressed')},
+                  {text: 'OK'},
               ]
           )
         }
@@ -161,7 +143,6 @@ class ProfileDetail extends Component {
 
     render() {
         const {navigator} = this.props
-        console.log("ini photo state di profile: ", this.state.avatarSource)
 
         return (
             <Container theme={myTheme} style={styles.container}>
@@ -242,6 +223,5 @@ function bindAction(dispatch) {
         updateProfile: (newPassword, photo, token, navigator) => dispatch(updateProfile(newPassword, photo, token, navigator)),
     };
 }
-
 
 export default connect(null, bindAction)(ProfileDetail);

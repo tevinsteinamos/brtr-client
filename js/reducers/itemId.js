@@ -16,7 +16,6 @@ export default function (state:State = initialState, action:Action): State {
             return []
 
         case LOAD_ITEMS_BY_ID_SUCCESS:
-            console.log("init action: ", action)
             return action.itemId
 
         case LOAD_ITEMS_BY_ID_FAILURE:

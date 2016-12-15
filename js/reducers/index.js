@@ -11,6 +11,7 @@ import listMessage from './listMessage';
 import createMessageItem from './createMessageItem';
 import updateProfile from './updateProfile';
 import getUserById from './getUserById';
+import loading from './loading';
 
 
 import messageDetail from './messageDetail';
@@ -27,6 +28,7 @@ export default combineReducers({
     createMessageItem,
     messageDetail,
     updateProfile,
-    getUserById
+    getUserById,
+    loading
 
 });

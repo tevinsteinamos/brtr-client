@@ -1,27 +1,24 @@
 
 import React, { Component } from 'react';
 import { BackAndroid, Image, AsyncStorage, Platform, Alert } from 'react-native';
-import { Col, Row, Grid } from 'react-native-easy-grid';
+import { Col, Grid } from 'react-native-easy-grid';
 import { connect } from 'react-redux';
 import {
     Container,
     Header,
     Title,
     Content,
-    Text, H3, H2, H1,
+    Text,
     Button,
     Icon,
     Footer,
     FooterTab,
     Card,
     CardItem,
-    Thumbnail,
-    View,
-    List,
-    ListItem,
     Input,
     InputGroup,
-    Picker
+    Picker,
+    Spinner,
 } from 'native-base';
 
 const Item = Picker.Item;
@@ -29,16 +26,10 @@ const Item = Picker.Item;
 import myTheme from '../../themes/base-theme';
 import styles from './styles';
 import ArizTheme from '../../themes/additemtheme'
-import FooterTheme from '../../themes/prof-empty-theme'
-const star_button = require('../../../img/star_button.png');
-
 import {addItem} from '../../actions/items';
 import {updateItem} from '../../actions/items';
 import {getItemsById} from '../../actions/itemId';
-import DataCategories from './DataCategories'
-
 import uploader from '../../helper/uploader'
-
 import {getCategories} from '../../actions/categories';
 
 
@@ -86,7 +77,6 @@ class AddItem extends Component {
     }
 
     onValueChange (value: string) {
-      console.log("valueeeeee: ", value);
         this.setState({
             category : value
         });
@@ -104,23 +94,18 @@ class AddItem extends Component {
     _loadInitialState = async () => {
         try {
             var value = await AsyncStorage.getItem("myKey");
-            console.log("value: ", value)
             if (value !== null){
                 this.setState({token: value});
                 this.setState({dataUser: decode(value)});
                 this.props.getCategories(value)
-                console.log("ini props route: ", typeof this.props.route.ItemId)
                 if (this.props.route.ItemId) {
-                    console.log("masuk======================")
                     this.props.getItemsById(value, this.props.route.ItemId)
                 }
                 this._appendMessage('Recovered selection from disk: ' + value);
             } else {
-                console.log("else")
                 this._appendMessage('Initialized with no selection on disk.');
             }
         } catch (error) {
-            console.log("catch")
             this._appendMessage('AsyncStorage error: ' + error.message);
         }
     }
@@ -131,31 +116,20 @@ class AddItem extends Component {
 
     uploadImage() {
         ImagePicker.showImagePicker(options, (response) => {
-            console.log('Response = ', response);
 
             if (response.didCancel) {
-                console.log('User cancelled image picker');
+
             }
             else if (response.error) {
-                console.log('ImagePicker Error: ', response.error);
+
             }
             else if (response.customButton) {
-                console.log('User tapped custom button: ', response.customButton);
+
             }
             else {
-                // You can display the image using either data...
-                // const source = {uri: 'data:image/jpeg;base64,' + response.data, isStatic: true};
-
-                // or a reference to the platform specific asset location
-                // if (Platform.OS === 'ios') {
-                //     const source = {uri: response.uri.replace('file://', ''), isStatic: true};
-                // } else {
-                //     const source = {uri: response.uri, isStatic: true};
-                // }
                 const source = {uri: response.uri, isStatic: true};
 
                 uploader(source, (res)=> {
-                    console.log("ini respon awS3: ", res)
                     this.setState({
                         avatarSource: res.postResponse.location
                     });
@@ -167,7 +141,6 @@ class AddItem extends Component {
 
 
     onAddItem(e) {
-        console.log("cklick add item")
         e.preventDefault()
         let name = this.state.name.trim()
         let description = this.state.description.trim()
@@ -179,12 +152,11 @@ class AddItem extends Component {
 
 
         if (!name || !category || !description || !dimension || !material || !color || !photo) {
-            console.log("kosong")
             Alert.alert(
                 'Add Item Fail',
                 'All fields should be filled',
                 [
-                    {text: 'OK', onPress: () => console.log('OK Pressed')},
+                    {text: 'OK'},
                 ]
             )
         }
@@ -204,7 +176,6 @@ class AddItem extends Component {
     }
 
     onUpdateItem(e) {
-        console.log("cklick update item")
         e.preventDefault()
         let name = this.state.name.trim()
         let description = this.state.description.trim()
@@ -214,23 +185,12 @@ class AddItem extends Component {
         let category = this.state.category
         let color = this.state.color.trim()
 
-        console.log('CategoryId : ', category);
-        console.log('this.state.category : ', this.state.category);
-        console.log('name : ', name);
-        console.log('description : ', description);
-        console.log('photo : ', photo);
-        console.log('material : ', material);
-        console.log('dimension : ', dimension);
-        console.log('color : ', color);
-
-
         if (!name || category==='key0' || !description || !dimension || !material || !color || !photo) {
-            console.log("kosong")
             Alert.alert(
                 'Update Item Fail',
                 'All fields should be filled',
                 [
-                    {text: 'OK', onPress: () => console.log('OK Pressed')},
+                    {text: 'OK'},
                 ]
             )
         }
@@ -251,11 +211,7 @@ class AddItem extends Component {
     }
 
     render() {
-        const {navigator, route, itemId, categories} = this.props
-        console.log("ini props di add item: ", this.props)
-        console.log("ini item di add item: ", itemId)
-        console.log("ini image di add item: ", this.state.avatarSource)
-
+        const {navigator, route, itemId, categories, loading} = this.props
         let title
         let actionButton
 
@@ -297,7 +253,9 @@ class AddItem extends Component {
                     </Button>
                 </Header>
 
-                <Content>
+                <Content
+                    keyboardDismissMode='on-drag'
+                    keyboardShouldPersistTaps={true}>
 
                     <Card style={{ flex: 0, backgroundColor: '#1E1E1E', borderWidth: 0 }}>
                         <Grid>
@@ -305,7 +263,7 @@ class AddItem extends Component {
                                 <CardItem
                                     style={{borderBottomWidth: 0, marginTop: 30, marginBottom: 30}}
                                     onPress={this.uploadImage.bind(this)}
-                                    >
+                                >
                                     <Image
                                         style={{resizeMode: 'cover',  alignSelf: 'center', width: 200, height: 200 }}
                                         source={(this.state.avatarSource) ? {uri: this.state.avatarSource} : require('../../../img/placeholder.png')}
@@ -325,7 +283,7 @@ class AddItem extends Component {
                                     selectedValue={this.state.category}
                                     onValueChange={this.onValueChange.bind(this)}
                                     theme={myTheme}
-                                    >
+                                >
                                     <Item label="Select Category" value={this.state.category || 'key0'} />
                                     <Item label={(categories[0]) ? categories[0].name : ''} value={(categories[0]) ? categories[0].id : ''} />
                                     <Item label={(categories[1]) ? categories[1].name : ''} value={(categories[1]) ? categories[1].id : ''} />
@@ -351,7 +309,7 @@ class AddItem extends Component {
                                         value={this.state.name}
                                         style={{color: '#FFFFFF'}}
                                         placeholder="Item Title"
-                                        />
+                                    />
                                 </InputGroup>
                             </Col>
                         </Grid>
@@ -384,7 +342,7 @@ class AddItem extends Component {
                             </Col>
                         </Grid>
 
-                    <Grid style={{marginTop: -30}}>
+                        <Grid style={{marginTop: -30}}>
                             <Col>
                                 <InputGroup
                                     theme={ArizTheme} style={{marginLeft: 40, marginRight: 40}} borderType='underline'>
@@ -393,7 +351,7 @@ class AddItem extends Component {
                                         value={this.state.dimension}
                                         style={{color: '#FFFFFF'}}
                                         placeholder="Dimension/size"/>
-                                    
+
                                 </InputGroup>
                             </Col>
                         </Grid>
@@ -413,9 +371,6 @@ class AddItem extends Component {
                         </Grid>
 
                         {actionButton}
-
-
-
                     </Card>
                 </Content>
 
@@ -426,12 +381,10 @@ class AddItem extends Component {
                             <Icon name='md-home' />
                         </Button>
                         <Button active={this.state.tab2} onPress={() => navigator.replace({id: 'addItem'})} >
-                            
                             <Icon name='md-add-circle' />
                         </Button>
-                        <Button active={this.state.tab3} onPress={() => navigator.replace({id: 'profileDetail'})} >
-                            
-                            <Icon name='ios-person' />
+                        <Button active={this.state.tab3} onPress={() => navigator.replace({id: 'profileDetail'})}>
+                            <Icon name='ios-person'/>
                         </Button>
                     </FooterTab>
                 </Footer>
@@ -451,8 +404,8 @@ function bindAction(dispatch) {
 
 const mapStateToProps = state => ({
     itemId: state.itemId,
-    categories: state.categories
-
+    categories: state.categories,
+    loading: state.loading
 });
 
 export default connect(mapStateToProps, bindAction)(AddItem);
