@@ -29,6 +29,7 @@ import myTheme from '../../themes/base-theme';
 import styles from './styles';
 import ArizTheme from '../../themes/additemtheme'
 import {getItemsByUserId} from '../../actions/items';
+import decode from 'jwt-decode'
 
 class CreateMessage extends Component {
 
@@ -73,7 +74,8 @@ class CreateMessage extends Component {
             var value = await AsyncStorage.getItem("myKey");
             if (value !== null){
                 this.setState({token: value})
-                this.props.getItemsByUserId(value)
+                this.setState({dataUser: decode(value)})
+                this.props.getItemsByUserId(value, this.state.dataUser.id)
                 this._appendMessage('Recovered selection from disk: ' + value);
             } else {
                 this._appendMessage('Initialized with no selection on disk.');
@@ -147,7 +149,6 @@ class CreateMessage extends Component {
 
     render() {
         const {navigator, items, route} = this.props
-
         return (
             <Container theme={myTheme} style={styles.container}>
 
@@ -242,7 +243,7 @@ class CreateMessage extends Component {
 function bindAction(dispatch) {
     return {
         updateItem: (id, CategoryId, name, description, photo, material, dimension, color, token) => dispatch(updateItem(id, CategoryId, name, description, photo, material, dimension, color, token)),
-        getItemsByUserId: (token) => dispatch(getItemsByUserId(token)),
+        getItemsByUserId: (token, id) => dispatch(getItemsByUserId(token, id)),
         addMessage: (title, body, item, itemBarter, token, navigator) => dispatch(addMessage(title, body, item, itemBarter, token, navigator)),
     };
 }
