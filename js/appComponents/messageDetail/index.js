@@ -46,15 +46,15 @@ class messageDetail extends Component {
         try {
             var value = await AsyncStorage.getItem("myKey");
             if (value !== null){
-                this.props.addMessage(value, this.state.body, this.props.route.itemMessageId, this.state.dataUser, Date.now().toString())
-                this.setState({
-                    body: ''
-                })
+                if (this.state.body) {
+                    this.props.addMessage(value, this.state.body, this.props.route.itemMessageId, this.state.dataUser, Date.now().toString())
+                    this.setState({
+                        body: ''
+                    })
+                }
             } else {
-
             }
         } catch (error) {
-
         }
     }
 

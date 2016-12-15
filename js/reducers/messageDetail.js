@@ -29,7 +29,7 @@ export default function (state:State = initialState, action:Action): State {
                 ...state,
                 {
                     TempMessageId: action.temp,
-                    body: 'temp',
+                    body: action.body,
                     ItemMessageId: action.ItemMessageId,
                     User: action.User,
                     status: action.status,
