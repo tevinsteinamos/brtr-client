@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { BackAndroid, Image, AsyncStorage, Platform } from 'react-native';
+import { BackAndroid, Image, AsyncStorage, Platform, Alert } from 'react-native';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import { connect } from 'react-redux';
 import {
@@ -179,6 +179,13 @@ class AddItem extends Component {
         console.log("photo state: ", photo)
         if (!name || !category || !description || !dimension || !material || !color || !photo) {
             console.log("kosong")
+            Alert.alert(
+                'Add Item Fail',
+                'All fields should be filled',
+                [
+                    {text: 'OK', onPress: () => console.log('OK Pressed')},
+                ]
+            )
             this.setState({
                 name: '',
                 description: '',
@@ -186,6 +193,7 @@ class AddItem extends Component {
                 material: '',
                 photo: '',
                 color: '',
+                avatarSource: ''
             })
             return
         }
@@ -198,6 +206,7 @@ class AddItem extends Component {
             material: '',
             photo: '',
             color: '',
+            avatarSource: ''
         })
     }
 
@@ -213,6 +222,22 @@ class AddItem extends Component {
         let color = this.state.color.trim()
         if (!name || !category || !description || !dimension || !material || !color || !photo) {
             console.log("kosong")
+            Alert.alert(
+                'Update Item Fail',
+                'All fields should be filled',
+                [
+                    {text: 'OK', onPress: () => console.log('OK Pressed')},
+                ]
+            )
+            this.setState({
+                name: '',
+                description: '',
+                dimension: '',
+                material: '',
+                photo: '',
+                color: '',
+                avatarSource: ''
+            })
             return
         }
 
