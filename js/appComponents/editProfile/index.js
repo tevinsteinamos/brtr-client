@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { BackAndroid, Image, AsyncStorage } from 'react-native';
+import { BackAndroid, Image, AsyncStorage, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import {
     Container,
@@ -142,8 +142,13 @@ class ProfileDetail extends Component {
 
         console.log("photo state: ", photo)
         if (!photo) {
-            console.log("kosong")
-            return
+          Alert.alert(
+              'Change Password Failed',
+              'Please add an avatar to proceed changing password',
+              [
+                  {text: 'OK', onPress: () => console.log('OK Pressed')},
+              ]
+          )
         }
 
         this.props.updateProfile(newPassword, photo, this.state.token, this.props.navigator)
@@ -217,11 +222,11 @@ class ProfileDetail extends Component {
                             <Icon name='md-home' />
                         </Button>
                         <Button active={this.state.tab2} onPress={() => navigator.replace({id: 'addItem'})} >
-                            
+
                             <Icon name='md-add-circle' />
                         </Button>
                         <Button active={this.state.tab3} onPress={() => navigator.replace({id: 'profileDetail'})} >
-                            
+
                             <Icon name='ios-person' />
                         </Button>
                     </FooterTab>
