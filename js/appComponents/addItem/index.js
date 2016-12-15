@@ -265,19 +265,19 @@ class AddItem extends Component {
                 <Button
                     onPress={this.onUpdateItem.bind(this)}
                     bordered
-                    style={{ alignSelf: 'center', marginTop: 40, marginBottom: 20 , width: 220, borderRadius: 0, borderColor:'#2effd0', height: 50}}>
+                    style={{ alignSelf: 'center', marginTop: -10, marginBottom: 30 , width: 280, borderRadius: 0, borderColor:'#2effd0', height: 50, paddingTop: 0}}>
                     <Text style={{color: '#FFFFFF'}}>
                         Update Item
                     </Text>
                 </Button>
         }
         else {
-            title = <Title style={{alignSelf: 'center'}}>Add New Item</Title>
+            title = <Title style={{alignSelf: 'center', color:'#6CF9C8'}}>New Item</Title>
             actionButton =
                 <Button
                     onPress={this.onAddItem.bind(this)}
                     bordered
-                    style={{ alignSelf: 'center', marginTop: 40, marginBottom: 20 , width: 220, borderRadius: 0, borderColor:'#2effd0', height: 50}}>
+                    style={{ alignSelf: 'center', marginTop: -10, marginBottom: 30 , width: 280, borderRadius: 0, borderColor:'#2effd0', height: 50, paddingTop: 0}}>
                     <Text style={{color: '#FFFFFF'}}>
                         Add Item
                     </Text>
@@ -299,12 +299,13 @@ class AddItem extends Component {
 
                 <Content>
 
-                    <Card style={{ flex: 0, backgroundColor: '#444444', borderWidth: 0 }}>
+                    <Card style={{ flex: 0, backgroundColor: '#1E1E1E', borderWidth: 0 }}>
                         <Grid>
                             <Col>
                                 <CardItem
-                                    style={{borderBottomWidth: 0}}
-                                    onPress={this.uploadImage.bind(this)}>
+                                    style={{borderBottomWidth: 0, marginTop: 30, marginBottom: 30}}
+                                    onPress={this.uploadImage.bind(this)}
+                                    >
                                     <Image
                                         style={{resizeMode: 'cover',  alignSelf: 'center', width: 200, height: 200 }}
                                         source={(this.state.avatarSource) ? {uri: this.state.avatarSource} : require('../../../img/placeholder.png')}
@@ -314,44 +315,17 @@ class AddItem extends Component {
                             </Col>
                         </Grid>
 
-                        <Grid style={{marginTop: 120}}>
+                        <Grid style={{marginTop: 170}}>
                             <Col>
-                                <InputGroup
-                                    style={{marginLeft: 30, marginRight: 30}}
-                                    theme={ArizTheme}
-                                    borderType='underline'
-                                >
-                                    <Input
-                                        onChangeText={(name) => this.setState({name: name})}
-                                        value={this.state.name}
-                                        style={{color: '#FFFFFF'}}
-                                        placeholder="Item Title"/>
-                                </InputGroup>
-                            </Col>
-                        </Grid>
 
-                        <Grid>
-                            <Col>
-                                <InputGroup
-                                    style={{marginLeft: 30, marginRight: 30}}
-                                    theme={ArizTheme} borderType='underline'>
-                                    <Input
-                                        onChangeText={(description) => this.setState({description: description})}
-                                        value={this.state.description}
-                                        style={{color: '#FFFFFF'}}
-                                        placeholder="Description"/>
-                                </InputGroup>
-                            </Col>
-                        </Grid>
-
-                        <Grid >
-                            <Col>
                                 <Picker
-                                    style={{marginLeft: 30, marginRight: 15, color: 'white'}}
+                                    style={{marginLeft: 40, marginRight: 40, color: '#8B8F95', borderColor: '#2effd0', borderRadius: 1}}
                                     iosHeader="Select one"
                                     mode="dropdown"
                                     selectedValue={this.state.category}
-                                    onValueChange={this.onValueChange.bind(this)} >
+                                    onValueChange={this.onValueChange.bind(this)}
+                                    theme={myTheme}
+                                    >
                                     <Item label="Select Category" value={this.state.category || 'key0'} />
                                     <Item label={(categories[0]) ? categories[0].name : ''} value={(categories[0]) ? categories[0].id : ''} />
                                     <Item label={(categories[1]) ? categories[1].name : ''} value={(categories[1]) ? categories[1].id : ''} />
@@ -363,9 +337,43 @@ class AddItem extends Component {
                                     <Item label={(categories[5]) ? categories[5].name : ''} value={(categories[5]) ? categories[5].id : ''} />
                                 </Picker>
                             </Col>
+                        </Grid>
+
+                        <Grid style={{marginTop: -20}}>
                             <Col>
                                 <InputGroup
-                                    style={{marginLeft: 15, marginRight: 30}}
+                                    style={{marginLeft: 40, marginRight: 40}}
+                                    borderType='underline'
+                                    theme={ArizTheme}
+                                >
+                                    <Input
+                                        onChangeText={(name) => this.setState({name: name})}
+                                        value={this.state.name}
+                                        style={{color: '#FFFFFF'}}
+                                        placeholder="Item Title"
+                                        />
+                                </InputGroup>
+                            </Col>
+                        </Grid>
+
+                        <Grid style={{marginTop: -30}}>
+                            <Col>
+                                <InputGroup
+                                    style={{marginLeft: 40, marginRight: 40}}
+                                    theme={ArizTheme} borderType='underline'>
+                                    <Input
+                                        onChangeText={(description) => this.setState({description: description})}
+                                        value={this.state.description}
+                                        style={{color: '#FFFFFF'}}
+                                        placeholder="Description"/>
+                                </InputGroup>
+                            </Col>
+                        </Grid>
+
+                        <Grid style={{marginTop: -30}}>
+                            <Col>
+                                <InputGroup
+                                    style={{marginLeft: 40, marginRight: 40}}
                                     theme={ArizTheme} borderType='underline'>
                                     <Input
                                         onChangeText={(material) => this.setState({material: material})}
@@ -374,24 +382,26 @@ class AddItem extends Component {
                                         placeholder="Material"/>
                                 </InputGroup>
                             </Col>
-
                         </Grid>
 
-                        <Grid style={{marginTop: 40}}>
+                    <Grid style={{marginTop: -30}}>
                             <Col>
                                 <InputGroup
-                                    style={{marginLeft: 30, marginRight: 15}}
-                                    theme={ArizTheme} borderType='underline'>
+                                    theme={ArizTheme} style={{marginLeft: 40, marginRight: 40}} borderType='underline'>
                                     <Input
                                         onChangeText={(dimension) => this.setState({dimension: dimension})}
                                         value={this.state.dimension}
                                         style={{color: '#FFFFFF'}}
-                                        placeholder="Dimension"/>
+                                        placeholder="Dimension/size"/>
+                                    
                                 </InputGroup>
                             </Col>
+                        </Grid>
+
+                        <Grid style={{marginTop: -30}}>
                             <Col>
                                 <InputGroup
-                                    style={{marginLeft: 15, marginRight: 30}}
+                                    style={{marginLeft: 40, marginRight: 40}}
                                     theme={ArizTheme} borderType='underline'>
                                     <Input
                                         onChangeText={(color) => this.setState({color: color})}
