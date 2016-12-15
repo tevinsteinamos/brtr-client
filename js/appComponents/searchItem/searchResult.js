@@ -35,7 +35,7 @@ class SearchResult extends Component {
       const {items, navigator} = this.props
       console.log('searchit : ', items);
       return (
-          <ListItem style={styles.container, styles.noBottomBorder} onPress={() => navigator.push({id: 'itemDetail', ItemId: items.id})}>
+          <ListItem style={styles.container, styles.noBorder} onPress={() => navigator.push({id: 'itemDetail', ItemId: items.id})}>
             <Thumbnail square size={90} source={{uri: items.photo}} />
             <H3 style={styles.text}>{items.name}</H3>
             <Text note style={styles.text}>By <Text style={styles.name}>{(items.User) ? items.User.username : ''}</Text></Text>
