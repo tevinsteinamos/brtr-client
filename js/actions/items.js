@@ -197,8 +197,18 @@ export function updateItemSuccess(item) {
 }
 
 export function updateItem(id, CategoryId, name, description, photo, material, dimension, color, token, navigator) {
-    console.log()
+    // console.log('id : ', id)
+    // console.log('CategoryId : ', CategoryId);
+    // console.log('name : ', name);
+    // console.log('description : ', description);
+    // console.log('photo : ', photo);
+    // console.log('material : ', material);
+    // console.log('dimension : ', dimension);
+    // console.log('color : ', color);
+    // console.log('token : ', token);
+    // console.log('nav : ', navigator);
     const userDecoded = decode(token)
+    console.log('user : ', userDecoded);
     return (dispatch) => {
         fetch(`http://br-tr-dev.ap-southeast-1.elasticbeanstalk.com/api/items/${id}`, {
             method: 'PUT',
