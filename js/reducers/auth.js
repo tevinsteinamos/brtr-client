@@ -22,7 +22,9 @@ export default function (state:State = initialState, action:Action): State {
         console.log('login fail act : ', action);
             return action
         case USER_REGISTER_FAILURE:
-            return state
+        console.log('reg fail state : ', state);
+        console.log('re fail act : ', action);
+            return action
 
         default:
             return state

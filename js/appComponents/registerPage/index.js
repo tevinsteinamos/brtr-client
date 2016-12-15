@@ -95,13 +95,21 @@ class RegisterPage extends Component {
     }
 
     render() {
-        const {navigator} = this.props
+        const {navigator, status} = this.props
+        console.log('user register page: ', status);
+        let warningError
+        if (status.status == false) {
+            warningError = <Text style={{fontSize:14, marginLeft: 25, color: '#d9534f'}} >Username or email has been registered</Text>
+        } else {
+            warningError = <Text></Text>
+        }
         return (
             <Container style={styles.container} theme={myTheme}>
 
                 <Content>
                     <Image source={barter_logo} style={{ alignSelf: 'center', marginTop: 60, marginBottom: 70, width: 65, height: 55 }} />
                     <List style={{ marginLeft: 45, marginRight: 60}} theme={ArizTheme}>
+                        {warningError}
                         <ListItem>
                             <InputGroup >
                                 <Input
@@ -165,6 +173,7 @@ function bindAction(dispatch) {
 
 const mapStateToProps = state => ({
     navigation: state.cardNavigation,
+    status: state.auth
 });
 
 export default connect(mapStateToProps, bindAction)(RegisterPage);
