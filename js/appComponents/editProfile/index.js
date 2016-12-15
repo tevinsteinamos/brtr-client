@@ -152,13 +152,13 @@ class ProfileDetail extends Component {
                     </Button>
                     <Title style={{alignSelf: 'center'}}>BRTR</Title>
                     <Button transparent>
-                        <Text style={{color: 'black'}}>Back</Text>
+                        <Icon name="md-exit" />
                     </Button>
 
                 </Header>
 
                 <Content>
-                    <Card style={{ flex: 0, backgroundColor: '#2c2c2c', borderWidth: 0 }}>
+                    <Card style={{ flex: 0, backgroundColor: '#1E1E1E', borderWidth: 0 }}>
                         <CardItem
                             style={{borderBottomWidth: 0}}
                             onPress={this.uploadImage.bind(this)}>

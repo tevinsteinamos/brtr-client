@@ -216,7 +216,7 @@ class AddItem extends Component {
         let actionButton
 
         if (route.ItemId) {
-            title = <Title style={{alignSelf: 'center', color: '#6CF9C8'}}>Edit Item</Title>
+            title = <Title style={{alignSelf: 'center', color: '#6CF9C8'}}>EDIT ITEM</Title>
             actionButton =
                 <Button
                     onPress={this.onUpdateItem.bind(this)}
@@ -228,7 +228,7 @@ class AddItem extends Component {
                 </Button>
         }
         else {
-            title = <Title style={{alignSelf: 'center', color:'#6CF9C8'}}>New Item</Title>
+            title = <Title style={{alignSelf: 'center', color:'#6CF9C8'}}>NEW ITEM</Title>
             actionButton =
                 <Button
                     onPress={this.onAddItem.bind(this)}
