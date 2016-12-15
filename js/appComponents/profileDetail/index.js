@@ -54,7 +54,6 @@ class ProfileDetail extends Component {
     _loadInitialState = async () => {
         try {
             var value = await AsyncStorage.getItem("myKey");
-            console.log("value: ", value)
             this.setState({dataUser: decode(value)})
             if (value !== null){
 
@@ -76,11 +75,9 @@ class ProfileDetail extends Component {
 
                 this._appendMessage('Recovered selection from disk: ' + value);
             } else {
-                console.log("else")
                 this._appendMessage('Initialized with no selection on disk.');
             }
         } catch (error) {
-            console.log("catch: ", error)
             this._appendMessage('AsyncStorage error: ' + error.message);
         }
     }
@@ -95,18 +92,12 @@ class ProfileDetail extends Component {
             await AsyncStorage.removeItem("myKey");
             this.props.navigator.replace({id: 'loginPage'})
         } catch (error) {
-            console.log("err")
         }
     }
 
 
     render() {
         const {navigator, items, user, loading} = this.props
-        console.log("ini props di profile: ", this.props)
-        console.log("ini item props di profile: ", items)
-        console.log("ini props user di profile: ", user)
-
-
         let buttonLogout
 
         if(this.props.route.UserId) {

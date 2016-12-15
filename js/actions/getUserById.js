@@ -29,7 +29,6 @@ export function loadUserFailureById() {
 
 export function getUserById(token, id) {
     const userDecoded = decode(token)
-    console.log("user id >>>>>>>>>>> ", userDecoded)
     return (dispatch) => {
         // dispatch(loadUserById())
         fetch(`http://br-tr-dev.ap-southeast-1.elasticbeanstalk.com/api/auth/user/${id}`, {
@@ -42,16 +41,14 @@ export function getUserById(token, id) {
         })
             .then((response) => response.json())
             .then((responseJson) => {
-                console.log("res user: ", responseJson)
                 dispatch(loadUserSuccessById(responseJson))
                 dispatch(stopLoading())
             })
             .catch((error) => {
-                console.log("fail by id: ", error)
                 Alert.alert(
                     'Load User Fail',
                     [
-                        {text: 'OK', onPress: () => console.log('OK Pressed')},
+                        {text: 'OK'},
                     ]
                 )
                 dispatch(loadUserFailureById())

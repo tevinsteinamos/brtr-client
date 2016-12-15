@@ -77,7 +77,6 @@ class ItemDetail extends Component {
     _loadInitialState = async () => {
         try {
             var value = await AsyncStorage.getItem("myKey");
-            console.log("value token di item detail: ", value)
             if (value !== null){
                 this.setState({token: value});
                 this.setState({dataUser: decode(value)});
@@ -85,11 +84,9 @@ class ItemDetail extends Component {
 
                 this._appendMessage('Recovered selection from disk: ' + value);
             } else {
-                console.log("else")
                 this._appendMessage('Initialized with no selection on disk.');
             }
         } catch (error) {
-            console.log("catch")
             this._appendMessage('AsyncStorage error: ' + error.message);
         }
     }
@@ -107,7 +104,7 @@ class ItemDetail extends Component {
                     this.props.deleteItem(this.props.itemId.id, this.state.token, this.props.navigator)
                 }},
                 {text: 'Cancel', onPress: () => {
-                    // console.log('Cancel Pressed!')
+
                 }},
             ]
         )
@@ -117,11 +114,6 @@ class ItemDetail extends Component {
 
     render() {
         const {navigator, route, itemId, loading} = this.props
-        console.log('>>>> item detail props: ', this.props)
-        console.log('>>>> item detail: ', itemId)
-        console.log('>>>> item detail User: ', itemId.User)
-
-
         let actionButton
         let deleteButton
         if (itemId.User) {

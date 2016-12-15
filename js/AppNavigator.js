@@ -45,17 +45,14 @@ class AppNavigator extends Component {
     _loadInitialState = async () => {
         try {
             let token = await AsyncStorage.getItem("myKey");
-            console.log("token: ", token)
             if (token !== null){
                 this.setState({token: token})
                 this.setState({dataUser: decode(token)});
                 this._appendMessage('Recovered selection from disk: ' + token);
             } else {
-                console.log("else")
                 this._appendMessage('Initialized with no selection on disk.');
             }
         } catch (error) {
-            console.log("catch")
             this._appendMessage('AsyncStorage error: ' + error.message);
         }
     }

@@ -77,11 +77,9 @@ class Home extends Component {
                 this.props.getCategories(value)
                 this._appendMessage('Recovered selection from disk: ' + value);
             } else {
-                console.log("else")
                 this._appendMessage('Initialized with no selection on disk.');
             }
         } catch (error) {
-            console.log("catch: ", error)
             this._appendMessage('AsyncStorage error: ' + error.message);
         }
     }
@@ -92,7 +90,6 @@ class Home extends Component {
 
     render() {
         const {navigator, categories, loading} = this.props
-        console.log("props loading: ", loading)
 
         if (loading) {
             return(
