@@ -272,7 +272,7 @@ class AddItem extends Component {
                 </Button>
         }
         else {
-            title = <Title style={{alignSelf: 'center'}}>Add New Item</Title>
+            title = <Title style={{alignSelf: 'center', color:'#6CF9C8'}}>New Item</Title>
             actionButton =
                 <Button
                     onPress={this.onAddItem.bind(this)}
@@ -299,12 +299,13 @@ class AddItem extends Component {
 
                 <Content>
 
-                    <Card style={{ flex: 0, backgroundColor: '#444444', borderWidth: 0 }}>
+                    <Card style={{ flex: 0, backgroundColor: '#1E1E1E', borderWidth: 0 }}>
                         <Grid>
                             <Col>
                                 <CardItem
-                                    style={{borderBottomWidth: 0}}
-                                    onPress={this.uploadImage.bind(this)}>
+                                    style={{borderBottomWidth: 0, marginTop: 30, marginBottom: 30}}
+                                    onPress={this.uploadImage.bind(this)}
+                                    >
                                     <Image
                                         style={{resizeMode: 'cover',  alignSelf: 'center', width: 200, height: 200 }}
                                         source={(this.state.avatarSource) ? {uri: this.state.avatarSource} : require('../../../img/placeholder.png')}
