@@ -9,7 +9,6 @@ import { Container,
     Text } from 'native-base';
 import ArizTheme from '../../themes/custom-theme'
 import myTheme from '../../themes/base-theme';
-
 import styles from './styles';
 import {loginUser, userLoginNormalize} from '../../actions/auth';
 const barter_logo = require('../../../img/barter_logo.png');

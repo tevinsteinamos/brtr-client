@@ -62,7 +62,7 @@ class ProfileDetail extends Component {
 
                 if (this.props.route.UserId) {
                     this.props.getItemsByUserId(value, this.props.route.UserId)
-                    this.props.getUserById(value, this.props.route.UserId)
+                    this.props.getUserById(value, this.props.route.UserId, this.props.navigator)
                     if (this.props.route.UserId === this.state.dataUser.id) {
                         this.setState({tab3: true})
                     }
@@ -72,16 +72,14 @@ class ProfileDetail extends Component {
                 }
                 else {
                     this.props.getItemsByUserId(value, this.state.dataUser.id)
-                    this.props.getUserById(value, this.state.dataUser.id)
+                    this.props.getUserById(value, this.state.dataUser.id, this.props.navigator)
                 }
 
                 this._appendMessage('Recovered selection from disk: ' + value);
             } else {
-                console.log("else")
                 this._appendMessage('Initialized with no selection on disk.');
             }
         } catch (error) {
-            console.log("catch: ", error)
             this._appendMessage('AsyncStorage error: ' + error.message);
         }
     }
@@ -96,7 +94,7 @@ class ProfileDetail extends Component {
             await AsyncStorage.removeItem("myKey");
             this.props.navigator.replace({id: 'loginPage'})
         } catch (error) {
-            console.log("err")
+
         }
     }
 
@@ -191,10 +189,10 @@ class ProfileDetail extends Component {
                             <Icon name='md-home' />
                         </Button>
                         <Button active={this.state.tab2} onPress={() => navigator.replace({id: 'addItem'})} >
-                            
+
                             <Icon name='md-add-circle' />
                         </Button>
-                        <Button active={this.state.tab3} onPress={() => navigator.replace({id: 'profileDetail'})} > 
+                        <Button active={this.state.tab3} onPress={() => navigator.replace({id: 'profileDetail'})} >
                             <Icon name='ios-person' />
                         </Button>
                     </FooterTab>
@@ -208,7 +206,7 @@ class ProfileDetail extends Component {
 function bindAction(dispatch) {
     return {
         getItemsByUserId: (token, id) => dispatch(getItemsByUserId(token, id)),
-        getUserById: (token, id) => dispatch(getUserById(token, id)),
+        getUserById: (token, id, navigator) => dispatch(getUserById(token, id, navigator)),
     };
 }
 
