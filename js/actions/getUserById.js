@@ -27,7 +27,7 @@ export function loadUserFailureById() {
     return {type: LOAD_USER_BY_ID_FAILURE}
 }
 
-export function getUserById(token, id) {
+export function getUserById(token, id, navigator) {
     const userDecoded = decode(token)
     return (dispatch) => {
         // dispatch(loadUserById())
@@ -41,16 +41,30 @@ export function getUserById(token, id) {
         })
             .then((response) => response.json())
             .then((responseJson) => {
+              if (responseJson) {
                 dispatch(loadUserSuccessById(responseJson))
                 dispatch(stopLoading())
-            })
-            .catch((error) => {
+              } else {
                 Alert.alert(
-                    'Load User Fail',
+                    'Session has expired',
+                    'Please login again',
                     [
-                        {text: 'OK'},
+                        {text: 'OK', onPress: async()=>{
+                          try {
+                              await AsyncStorage.removeItem("myKey");
+                              navigator.replace({id: 'loginPage'})
+                          } catch (error) {
+
+                          }
+
+                        }
+                        },
                     ]
                 )
+              }
+
+            })
+            .catch((error) => {
                 dispatch(loadUserFailureById())
             });
     }
