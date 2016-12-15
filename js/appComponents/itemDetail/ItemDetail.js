@@ -144,9 +144,9 @@ class ItemDetail extends Component {
 
                 <Header>
                     <Title style={{alignSelf: 'center', color: '#6CF9C8'}}>{itemId.name}</Title>
-                    <Button transparent onPress={() => navigator.push({id: 'searchItem'})}>
-                        <Icon name="ios-search"/>
-                    </Button>
+                    <Button transparent onPress={() => navigator.pop()}>
+                          <Icon name='ios-arrow-back'/>
+                      </Button>
                     {actionButton}
                 </Header>
 
