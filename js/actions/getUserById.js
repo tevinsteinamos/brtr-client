@@ -27,12 +27,12 @@ export function loadUserFailureById() {
     return {type: LOAD_USER_BY_ID_FAILURE}
 }
 
-export function getUserById(token) {
+export function getUserById(token, id) {
     const userDecoded = decode(token)
     console.log("user id >>>>>>>>>>> ", userDecoded)
     return (dispatch) => {
-        dispatch(loadUserById())
-        fetch(`http://br-tr-dev.ap-southeast-1.elasticbeanstalk.com/api/auth/user/${userDecoded.id}`, {
+        // dispatch(loadUserById())
+        fetch(`http://br-tr-dev.ap-southeast-1.elasticbeanstalk.com/api/auth/user/${id}`, {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',

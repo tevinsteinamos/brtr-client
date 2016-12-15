@@ -42,12 +42,12 @@ export function loadItemsFailureByUserId() {
     return {type: LOAD_ITEMS_BY_USER_FAILURE}
 }
 
-export function getItemsByUserId(token) {
+export function getItemsByUserId(token, id) {
     const UserData = decode(token)
     // console.log('user data: ', UserData)
     return (dispatch) => {
-        dispatch(loadItemsByUserId())
-        fetch(`http://br-tr-dev.ap-southeast-1.elasticbeanstalk.com/api/items/user/${UserData.id}`, {
+        // dispatch(loadItemsByUserId())
+        fetch(`http://br-tr-dev.ap-southeast-1.elasticbeanstalk.com/api/items/user/${id}`, {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',

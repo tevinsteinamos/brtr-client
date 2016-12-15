@@ -57,9 +57,24 @@ class ProfileDetail extends Component {
         try {
             var value = await AsyncStorage.getItem("myKey");
             console.log("value: ", value)
+            this.setState({dataUser: decode(value)})
             if (value !== null){
-                this.props.getItemsByUserId(value)
-                this.props.getUserById(value)
+
+                if (this.props.route.UserId) {
+                    this.props.getItemsByUserId(value, this.props.route.UserId)
+                    this.props.getUserById(value, this.props.route.UserId)
+                    if (this.props.route.UserId === this.state.dataUser.id) {
+                        this.setState({tab3: true})
+                    }
+                    else {
+                        this.setState({tab3: false})
+                    }
+                }
+                else {
+                    this.props.getItemsByUserId(value, this.state.dataUser.id)
+                    this.props.getUserById(value, this.state.dataUser.id)
+                }
+
                 this._appendMessage('Recovered selection from disk: ' + value);
             } else {
                 console.log("else")
@@ -93,6 +108,48 @@ class ProfileDetail extends Component {
         console.log("ini props user di profile: ", user)
 
 
+        let buttonLogout
+
+        if(this.props.route.UserId) {
+            if(this.props.route.UserId === this.state.dataUser.id) {
+                buttonLogout =
+                    <Button
+                        bordered style={{
+                          alignSelf: 'center',
+                          marginTop: 40,
+                          marginBottom: 20 ,
+                          width: 220,
+                          borderRadius: 0,
+                          borderColor:'#2effd0',
+                          height: 50
+                    }}
+                        onPress={this.logoutUser.bind(this)}><Text style={{color: '#FFFFFF'}}>LOGOUT</Text>
+                    </Button>
+            }
+            else {
+                buttonLogout =
+                    <Button transparent>
+                        <Text></Text>
+                    </Button>
+            }
+        }
+        else {
+            buttonLogout =
+            <Button
+                bordered style={{
+                          alignSelf: 'center',
+                          marginTop: 40,
+                          marginBottom: 20 ,
+                          width: 220,
+                          borderRadius: 0,
+                          borderColor:'#2effd0',
+                          height: 50
+                    }}
+                onPress={this.logoutUser.bind(this)}><Text style={{color: '#FFFFFF'}}>LOGOUT</Text>
+            </Button>
+        }
+
+
         let ItemNodes = items.map(function (item) {
             return(
                 <DataItems navigator={navigator} key={item.id} items={item} />
@@ -102,7 +159,9 @@ class ProfileDetail extends Component {
         return (
             <Container theme={myTheme} style={styles.container}>
                 <Header>
-                    <Title style={{alignSelf: 'center', color: '#6CF9C8'}}>MY PROFILE</Title>
+                    <Title style={{alignSelf: 'center', color: '#6CF9C8'}}>
+                        {(this.props.route.UserId) ? ((this.props.route.UserId === this.state.dataUser.id) ? 'MY PROFILE' : `${user.username} PROFILE` ) : 'MY PROFILE'}
+                    </Title>
                     <Button transparent onPress={() => this.props.navigator.push({id: 'searchItem'})}>
                         <Icon name="ios-search" />
                     </Button>
@@ -132,17 +191,7 @@ class ProfileDetail extends Component {
                         {user.username}
                     </Text>
 
-                    <Button
-                        bordered style={{
-                          alignSelf: 'center',
-                          marginTop: 40,
-                          marginBottom: 20 ,
-                          width: 220,
-                          borderRadius: 0,
-                          borderColor:'#2effd0',
-                          height: 50
-                    }}
-                        onPress={this.logoutUser.bind(this)}><Text style={{color: '#FFFFFF'}}>LOGOUT</Text></Button>
+                    {buttonLogout}
 
                     <Text
                         style={{
@@ -184,8 +233,8 @@ class ProfileDetail extends Component {
 
 function bindAction(dispatch) {
     return {
-        getItemsByUserId: (token) => dispatch(getItemsByUserId(token)),
-        getUserById: (token) => dispatch(getUserById(token)),
+        getItemsByUserId: (token, id) => dispatch(getItemsByUserId(token, id)),
+        getUserById: (token, id) => dispatch(getUserById(token, id)),
     };
 }
 

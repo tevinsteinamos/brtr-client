@@ -32,7 +32,7 @@ export function loadItemsFailureById() {
 export function getItemsById(token, id) {
     console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> dapet id nya: ", id)
     return (dispatch) => {
-        dispatch(loadItemsById())
+        // dispatch(loadItemsById())
         fetch(`http://br-tr-dev.ap-southeast-1.elasticbeanstalk.com/api/items/${id}`, {
             method: 'GET',
             headers: {
