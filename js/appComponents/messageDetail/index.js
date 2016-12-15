@@ -9,8 +9,8 @@ import {
     Content,
     Button,
     Icon,
-    List,
-    ListItem,
+    Card,
+    CardItem,
     Text,
     Thumbnail,
     InputGroup,
@@ -88,17 +88,16 @@ class messageDetail extends Component {
         var showMessages = messages.map((message,index) => {
             if(messages[index]){
                 return (
-                    <ListItem key={messages[index].id || messages[index].TempMessageId} style={styles.noBottomBorder}>
-                        <Button
-                            onPress={() => navigator.push({id: 'profileDetail', UserId: messages[index].User.id})}
-                            transparent>
-                            <Thumbnail
-                                source={(messages[index].User.avatar) ? {uri: messages[index].User.avatar} : require('../../../img/img-placeholder.png')} />
-                        </Button>
+                    <CardItem
+                        onPress={() => navigator.push({id: 'profileDetail', UserId: messages[index].User.id})}
+                        key={messages[index].id || messages[index].TempMessageId} style={styles.noBottomBorder}>
+
+                        <Thumbnail
+                            source={(messages[index].User.avatar) ? {uri: messages[index].User.avatar} : require('../../../img/img-placeholder.png')} />
 
                         <Text style={styles.text}>{messages[index].body}</Text>
                         <Text note>{moment(messages[index].createdAt).fromNow()}</Text>
-                    </ListItem>
+                    </CardItem>
                 )
             }else{
                 return(
@@ -121,9 +120,9 @@ class messageDetail extends Component {
                 </Header>
 
                 <Content>
-                    <List>
+                    <Card style={{ flex: 0, backgroundColor: '#1E1E1E', borderWidth: 0 }}>
                         {showMessages}
-                    </List>
+                    </Card>
                 </Content>
                 <Footer>
                     <InputGroup style={styles.noBottomBorder} iconRight>

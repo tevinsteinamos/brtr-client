@@ -8,7 +8,6 @@ module.exports = StyleSheet.create({
         backgroundColor: '#1E1E1E',
     },
     text: {
-        paddingBottom: 5,
         color: '#fff',
     },
     name: {
