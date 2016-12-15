@@ -39,10 +39,6 @@ class LoginPage extends Component {
         let username = this.state.username.trim()
         let password = this.state.password.trim()
         if (!username || !password) {
-            this.setState({
-                username: '',
-                password: ''
-            })
           Alert.alert(
               'Login Failed',
               'All field must be filled',
@@ -50,7 +46,6 @@ class LoginPage extends Component {
                   {text: 'OK', onPress: () => console.log('OK Pressed')},
               ]
           )
-          return
         } else {
           console.log(username);
           console.log(password);
