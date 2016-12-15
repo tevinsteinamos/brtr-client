@@ -7,16 +7,19 @@ import {
     Header,
     Title,
     Content,
-    Text,
+    Text, H3, H2, H1,
     Button,
     Icon,
     Footer,
     FooterTab,
     Card,
     CardItem,
+    Thumbnail,
+    View,
     List,
-    Spinner
+    ListItem
 } from 'native-base';
+import { Grid, Col } from 'react-native-easy-grid';
 
 import {getItemsByUserId} from '../../actions/items';
 import {getUserById} from '../../actions/getUserById';
@@ -54,11 +57,11 @@ class ProfileDetail extends Component {
     _loadInitialState = async () => {
         try {
             var value = await AsyncStorage.getItem("myKey");
+            console.log("value: ", value)
             this.setState({dataUser: decode(value)})
             if (value !== null){
 
                 if (this.props.route.UserId) {
-
                     this.props.getItemsByUserId(value, this.props.route.UserId)
                     this.props.getUserById(value, this.props.route.UserId)
                     if (this.props.route.UserId === this.state.dataUser.id) {
@@ -75,9 +78,11 @@ class ProfileDetail extends Component {
 
                 this._appendMessage('Recovered selection from disk: ' + value);
             } else {
+                console.log("else")
                 this._appendMessage('Initialized with no selection on disk.');
             }
         } catch (error) {
+            console.log("catch: ", error)
             this._appendMessage('AsyncStorage error: ' + error.message);
         }
     }
@@ -92,13 +97,13 @@ class ProfileDetail extends Component {
             await AsyncStorage.removeItem("myKey");
             this.props.navigator.replace({id: 'loginPage'})
         } catch (error) {
+            console.log("err")
         }
     }
 
 
     render() {
         const {navigator, items, user, loading} = this.props
-        console.log(this.state.loading)
         let buttonLogout
 
         if(this.props.route.UserId) {
@@ -148,7 +153,6 @@ class ProfileDetail extends Component {
         })
 
 
-
         return (
             <Container theme={myTheme} style={styles.container}>
                 <Header>
@@ -156,11 +160,10 @@ class ProfileDetail extends Component {
                         {(this.props.route.UserId) ? ((this.props.route.UserId === this.state.dataUser.id) ? 'MY PROFILE' : `${user.username} PROFILE` ) : 'MY PROFILE'}
                     </Title>
                     <Button transparent onPress={() => this.props.navigator.push({id: 'searchItem'})}>
-                        <Icon name="ios-search"/>
+                        <Icon name="ios-search" />
                     </Button>
-                    <Button transparent
-                            onPress={() => this.props.navigator.push({id: 'editProfile', avatar: user.avatar})}>
-                        <Icon name="ios-settings"/>
+                    <Button transparent onPress={() => this.props.navigator.push({id: 'editProfile', avatar: user.avatar})}>
+                        <Icon name="ios-settings" />
                     </Button>
                 </Header>
 
@@ -198,31 +201,29 @@ class ProfileDetail extends Component {
                         }}>
                     </Text>
 
-                    <List>
+                      <List>
                         {ItemNodes}
-                    </List>
+                      </List>
                 </Content>
 
                 <Footer>
                     <FooterTab>
                         <Button
                             active={this.state.tab1} onPress={() => navigator.replace({id: 'home'})}>
-                            <Icon name='md-home'/>
+                            <Icon name='md-home' />
                         </Button>
-                        <Button active={this.state.tab2} onPress={() => navigator.replace({id: 'addItem'})}>
-
-                            <Icon name='md-add-circle'/>
+                        <Button active={this.state.tab2} onPress={() => navigator.replace({id: 'addItem'})} >
+                            
+                            <Icon name='md-add-circle' />
                         </Button>
-                        <Button active={this.state.tab3} onPress={() => navigator.replace({id: 'profileDetail'})}>
-
-                            <Icon name='ios-person'/>
+                        <Button active={this.state.tab3} onPress={() => navigator.replace({id: 'profileDetail'})} > 
+                            <Icon name='ios-person' />
                         </Button>
                     </FooterTab>
                 </Footer>
 
             </Container>
         );
-
     }
 }
 
@@ -235,8 +236,7 @@ function bindAction(dispatch) {
 
 const mapStateToProps = state => ({
     items: state.items,
-    user: state.getUserById,
-    loading: state.loading
+    user: state.getUserById
 });
 
 export default connect(mapStateToProps, bindAction)(ProfileDetail);

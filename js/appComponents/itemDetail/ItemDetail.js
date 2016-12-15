@@ -8,7 +8,7 @@ import {
     Header,
     Title,
     Content,
-    Text, H3, H1,
+    Text, H3, H1, H2,
     Button,
     Icon,
     Footer,
@@ -97,7 +97,7 @@ class ItemDetail extends Component {
 
     onDeleteItem() {
         Alert.alert(
-            'Delete This Item?',
+            'Are you sure you want to remove this item?',
             null,
             [
                 {text: 'OK', onPress: () => {
@@ -122,8 +122,13 @@ class ItemDetail extends Component {
                     <Icon name="md-create" />
                 </Button>
                 deleteButton = <Button
-                    onPress={this.onDeleteItem.bind(this)}
-                    block danger> Remove Item </Button>
+                        onPress={this.onDeleteItem.bind(this)}
+                        bordered
+                        style={{ alignSelf: 'center', marginBottom: 20 , width: 280, borderRadius: 0, borderColor:'#2effd0', height: 50, paddingTop: 0}}>
+                        <Text style={{color: '#FFFFFF'}}>
+                            I HAVE BARTERED THIS ITEM
+                        </Text>
+                    </Button>
             }
             else {
                 actionButton = <Button transparent
@@ -133,8 +138,7 @@ class ItemDetail extends Component {
             }
         }
 
-
-
+        
         return (
             <Container theme={myTheme} style={styles.container}>
 
@@ -148,54 +152,52 @@ class ItemDetail extends Component {
 
                 <Content>
 
-                    <Card style={{ flex: 0, backgroundColor: '#1E1E1E', borderWidth: 0 }}>
-                        <CardItem>
-                            <H1 style={{color: 'white', paddingBottom: 10}}>{itemId.name}</H1>
+                    <Card style={{ flex: 0, backgroundColor: '#000', borderWidth: 0 }}>
+                        <CardItem style={{borderBottomWidth: 0}}>
+                            <H1 style={{color: 'white', marginBottom: 10, marginLeft: 10}}>{itemId.name}</H1>
                             <ListItem
                                 onPress={() => navigator.push({id: 'profileDetail', UserId: itemId.User.id})}
-                                style={{borderBottomWidth: 0}}>
+                                style={{borderBottomWidth: 0, marginBottom: -15}}>
                                 <Thumbnail
                                     source={(itemId.User) ? ((itemId.User.avatar) ? {uri: itemId.User.avatar} : require('../../../img/img-placeholder.png')) : require('../../../img/img-placeholder.png')}/>
-                                <Text
-                                    note>
-                                    {(itemId.User) ? itemId.User.username : ''}
-                                </Text>
+                                <H3 style={{color: '#8B8F95'}}>
+                                    by {(itemId.User) ? itemId.User.username : ''}
+                                </H3>
                             </ListItem>
                         </CardItem>
 
-                        <CardItem>
+                        <CardItem style={{borderBottomWidth: 0, marginLeft: 10, marginBottom: 10}}>
                             <Text style={styles.textColor}>
                                 {itemId.description}
                             </Text>
                         </CardItem>
 
-                        <CardItem>
+                        <CardItem style={{borderBottomWidth: 0, marginBottom: 10}}>
                             <Image
                                 style={{ resizeMode: 'cover', width: null }}
                                 source={{uri: itemId.photo}}/>
                         </CardItem>
 
-                        <CardItem>
-                            <H3 style={styles.textColor}>Dimension</H3>
-                            <Text style={styles.textColor}>{itemId.dimension}</Text>
+                        <CardItem style={{borderBottomWidth: 0, marginLeft: 10}}>
+                            <Text style={{color: 'white'}}>Dimension/size <H2 style={styles.textColor}>{itemId.dimension}</H2></Text>
                         </CardItem>
 
-                        <Grid>
+                        <Grid style={{marginLeft: 10}}>
                             <Col>
-                                <CardItem>
-                                    <H3 style={styles.textColor}>Material</H3>
-                                    <Text style={styles.textColor}>{itemId.material}</Text>
+                                <CardItem style={{borderBottomWidth: 0}}>
+                                    <Text style={{color: 'white'}}>Material</Text>
+                                    <H2 style={styles.textColor}>{itemId.material}</H2>
                                 </CardItem>
                             </Col>
                             <Col>
-                                <CardItem>
-                                    <H3 style={styles.textColor}>Color</H3>
-                                    <Text style={styles.textColor}>{itemId.color}</Text>
+                                <CardItem style={{borderBottomWidth: 0}}>
+                                    <Text style={{color: 'white'}}>Color</Text>
+                                    <H2 style={styles.textColor}>{itemId.color}</H2>
                                 </CardItem>
                             </Col>
                         </Grid>
 
-                        <CardItem>
+                        <CardItem style={{borderBottomWidth: 0, marginTop: 10}}>
                             {deleteButton}
                         </CardItem>
 
@@ -214,14 +216,12 @@ class ItemDetail extends Component {
                             <Icon name='md-add-circle'/>
                         </Button>
                         <Button active={this.state.tab3} onPress={() => navigator.replace({id: 'profileDetail'})}>
-
                             <Icon name='ios-person'/>
                         </Button>
                     </FooterTab>
                 </Footer>
             </Container>
         );
-
     }
 }
 

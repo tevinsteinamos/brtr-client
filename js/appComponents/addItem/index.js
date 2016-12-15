@@ -216,19 +216,19 @@ class AddItem extends Component {
         let actionButton
 
         if (route.ItemId) {
-            title = <Title style={{alignSelf: 'center', color: '#6CF9C8'}}>Edit Item</Title>
+            title = <Title style={{alignSelf: 'center', color: '#6CF9C8'}}>EDIT ITEM</Title>
             actionButton =
                 <Button
                     onPress={this.onUpdateItem.bind(this)}
                     bordered
                     style={{ alignSelf: 'center', marginTop: -10, marginBottom: 30 , width: 280, borderRadius: 0, borderColor:'#2effd0', height: 50, paddingTop: 0}}>
                     <Text style={{color: '#FFFFFF'}}>
-                        Update Item
+                        UPDATE ITEM
                     </Text>
                 </Button>
         }
         else {
-            title = <Title style={{alignSelf: 'center', color:'#6CF9C8'}}>New Item</Title>
+            title = <Title style={{alignSelf: 'center', color:'#6CF9C8'}}>NEW ITEM</Title>
             actionButton =
                 <Button
                     onPress={this.onAddItem.bind(this)}
@@ -236,7 +236,7 @@ class AddItem extends Component {
                     style={{ alignSelf: 'center', marginTop: -10, marginBottom: 30 , width: 280, borderRadius: 0, borderColor:'#2effd0', height: 50, paddingTop: 0}}
                 >
                     <Text style={{color: '#FFFFFF'}}>
-                        Add Item
+                        ADD ITEM
                     </Text>
                 </Button>
         }
@@ -245,13 +245,9 @@ class AddItem extends Component {
             <Container theme={myTheme} style={styles.container}>
 
                 <Header>
+                    <Button transparent><Text style={{color: 'black'}}>.</Text></Button>
                     {title}
-                    <Button transparent onPress={() => this.props.navigator.push({id: 'searchItem'})}>
-                        <Icon name="ios-search" />
-                    </Button>
-                    <Button transparent onPress={() => this.props.navigator.push({id: 'listMessage'})}>
-                        <Icon name="ios-mail" />
-                    </Button>
+                    <Button transparent><Text style={{color: 'black'}}>.</Text></Button>
                 </Header>
 
                 <Content
