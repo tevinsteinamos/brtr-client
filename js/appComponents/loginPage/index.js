@@ -64,7 +64,7 @@ class LoginPage extends Component {
             var value = await AsyncStorage.getItem("myKey");
             console.log("value: ", value)
             if (value !== null){
-                // this.props.navigator.replace({id: 'home'});
+                this.props.navigator.replace({id: 'home'});
             } else {
                 console.log("else")
                 this._appendMessage('Initialized with no selection on disk.');
@@ -94,7 +94,7 @@ class LoginPage extends Component {
           inputUsername =
           <ListItem>
           <InputGroup>
-            <Input 
+            <Input
                 onChangeText={(username) => this.setState({username})}
                 placeholder="Username" style={{color: '#FFFFFF'}}/>
           </InputGroup>
