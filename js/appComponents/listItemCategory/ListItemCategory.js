@@ -93,16 +93,16 @@ class ListItemCategory extends Component {
             )
         })
 
-        if (loading) {
-            return(
-                <Container theme={myTheme} style={styles.container}>
-                    <Content>
-                        <Spinner color='green' />
-                    </Content>
-                </Container>
-            )
-        }
-        else {
+        // if (loading) {
+        //     return(
+        //         <Container theme={myTheme} style={styles.container}>
+        //             <Content>
+        //                 <Spinner color='green' />
+        //             </Content>
+        //         </Container>
+        //     )
+        // }
+        // else {
             return (
                 <Container theme={myTheme} style={styles.container}>
 
@@ -141,7 +141,7 @@ class ListItemCategory extends Component {
                     </Footer>
                 </Container>
             );
-        }
+        // }
     }
 }
 

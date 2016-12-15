@@ -17,14 +17,6 @@ import decode from 'jwt-decode'
 
 class listMessage extends Component {
 
-    static propTypes = {
-        replaceAt: React.PropTypes.func,
-        navigateTo: React.PropTypes.func,
-        navigation: React.PropTypes.shape({
-            key: React.PropTypes.string,
-        })
-    }
-
     constructor(props) {
         super(props);
         this.state = {
