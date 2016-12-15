@@ -4,6 +4,7 @@ import { TouchableOpacity, AsyncStorage, Image, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { Container, Header, Title, Content, Button, Icon, List, ListItem, InputGroup, Input, Picker, Text, Thumbnail } from 'native-base';
 import ArizTheme from '../../themes/custom-theme'
+import myTheme from '../../themes/base-theme';
 
 import styles from './styles';
 import {loginUser, userLoginNormalize} from '../../actions/auth';
@@ -63,7 +64,7 @@ class LoginPage extends Component {
             var value = await AsyncStorage.getItem("myKey");
             console.log("value: ", value)
             if (value !== null){
-                this.props.navigator.replace({id: 'home'});
+                // this.props.navigator.replace({id: 'home'});
             } else {
                 console.log("else")
                 this._appendMessage('Initialized with no selection on disk.');
@@ -93,7 +94,7 @@ class LoginPage extends Component {
           inputUsername =
           <ListItem>
           <InputGroup>
-            <Input
+            <Input 
                 onChangeText={(username) => this.setState({username})}
                 placeholder="Username" style={{color: '#FFFFFF'}}/>
           </InputGroup>
@@ -126,7 +127,7 @@ class LoginPage extends Component {
         </ListItem>
         }
           return (
-              <Container style={styles.container}>
+              <Container style={styles.container} theme={myTheme}>
 
               <Content>
                 <Image source={barter_logo} style={{ alignSelf: 'center', marginTop: 80, marginBottom: 40 }} />
@@ -139,15 +140,15 @@ class LoginPage extends Component {
                 <Button
                     onPress={this.onLoginUser.bind(this)}
                     bordered
-                    style={{ alignSelf: 'center', marginTop: 40, marginBottom: 20 , width: 220, borderRadius: 0, borderColor:'#2effd0', height: 50}}>
+                    style={{ alignSelf: 'center', marginTop: 40, marginBottom: 20 , width: 220, borderRadius: 0, borderColor:'#2effd0', height: 50, paddingTop: 0}}>
                   <Text style={{color: '#FFFFFF'}}>
                     SIGN IN
                   </Text>
                 </Button>
                 <Text
-                    style={{textAlign: 'center',color: '#FFFFFF', fontSize: 14}}>
+                    style={{textAlign: 'center',color: '#FFFFFF', fontSize: 13}}>
                   Don't have an account yet?
-                  <Text style={{color: '#2effd0', fontSize: 12}}
+                  <Text style={{color: '#2effd0', fontSize: 13}}
                         onPress={() => this.props.navigator.push({id: 'registerPage'})}>   Sign Up !
                   </Text>
                   </Text>
