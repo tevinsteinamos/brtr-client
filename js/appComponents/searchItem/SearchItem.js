@@ -104,14 +104,14 @@ class SearchItem extends Component {
                       <Button transparent onPress={() => navigator.pop()}>
                           <Icon name='ios-arrow-back'/>
                       </Button>
-                      <Button transparent onPress={() => navigator.push({id : 'listMessage'})}>
-                          <Icon name="ios-mail" />
+                      <Button transparent >
+                          <Icon name='ios-search' style={{color: '#6CF9C8'}} />
                       </Button>
                   </Header>
 
                   <Content>
                       <InputGroup style={styles.noBottomBorder} iconRight>
-                          <Icon name='ios-search' style={{color: '#6CF9C8'}} />
+                          
                           <Input returnKeyType='send' placeholder='Type here to search item...' style={styles.text} onChangeText={(event) => this.searchProcessInput(event)}></Input>
                       </InputGroup>
 
