@@ -186,6 +186,9 @@ class AddItem extends Component {
                     {text: 'OK', onPress: () => console.log('OK Pressed')},
                 ]
             )
+        }
+        else {
+            this.props.addItem(category, name, description, photo, material, dimension, color, this.state.token, this.props.navigator)
             this.setState({
                 name: '',
                 description: '',
@@ -195,19 +198,7 @@ class AddItem extends Component {
                 color: '',
                 avatarSource: ''
             })
-            return
         }
-
-        this.props.addItem(category, name, description, photo, material, dimension, color, this.state.token, this.props.navigator)
-        this.setState({
-            name: '',
-            description: '',
-            dimension: '',
-            material: '',
-            photo: '',
-            color: '',
-            avatarSource: ''
-        })
     }
 
     onUpdateItem(e) {
@@ -229,29 +220,20 @@ class AddItem extends Component {
                     {text: 'OK', onPress: () => console.log('OK Pressed')},
                 ]
             )
+        }
+        else {
+            this.props.updateItem(this.props.route.ItemId, category, name, description, photo, material, dimension, color, this.state.token, this.props.navigator)
             this.setState({
                 name: '',
                 description: '',
                 dimension: '',
                 material: '',
                 photo: '',
+                size: '',
                 color: '',
                 avatarSource: ''
             })
-            return
         }
-
-        this.props.updateItem(this.props.route.ItemId, category, name, description, photo, material, dimension, color, this.state.token, this.props.navigator)
-        this.setState({
-            name: '',
-            description: '',
-            dimension: '',
-            material: '',
-            photo: '',
-            size: '',
-            color: '',
-            avatarSource: ''
-        })
     }
 
     render() {
