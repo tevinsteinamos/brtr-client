@@ -86,6 +86,7 @@ class AddItem extends Component {
     }
 
     onValueChange (value: string) {
+      console.log("valueeeeee: ", value);
         this.setState({
             category : value
         });
@@ -176,7 +177,7 @@ class AddItem extends Component {
         let category = this.state.category
         let color = this.state.color.trim()
 
-        console.log("photo state: ", photo)
+
         if (!name || !category || !description || !dimension || !material || !color || !photo) {
             console.log("kosong")
             Alert.alert(
@@ -196,7 +197,8 @@ class AddItem extends Component {
                 material: '',
                 photo: '',
                 color: '',
-                avatarSource: ''
+                avatarSource: '',
+                category: '',
             })
         }
     }
@@ -211,7 +213,18 @@ class AddItem extends Component {
         let photo = this.state.avatarSource
         let category = this.state.category
         let color = this.state.color.trim()
-        if (!name || !category || !description || !dimension || !material || !color || !photo) {
+
+        console.log('CategoryId : ', category);
+        console.log('this.state.category : ', this.state.category);
+        console.log('name : ', name);
+        console.log('description : ', description);
+        console.log('photo : ', photo);
+        console.log('material : ', material);
+        console.log('dimension : ', dimension);
+        console.log('color : ', color);
+
+
+        if (!name || category==='key0' || !description || !dimension || !material || !color || !photo) {
             console.log("kosong")
             Alert.alert(
                 'Update Item Fail',
@@ -231,7 +244,8 @@ class AddItem extends Component {
                 photo: '',
                 size: '',
                 color: '',
-                avatarSource: ''
+                avatarSource: '',
+                category: '',
             })
         }
     }
@@ -338,7 +352,7 @@ class AddItem extends Component {
                                     mode="dropdown"
                                     selectedValue={this.state.category}
                                     onValueChange={this.onValueChange.bind(this)} >
-                                    <Item label="Select Category" value="key0" />
+                                    <Item label="Select Category" value={this.state.category || 'key0'} />
                                     <Item label={(categories[0]) ? categories[0].name : ''} value={(categories[0]) ? categories[0].id : ''} />
                                     <Item label={(categories[1]) ? categories[1].name : ''} value={(categories[1]) ? categories[1].id : ''} />
                                     <Item label={(categories[2]) ? categories[2].name : ''} value={(categories[2]) ? categories[2].id : ''} />
