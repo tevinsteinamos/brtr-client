@@ -9,7 +9,6 @@ import { Container,
     Text } from 'native-base';
 import ArizTheme from '../../themes/custom-theme'
 import myTheme from '../../themes/base-theme';
-import decode from 'jwt-decode'
 import styles from './styles';
 import {loginUser, userLoginNormalize} from '../../actions/auth';
 const barter_logo = require('../../../img/barter_logo.png');
@@ -60,7 +59,6 @@ class LoginPage extends Component {
         try {
             var value = await AsyncStorage.getItem("myKey");
             if (value !== null){
-              console.log('token : ', decode(value));
                 this.props.navigator.replace({id: 'home'});
             } else {
                 this._appendMessage('Initialized with no selection on disk.');
