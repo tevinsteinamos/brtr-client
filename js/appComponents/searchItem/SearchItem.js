@@ -100,7 +100,7 @@ class SearchItem extends Component {
                           <Icon name='ios-arrow-back'/>
                       </Button>
                       <Button transparent >
-                          <Icon name='ios-search' style={{color: '#6CF9C8'}} />
+                          <Text style={{color: 'black'}}>...</Text>
                       </Button>
                   </Header>
 

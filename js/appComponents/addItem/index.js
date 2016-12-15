@@ -226,6 +226,10 @@ class AddItem extends Component {
                         UPDATE ITEM
                     </Text>
                 </Button>
+            backButton=
+                <Button transparent onPress={() => navigator.pop()}>
+                          <Icon name='ios-arrow-back'/>
+                      </Button>
         }
         else {
             title = <Title style={{alignSelf: 'center', color:'#6CF9C8'}}>NEW ITEM</Title>
@@ -239,13 +243,14 @@ class AddItem extends Component {
                         ADD ITEM
                     </Text>
                 </Button>
+            backButton = <Button transparent><Text style={{color: 'black'}}>.</Text></Button>
         }
 
         return (
             <Container theme={myTheme} style={styles.container}>
 
                 <Header>
-                    <Button transparent><Text style={{color: 'black'}}>.</Text></Button>
+                    {backButton}
                     {title}
                     <Button transparent><Text style={{color: 'black'}}>.</Text></Button>
                 </Header>
