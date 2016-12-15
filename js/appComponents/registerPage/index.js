@@ -2,15 +2,18 @@
 import React, { Component } from 'react';
 import { TouchableOpacity, Alert, Image, BackAndroid } from 'react-native';
 import { connect } from 'react-redux';
-import { Container, Header, Title, Content, Button, Icon, List, ListItem, InputGroup, Input, Picker, Text, Thumbnail } from 'native-base';
+import {
+    Container,
+    Content,
+    Button,
+    List, ListItem, InputGroup, Input, Text,
 
-import { openDrawer } from '../../actions/drawer';
+} from 'native-base';
+
 import styles from './styles';
 import ArizTheme from '../../themes/custom-theme'
 import myTheme from '../../themes/base-theme';
 import {registerUser} from '../../actions/auth'
-
-const Item = Picker.Item;
 const barter_logo = require('../../../img/barter_logo.png');
 
 class RegisterPage extends Component {
@@ -52,7 +55,7 @@ class RegisterPage extends Component {
                 'Register Fail',
                 'All fields must not empty',
                 [
-                    {text: 'OK', onPress: () => console.log('OK Pressed')},
+                    {text: 'OK'},
                 ]
             )
         } else {
@@ -61,14 +64,13 @@ class RegisterPage extends Component {
                 return regex.test(value)
             }
             let email = this.state.email.trim()
-            console.log(validateEmail(email));
             if (validateEmail(email)) {
                 if (password !== confirmPassword) {
                     Alert.alert(
                         'Register Fail',
                         "Confirm Password doesn't match",
                         [
-                            {text: 'OK', onPress: () => console.log('OK Pressed')},
+                            {text: 'OK'},
                         ]
                     )
                 } else {
@@ -89,14 +91,12 @@ class RegisterPage extends Component {
                         {text: 'OK', onPress: () => this.setState({valid: true})},
                     ]
                 )
-                console.log('email wrong format');
             }
         }
     }
 
     render() {
         const {navigator, status} = this.props
-        console.log('user register page: ', status);
         let warningError
         if (status.status == false) {
             warningError = <Text style={{fontSize:14, marginLeft: 25, color: '#d9534f'}} >Username or email has been registered</Text>
@@ -106,7 +106,10 @@ class RegisterPage extends Component {
         return (
             <Container style={styles.container} theme={myTheme}>
 
-                <Content>
+                <Content
+                    keyboardDismissMode='on-drag'
+                    keyboardShouldPersistTaps={true}
+                >
                     <Image source={barter_logo} style={{ alignSelf: 'center', marginTop: 60, marginBottom: 70, width: 65, height: 55 }} />
                     <List style={{ marginLeft: 45, marginRight: 60}} theme={ArizTheme}>
                         {warningError}
