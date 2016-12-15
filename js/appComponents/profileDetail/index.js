@@ -17,7 +17,6 @@ import {
     List,
     Spinner
 } from 'native-base';
-import { Grid, Col } from 'react-native-easy-grid';
 
 import {getItemsByUserId} from '../../actions/items';
 import {getUserById} from '../../actions/getUserById';
