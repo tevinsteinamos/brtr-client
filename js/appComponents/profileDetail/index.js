@@ -57,7 +57,6 @@ class ProfileDetail extends Component {
     _loadInitialState = async () => {
         try {
             var value = await AsyncStorage.getItem("myKey");
-            console.log("value: ", value)
             this.setState({dataUser: decode(value)})
             if (value !== null){
 
@@ -109,39 +108,33 @@ class ProfileDetail extends Component {
         if(this.props.route.UserId) {
             if(this.props.route.UserId === this.state.dataUser.id) {
                 buttonLogout =
-                    <Button
-                        bordered style={{
-                          alignSelf: 'center',
-                          marginTop: 40,
-                          marginBottom: 20 ,
-                          width: 220,
-                          borderRadius: 0,
-                          borderColor:'#2effd0',
-                          height: 50
-                    }}
-                        onPress={this.logoutUser.bind(this)}><Text style={{color: '#FFFFFF'}}>LOGOUT</Text>
+                    <Button transparent onPress={this.logoutUser.bind(this)}>
+                        <Icon name="ios-exit" />
+                    </Button>
+                buttonEditProfile =
+                    <Button transparent onPress={() => this.props.navigator.push({id: 'editProfile', avatar: user.avatar})}>
+                        <Icon name="ios-settings" />
                     </Button>
             }
             else {
                 buttonLogout =
                     <Button transparent>
-                        <Text></Text>
+                        <Text style={{color:'black'}}>...</Text>
+                    </Button>
+                buttonEditProfile = 
+                    <Button transparent>
+                        <Text style={{color:'black'}}>...</Text>
                     </Button>
             }
         }
         else {
             buttonLogout =
-                <Button
-                    bordered style={{
-                          alignSelf: 'center',
-                          marginTop: 40,
-                          marginBottom: 20 ,
-                          width: 220,
-                          borderRadius: 0,
-                          borderColor:'#2effd0',
-                          height: 50
-                    }}
-                    onPress={this.logoutUser.bind(this)}><Text style={{color: '#FFFFFF'}}>LOGOUT</Text>
+                <Button transparent onPress={this.logoutUser.bind(this)}>
+                        <Icon name="ios-exit" />
+                    </Button>
+            buttonEditProfile = 
+                <Button transparent onPress={() => this.props.navigator.push({id: 'editProfile', avatar: user.avatar})}>
+                    <Icon name="ios-settings" />
                 </Button>
         }
 
@@ -157,23 +150,19 @@ class ProfileDetail extends Component {
             <Container theme={myTheme} style={styles.container}>
                 <Header>
                     <Title style={{alignSelf: 'center', color: '#6CF9C8'}}>
-                        {(this.props.route.UserId) ? ((this.props.route.UserId === this.state.dataUser.id) ? 'MY PROFILE' : `${user.username} PROFILE` ) : 'MY PROFILE'}
+                        {(this.props.route.UserId) ? ((this.props.route.UserId === this.state.dataUser.id) ? 'MY PROFILE' : `${user.username}` ) : 'MY PROFILE'}
                     </Title>
-                    <Button transparent onPress={() => this.props.navigator.push({id: 'searchItem'})}>
-                        <Icon name="ios-search" />
-                    </Button>
-                    <Button transparent onPress={() => this.props.navigator.push({id: 'editProfile', avatar: user.avatar})}>
-                        <Icon name="ios-settings" />
-                    </Button>
+                    {buttonEditProfile}
+                    {buttonLogout}
                 </Header>
 
                 <Content>
                     <Card style={{ flex: 0, backgroundColor: '#1E1E1E', borderWidth: 0 }}>
                         <CardItem
-                            style={{borderBottomWidth: 0}}
+                            style={{borderBottomWidth: 0, marginTop: 20}}
                         >
                             <Image
-                                style={{resizeMode: 'cover',  alignSelf: 'center', width: 200, height: 200 }}
+                                style={{resizeMode: 'cover',  alignSelf: 'center', width: 200, height: 200, borderRadius: 200, borderWidth: 2, borderColor: '#6CF9C8' }}
                                 source={(user.avatar) ? {uri: user.avatar} : require('../../../img/img-placeholder.png')}
                             />
                         </CardItem>
@@ -184,21 +173,10 @@ class ProfileDetail extends Component {
                             alignSelf: 'center',
                             fontSize: 20,
                             fontStyle: 'normal',
-                            marginBottom: 20}}>
+                            marginBottom: 20,
+                            marginTop: 20,
+                            color: '#6CF9C8'}}>
                         {user.username}
-                    </Text>
-
-                    {buttonLogout}
-
-                    <Text
-                        style={{
-                            color: '#fff',
-                             alignSelf: 'center',
-                             fontSize: 20,
-                             fontStyle: 'normal',
-                             marginTop: 20,
-                             marginBottom: 20
-                        }}>
                     </Text>
 
                       <List>

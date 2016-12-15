@@ -150,9 +150,9 @@ class ProfileDetail extends Component {
                     <Button transparent onPress={() => navigator.pop()}>
                         <Icon name="ios-arrow-back" />
                     </Button>
-                    <Title style={{alignSelf: 'center'}}>BRTR</Title>
+                    <Title style={{alignSelf: 'center'}}>EDIT PROFILE</Title>
                     <Button transparent>
-                        <Icon name="md-exit" />
+                        <Text style={{color:'black'}}>...</Text>
                     </Button>
 
                 </Header>
@@ -160,17 +160,17 @@ class ProfileDetail extends Component {
                 <Content>
                     <Card style={{ flex: 0, backgroundColor: '#1E1E1E', borderWidth: 0 }}>
                         <CardItem
-                            style={{borderBottomWidth: 0}}
+                            style={{borderBottomWidth: 0, marginTop: 20}}
                             onPress={this.uploadImage.bind(this)}>
                             <Image
-                                style={{resizeMode: 'cover',  alignSelf: 'center', width: 200, height: 200 }}
+                                style={{resizeMode: 'cover',  alignSelf: 'center', width: 200, height: 200, borderRadius: 200, borderWidth: 2, borderColor: '#6CF9C8' }}
                                 source={(this.state.avatarSource) ? {uri: this.state.avatarSource} : require('../../../img/img-placeholder.png')}
                             />
                         </CardItem>
                     </Card>
 
                     <InputGroup
-                        style={{marginTop:50, marginLeft: 30, marginRight: 30}}
+                        style={{marginTop:40, marginLeft: 40, marginRight: 50}}
                         theme={ArizTheme} borderType='underline'>
                         <Input
                             onChangeText={(newPassword) => this.setState({newPassword: newPassword})}
@@ -183,15 +183,16 @@ class ProfileDetail extends Component {
                     <Button
                         bordered style={{
                           alignSelf: 'center',
-                          marginTop: 40,
+                          marginTop: 30,
                           marginBottom: 20 ,
-                          width: 220,
+                          width: 280,
                           borderRadius: 0,
                           borderColor:'#2effd0',
-                          height: 50
+                          height: 50,
+                          paddingTop: 0
                     }}
                         onPress={this.saveProfile.bind(this)}>
-                        <Text style={{color: '#FFFFFF'}}>SAVE</Text>
+                        <Text style={{color: '#FFFFFF'}}>SAVE CHANGES</Text>
                     </Button>
 
                 </Content>

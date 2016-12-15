@@ -8,9 +8,15 @@ import {
     Header,
     Title,
     Content,
+    Text,
     Button,
     Icon,
-    List,
+    Footer,
+    FooterTab,
+    Card,
+    CardItem,
+    View,
+    Spinner,
     Input,
     InputGroup
 } from 'native-base';
@@ -104,9 +110,9 @@ class SearchItem extends Component {
                           <Input returnKeyType='send' placeholder='Type here to search item...' style={styles.text} onChangeText={(event) => this.searchProcessInput(event)}></Input>
                       </InputGroup>
 
-                      <List>
+                      <Card style={{ flex: 0, backgroundColor: 'black', borderWidth: 0 }}>
                         {ItemNodes}
-                      </List>
+                      </Card>
                   </Content>
 
 

@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { Image, AsyncStorage } from 'react-native';
 import {
-    Text, H3,
+    Text, H2,
     Thumbnail,
     ListItem
 } from 'native-base';
@@ -16,9 +16,8 @@ class ProfileDetail extends Component {
         return (
             <ListItem
                 style={[styles.container, styles.noBottomBorder]} onPress={() => navigator.push({id: 'itemDetail', ItemId: items.id})}>
-                <Thumbnail square size={90} source={{uri: items.photo}} />
-                <H3 style={styles.text}>{items.name}</H3>
-                <Text note style={styles.text}>By <Text style={styles.name}>{(items.User) ? items.User.username : ''}</Text></Text>
+                <Thumbnail square size={70} source={{uri: items.photo}} />
+                <H2 style={styles.text}>{items.name}</H2>
                 <Text style={{color: '#fff'}}>{moment(items.createdAt).fromNow()}</Text>
             </ListItem>
 
