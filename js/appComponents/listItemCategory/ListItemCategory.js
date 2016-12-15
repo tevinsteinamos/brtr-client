@@ -1,7 +1,6 @@
 
 import React, { Component } from 'react';
 import { BackAndroid, Image, AsyncStorage } from 'react-native';
-import { Col, Row, Grid } from 'react-native-easy-grid';
 import { connect } from 'react-redux';
 import {
     Container,
@@ -74,11 +73,9 @@ class ListItemCategory extends Component {
                 this.props.getItemsByCategoryId(value, this.props.route.CategoryId)
                 this._appendMessage('Recovered selection from disk: ' + value);
             } else {
-                console.log("else")
                 this._appendMessage('Initialized with no selection on disk.');
             }
         } catch (error) {
-            console.log("catch: ", error)
             this._appendMessage('AsyncStorage error: ' + error.message);
         }
     }
@@ -89,8 +86,6 @@ class ListItemCategory extends Component {
 
     render() {
         const {navigator, route, items, loading} = this.props
-        console.log('item category: ', items)
-        console.log('route di list item category: ', route)
 
         let ItemCategoryNodes = items.map(function (item) {
             return(
