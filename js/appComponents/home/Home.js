@@ -37,7 +37,7 @@ class Home extends Component {
         };
     }
 
-
+//
     toggleTab1() {
         this.setState({
             tab1: true,

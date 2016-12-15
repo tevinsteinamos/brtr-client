@@ -12,7 +12,8 @@ import {
     Footer,
     FooterTab,
     List,
-    Spinner
+    Spinner,
+    Text
 } from 'native-base';
 
 import {getItemsByCategoryId} from '../../actions/categoryId';
@@ -99,11 +100,11 @@ class ListItemCategory extends Component {
                 <Header>
                     <Title
                         style={{alignSelf: 'center', color: '#6CF9C8'}}>{this.props.route.CategoryName.toUpperCase()}</Title>
-                    <Button transparent onPress={() => this.props.navigator.push({id: 'searchItem'})}>
-                        <Icon name="ios-search"/>
+                    <Button transparent>
+                        <Text style={{color:'black'}}>...</Text>
                     </Button>
-                    <Button transparent onPress={() => this.props.navigator.push({id: 'listMessage'})}>
-                        <Icon name="ios-mail"/>
+                    <Button transparent>
+                        <Text style={{color:'black'}}>...</Text>
                     </Button>
                 </Header>
 

@@ -153,12 +153,12 @@ class CreateMessage extends Component {
             <Container theme={myTheme} style={styles.container}>
 
                 <Header>
-                    <Button transparent onPress={() => this.navigateTo('ListItem')}>
-                        <Icon name="ios-search" />
+                    <Button transparent>
+                        <Text style={{color:'black'}}>...</Text>
                     </Button>
-                    <Title style={{alignSelf: 'center'}}>Create Message</Title>
-                    <Button transparent onPress={() => this.navigateTo('listMessage')}>
-                        <Icon name="ios-mail" />
+                    <Title style={{alignSelf: 'center', color: '#6CF9C8'}}>CREATE MESSAGE</Title>
+                    <Button transparent>
+                        <Text style={{color:'black'}}>...</Text>
                     </Button>
                 </Header>
 
@@ -173,13 +173,13 @@ class CreateMessage extends Component {
                                     <Input
                                         onChangeText={(title) => this.setState({title: title})}
                                         value={this.state.title}
-                                        style={{color: '#FFFFFF'}}
+                                        style={{color: '#FFFFFF', fontSize: 17}}
                                         placeholder='Title'/>
                                 </InputGroup>
                             </Col>
                         </Grid>
 
-                        <Grid  style={{marginTop: 20}}>
+                        <Grid  style={{marginTop: 0}}>
                             <Col>
                                 <List>
                                     <ListItem
@@ -189,14 +189,14 @@ class CreateMessage extends Component {
                                         <Textarea
                                             onChangeText={(body) => this.setState({body: body})}
                                             value={this.state.body}
-                                            style={{paddingTop: 5, paddingBottom:5, color: '#FFFFFF'}}
+                                            style={{paddingBottom:20, color: '#FFFFFF', fontSize: 17}}
                                             placeholder="Message"/>
                                     </ListItem>
                                 </List>
                             </Col>
                         </Grid>
 
-                        <Grid style={{marginTop: 40}}>
+                        <Grid style={{marginTop: 20}}>
                               <Col>
                                   {this.selectItem()}
                               </Col>
@@ -209,9 +209,9 @@ class CreateMessage extends Component {
                         <Button
                             onPress={this.onCreateMessage.bind(this)}
                             bordered
-                            style={{ alignSelf: 'center', marginTop: 80, marginBottom: 20 , width: 220, borderRadius: 0, borderColor:'#2effd0', height: 50}}>
+                            style={{ alignSelf: 'center', marginTop: 20, marginBottom: 20 , width: 280, borderRadius: 0, borderColor:'#2effd0', height: 50, paddingTop: 0}}>
                             <Text style={{color: '#FFFFFF'}}>
-                                Send Barter Request
+                                SEND BARTER REQUEST
                             </Text>
                         </Button>
                       </List>

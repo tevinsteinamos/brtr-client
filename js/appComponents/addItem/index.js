@@ -154,7 +154,7 @@ class AddItem extends Component {
         if (!name || !category==='key0' || !description || !photo) {
             Alert.alert(
                 'Add Item Fail',
-                'All fields should be filled',
+                'Category, title and description must be filled',
                 [
                     {text: 'OK'},
                 ]
@@ -188,7 +188,7 @@ class AddItem extends Component {
         if (!name || category==='key0' || !description || !photo) {
             Alert.alert(
                 'Update Item Fail',
-                'All fields should be filled',
+                'Category, title and description must be filled',
                 [
                     {text: 'OK'},
                 ]
