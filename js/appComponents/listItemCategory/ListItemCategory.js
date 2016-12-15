@@ -107,7 +107,7 @@ class ListItemCategory extends Component {
             <Container theme={myTheme} style={styles.container}>
 
                 <Header>
-                    <Title style={{alignSelf: 'center'}}>List Item By Category</Title>
+                    <Title style={{alignSelf: 'center', color: '#6CF9C8'}}>{this.props.route.CategoryName.toUpperCase()}</Title>
                     <Button transparent onPress={() => this.props.navigator.push({id: 'searchItem'})}>
                         <Icon name="ios-search" />
                     </Button>
@@ -124,14 +124,17 @@ class ListItemCategory extends Component {
 
                 <Footer>
                     <FooterTab>
-                        <Button active={this.state.tab1} onPress={() => this.props.navigator.replace({id: 'home'})}>
-                            Feed
+                        <Button
+                            active={this.state.tab1} onPress={() => navigator.replace({id: 'home'})}>
+                            <Icon name='md-home' />
                         </Button>
-                        <Button active={this.state.tab2} onPress={() => this.props.navigator.push({id: 'addItem'})} >
-                            Add Item
+                        <Button active={this.state.tab2} onPress={() => navigator.replace({id: 'addItem'})} >
+                            
+                            <Icon name='md-add-circle' />
                         </Button>
-                        <Button active={this.state.tab3} onPress={() => this.props.navigator.push({id: 'profileDetail'})} >
-                            Profile
+                        <Button active={this.state.tab3} onPress={() => navigator.replace({id: 'profileDetail'})} >
+                            
+                            <Icon name='ios-person' />
                         </Button>
                     </FooterTab>
                 </Footer>

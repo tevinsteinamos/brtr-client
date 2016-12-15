@@ -121,18 +121,21 @@ class SearchItem extends Component {
                   </Content>
 
                   <Footer>
-                      <FooterTab>
-                          <Button active={this.state.tab1} onPress={() => navigator.replace('home')} >
-                              Feed
-                          </Button>
-                          <Button active={this.state.tab2} onPress={() => navigator.replace('addItem')} >
-                              Add Item
-                          </Button>
-                          <Button active={this.state.tab3} onPress={() => navigator.replace('profileDetail')} >
-                              Profile
-                          </Button>
-                      </FooterTab>
-                  </Footer>
+                    <FooterTab>
+                        <Button
+                            active={this.state.tab1} onPress={() => navigator.replace({id: 'home'})}>
+                            <Icon name='md-home' />
+                        </Button>
+                        <Button active={this.state.tab2} onPress={() => navigator.replace({id: 'addItem'})} >
+                            
+                            <Icon name='md-add-circle' />
+                        </Button>
+                        <Button active={this.state.tab3} onPress={() => navigator.replace({id: 'profileDetail'})} >
+                            
+                            <Icon name='ios-person' />
+                        </Button>
+                    </FooterTab>
+                </Footer>
               </Container>
           );
     }
