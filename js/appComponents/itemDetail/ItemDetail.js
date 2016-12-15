@@ -16,7 +16,8 @@ import {
     Card,
     CardItem,
     Thumbnail,
-    View
+    View,
+    ListItem
 } from 'native-base';
 
 import myTheme from '../../themes/base-theme';
@@ -155,8 +156,17 @@ class ItemDetail extends Component {
 
                     <Card style={{ flex: 0, backgroundColor: '#1E1E1E', borderWidth: 0 }}>
                         <CardItem>
-                            <H1 style={{color: 'white', paddingBottom: 5}}>{itemId.name}</H1>
-                            <Text note>{(itemId.User) ? itemId.User.username : ''}</Text>
+                            <H1 style={{color: 'white', paddingBottom: 10}}>{itemId.name}</H1>
+                            <ListItem
+                                onPress={() => navigator.push({id: 'profileDetail', UserId: itemId.User.id})}
+                                style={{borderBottomWidth: 0}}>
+                                <Thumbnail
+                                    source={(itemId.User) ? ((itemId.User.avatar) ? {uri: itemId.User.avatar} : require('../../../img/img-placeholder.png')) : require('../../../img/img-placeholder.png')} />
+                                <Text
+                                    note>
+                                    {(itemId.User) ? itemId.User.username : ''}
+                                </Text>
+                            </ListItem>
                         </CardItem>
 
                         <CardItem>
