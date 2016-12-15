@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
 import { Image, AsyncStorage, BackAndroid, Alert } from 'react-native';
-import { Col, Row, Grid } from 'react-native-easy-grid';
+import { Col, Grid } from 'react-native-easy-grid';
 import { connect } from 'react-redux';
 import { actions } from 'react-native-navigation-redux-helpers';
 import {
@@ -9,15 +9,11 @@ import {
     Header,
     Title,
     Content,
-    Text, H3, H2, H1,
+    Text,
     Button,
     Icon,
     Footer,
     FooterTab,
-    Card,
-    CardItem,
-    Thumbnail,
-    View,
     List,
     ListItem,
     Input,
@@ -32,14 +28,7 @@ import { addMessage } from '../../actions/createMessageItem';
 import myTheme from '../../themes/base-theme';
 import styles from './styles';
 import ArizTheme from '../../themes/additemtheme'
-import FooterTheme from '../../themes/prof-empty-theme'
-const star_button = require('../../../img/star_button.png');
-
-
 import {getItemsByUserId} from '../../actions/items';
-import decode from 'jwt-decode'
-
-
 
 class CreateMessage extends Component {
 
@@ -64,7 +53,6 @@ class CreateMessage extends Component {
     }
 
     onValueChange (value) {
-      console.log('onValueChange : ', value);
         this.setState({
             itemBarter : value
         });
@@ -83,17 +71,14 @@ class CreateMessage extends Component {
     _loadInitialState = async () => {
         try {
             var value = await AsyncStorage.getItem("myKey");
-            console.log("value: ", value)
             if (value !== null){
                 this.setState({token: value})
                 this.props.getItemsByUserId(value)
                 this._appendMessage('Recovered selection from disk: ' + value);
             } else {
-                console.log("else")
                 this._appendMessage('Initialized with no selection on disk.');
             }
         } catch (error) {
-            console.log("catch : ", error)
             this._appendMessage('AsyncStorage error: ' + error.message);
         }
     }
@@ -109,18 +94,13 @@ class CreateMessage extends Component {
         let item = this.props.route.ItemId
         let itemBarter = this.state.itemBarter
         let token = this.state.token
-        console.log('title1 : ', title);
-        console.log('body 1: ', body);
-        console.log('item 1: ', item);
-        console.log('itemBarter 1: ', itemBarter);
-        console.log('token 1: ', token);
 
         if (!title || !body || !item) {
           Alert.alert(
               'Error Barter Item',
               'Title and Message Body should be filled',
               [
-                  {text: 'OK', onPress: () => console.log('OK Pressed')},
+                  {text: 'OK'},
               ]
           )
         } else {
@@ -129,7 +109,7 @@ class CreateMessage extends Component {
                 'Error Barter Item',
                 'Please select Item to barter',
                 [
-                    {text: 'OK', onPress: () => console.log('OK Pressed')},
+                    {text: 'OK'},
                 ]
             )
           } else {
@@ -144,7 +124,6 @@ class CreateMessage extends Component {
 
 
     selectItem() {
-        console.log('selectItem / picker : ', this.state.itemBarter);
         if (this.props.items.length !== 0) {
             if (this.props.items[0].id !== 'key0')
                 this.props.items.unshift({id:'key0', name:'Tap to Select Item'})
@@ -168,10 +147,6 @@ class CreateMessage extends Component {
 
     render() {
         const {navigator, items, route} = this.props
-        console.log("ini props di create message: ", this.props)
-        console.log("ini item di create message: ", route.ItemId)
-        console.log("ini item barder: ", this.state.itemBarter)
-        console.log("cklick add item : ", this.props.items)
 
         return (
             <Container theme={myTheme} style={styles.container}>
