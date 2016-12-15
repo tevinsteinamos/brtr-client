@@ -136,7 +136,7 @@ class ItemDetail extends Component {
                 actionButton = <Button transparent
                     onPress={() => navigator.push({id: 'createMessage', ItemId: itemId.id})}
                     block success> <Icon name="md-swap" /> </Button>
-                deleteButton = ''
+                deleteButton = <Text></Text>
             }
         }
 
@@ -207,11 +207,11 @@ class ItemDetail extends Component {
                             <Icon name='md-home' />
                         </Button>
                         <Button active={this.state.tab2} onPress={() => navigator.replace({id: 'addItem'})} >
-                            
+
                             <Icon name='md-add-circle' />
                         </Button>
                         <Button active={this.state.tab3} onPress={() => navigator.replace({id: 'profileDetail'})} >
-                            
+
                             <Icon name='ios-person' />
                         </Button>
                     </FooterTab>
