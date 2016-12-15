@@ -30,11 +30,13 @@ export function userRegisterSuccess(user):Action {
 
 export function userRegisterFailure():Action {
     return {
-        type: USER_REGISTER_FAILURE
+        type: USER_REGISTER_FAILURE,
+        status: false
     };
 }
 
 export function registerUser(username, password, email, confirmPassword, navigator) {
+  console.log('func register action ');
     return (dispatch) => {
         fetch(`http://br-tr-dev.ap-southeast-1.elasticbeanstalk.com/api/auth/register`, {
             method: 'POST',
@@ -51,9 +53,15 @@ export function registerUser(username, password, email, confirmPassword, navigat
         })
             .then((response) => response.json())
             .then((responseJson) => {
+              console.log('regis response : ', responseJson.message);
+              if (responseJson.name == "SequelizeValidationError") {
+                console.log('masuk error');
+                dispatch(userRegisterFailure())
+              } else {
                 dispatch(userRegisterSuccess(responseJson))
                 AsyncStorage.setItem('myKey', responseJson);
                 navigator.replace({id: 'home'})
+              }
             })
             .catch((error) => {
                 console.log("fail", error)
