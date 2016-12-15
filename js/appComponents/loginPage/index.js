@@ -39,6 +39,10 @@ class LoginPage extends Component {
         let username = this.state.username.trim()
         let password = this.state.password.trim()
         if (!username || !password) {
+            this.setState({
+                username: '',
+                password: ''
+            })
           Alert.alert(
               'Login Failed',
               'All field must be filled',

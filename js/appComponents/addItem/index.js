@@ -179,6 +179,14 @@ class AddItem extends Component {
         console.log("photo state: ", photo)
         if (!name || !category || !description || !dimension || !material || !color || !photo) {
             console.log("kosong")
+            this.setState({
+                name: '',
+                description: '',
+                dimension: '',
+                material: '',
+                photo: '',
+                color: '',
+            })
             return
         }
 
