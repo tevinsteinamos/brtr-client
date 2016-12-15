@@ -56,14 +56,20 @@ class RegisterPage extends Component {
             )
             return
         } else {
-          let validateEmail = (value) => {
-            let regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-            return regex.test(value)
-          }
+            let validateEmail = (value) => {
+                let regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                return regex.test(value)
+            }
             let email = this.state.email.trim()
-              console.log(validateEmail(email));
-              if (validateEmail(email)) {
+            console.log(validateEmail(email));
+            if (validateEmail(email)) {
                 if (password !== confirmPassword) {
+                    this.setState({
+                        username: '',
+                        password: '',
+                        email: '',
+                        confirmPassword: ''
+                    })
                     Alert.alert(
                         'Register Fail',
                         "Password doesn't match",
@@ -73,16 +79,22 @@ class RegisterPage extends Component {
                     )
                     return
                 } else {
-                  this.props.registerUser(username, password, email, confirmPassword, this.props.navigator)
-                  this.setState({
-                      username: '',
-                      password: '',
-                      email: '',
-                      confirmPassword: ''
-                  })
+                    this.props.registerUser(username, password, email, confirmPassword, this.props.navigator)
+                    this.setState({
+                        username: '',
+                        password: '',
+                        email: '',
+                        confirmPassword: ''
+                    })
                 }
-              } else {
+            } else {
                 this.setState({valid: false})
+                this.setState({
+                    username: '',
+                    password: '',
+                    email: '',
+                    confirmPassword: ''
+                })
                 Alert.alert(
                     'Email Verification Failed',
                     "Please insert a correct email address to continue",
@@ -92,49 +104,49 @@ class RegisterPage extends Component {
                 )
                 console.log('email wrong format');
                 return
-              }
+            }
         }
     }
 
     render() {
-      const {navigator} = this.props
+        const {navigator} = this.props
         return (
             <Container style={styles.container}>
 
-              <Content>
-                  <Image source={barter_logo} style={{ alignSelf: 'center', marginTop: 60, marginBottom: 70, width: 65, height: 55 }} />
-                <List style={{ marginLeft: 45, marginRight: 60}} theme={ArizTheme}>
-                  <ListItem>
-                    <InputGroup >
-                      <Input
-                          onChangeText={(username) => this.setState({username})}
-                          placeholder="Username" style={{color: '#FFFFFF'}}/>
-                    </InputGroup>
-                  </ListItem>
-                  <ListItem>
-                    <InputGroup>
-                      <Input
-                          onChangeText={(email) => this.setState({email})}
-                          placeholder="Email" style={{color: '#FFFFFF'}}/>
-                    </InputGroup>
-                  </ListItem>
-                  <ListItem>
-                    <InputGroup>
-                      <Input
-                          onChangeText={(password) => this.setState({password})}
-                          placeholder="Password" secureTextEntry style={{color: '#FFFFFF'}}/>
-                    </InputGroup>
-                  </ListItem>
-                  <ListItem>
-                    <InputGroup>
-                      <Input
-                          onChangeText={(confirmPassword) => this.setState({confirmPassword})}
-                          placeholder="Confirm Password" secureTextEntry style={{color: '#FFFFFF'}}/>
-                    </InputGroup>
-                  </ListItem>
-                </List>
-                <Button
-                    bordered style={{
+                <Content>
+                    <Image source={barter_logo} style={{ alignSelf: 'center', marginTop: 60, marginBottom: 70, width: 65, height: 55 }} />
+                    <List style={{ marginLeft: 45, marginRight: 60}} theme={ArizTheme}>
+                        <ListItem>
+                            <InputGroup >
+                                <Input
+                                    onChangeText={(username) => this.setState({username})}
+                                    placeholder="Username" style={{color: '#FFFFFF'}}/>
+                            </InputGroup>
+                        </ListItem>
+                        <ListItem>
+                            <InputGroup>
+                                <Input
+                                    onChangeText={(email) => this.setState({email})}
+                                    placeholder="Email" style={{color: '#FFFFFF'}}/>
+                            </InputGroup>
+                        </ListItem>
+                        <ListItem>
+                            <InputGroup>
+                                <Input
+                                    onChangeText={(password) => this.setState({password})}
+                                    placeholder="Password" secureTextEntry style={{color: '#FFFFFF'}}/>
+                            </InputGroup>
+                        </ListItem>
+                        <ListItem>
+                            <InputGroup>
+                                <Input
+                                    onChangeText={(confirmPassword) => this.setState({confirmPassword})}
+                                    placeholder="Confirm Password" secureTextEntry style={{color: '#FFFFFF'}}/>
+                            </InputGroup>
+                        </ListItem>
+                    </List>
+                    <Button
+                        bordered style={{
                       alignSelf: 'center',
                       marginTop: 40,
                       marginBottom: 20 ,
@@ -143,16 +155,16 @@ class RegisterPage extends Component {
                       borderColor:'#2effd0',
                       height: 50
                 }}
-                    onPress={this.onRegisterUser.bind(this)}><Text style={{color: '#FFFFFF'}}>SIGN UP</Text></Button>
-                <Text
-                    style={{
+                        onPress={this.onRegisterUser.bind(this)}><Text style={{color: '#FFFFFF'}}>SIGN UP</Text></Button>
+                    <Text
+                        style={{
                       textAlign: 'center',
                       color: '#FFFFFF',
                       fontSize: 14}}>
-                  Already have an account ?
-                  <Text style={{color: '#2effd0', fontSize: 12}}
-                        onPress={()=>navigator.replace({id: 'loginPage'})}>   Sign In !</Text></Text>
-              </Content>
+                        Already have an account ?
+                        <Text style={{color: '#2effd0', fontSize: 12}}
+                              onPress={()=>navigator.replace({id: 'loginPage'})}>   Sign In !</Text></Text>
+                </Content>
             </Container>
         );
     }

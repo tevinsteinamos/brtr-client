@@ -148,8 +148,8 @@ export function deleteItemSuccess(item){
 export function deleteItem(id, token, navigator){
     return dispatch => {
         dispatch(deleteDataItem(id))
-        fetch(`http://br-tr-dev.ap-southeast-1.elasticbeanstalk.com/api/items/${id}`, {
-            method: 'DELETE',
+        fetch(`http://br-tr-dev.ap-southeast-1.elasticbeanstalk.com/api/items/delete/${id}`, {
+            method: 'PUT',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
