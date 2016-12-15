@@ -260,7 +260,7 @@ class AddItem extends Component {
         let actionButton
 
         if (route.ItemId) {
-            title = <Title style={{alignSelf: 'center'}}>Edit Item {(itemId) ? itemId.name : ''}</Title>
+            title = <Title style={{alignSelf: 'center', color: '#6CF9C8'}}>Edit Item</Title>
             actionButton =
                 <Button
                     onPress={this.onUpdateItem.bind(this)}
@@ -279,7 +279,7 @@ class AddItem extends Component {
                     bordered
                     style={{ alignSelf: 'center', marginTop: 40, marginBottom: 20 , width: 220, borderRadius: 0, borderColor:'#2effd0', height: 50}}>
                     <Text style={{color: '#FFFFFF'}}>
-                        Save Item
+                        Add Item
                     </Text>
                 </Button>
         }
@@ -288,7 +288,7 @@ class AddItem extends Component {
             <Container theme={myTheme} style={styles.container}>
 
                 <Header>
-                    <Title style={{alignSelf: 'center'}}>BRTR</Title>
+                    {title}
                     <Button transparent onPress={() => this.props.navigator.push({id: 'searchItem'})}>
                         <Icon name="ios-search" />
                     </Button>
@@ -413,13 +413,15 @@ class AddItem extends Component {
                     <FooterTab>
                         <Button
                             active={this.state.tab1} onPress={() => navigator.replace({id: 'home'})}>
-                            Feed
+                            <Icon name='md-home' />
                         </Button>
                         <Button active={this.state.tab2} onPress={() => navigator.replace({id: 'addItem'})} >
-                            Add Item
+                            
+                            <Icon name='md-add-circle' />
                         </Button>
                         <Button active={this.state.tab3} onPress={() => navigator.replace({id: 'profileDetail'})} >
-                            Profile
+                            
+                            <Icon name='ios-person' />
                         </Button>
                     </FooterTab>
                 </Footer>

@@ -102,17 +102,17 @@ class ProfileDetail extends Component {
         return (
             <Container theme={myTheme} style={styles.container}>
                 <Header>
-                    <Title style={{alignSelf: 'center'}}>BRTR</Title>
+                    <Title style={{alignSelf: 'center', color: '#6CF9C8'}}>MY PROFILE</Title>
                     <Button transparent onPress={() => this.props.navigator.push({id: 'searchItem'})}>
                         <Icon name="ios-search" />
                     </Button>
                     <Button transparent onPress={() => this.props.navigator.push({id: 'editProfile', avatar: user.avatar})}>
-                        Edit
+                        <Icon name="ios-settings" />
                     </Button>
                 </Header>
 
                 <Content>
-                    <Card style={{ flex: 0, backgroundColor: '#2c2c2c', borderWidth: 0 }}>
+                    <Card style={{ flex: 0, backgroundColor: '#1E1E1E', borderWidth: 0 }}>
                         <CardItem
                             style={{borderBottomWidth: 0}}
                         >
@@ -153,7 +153,6 @@ class ProfileDetail extends Component {
                              marginTop: 20,
                              marginBottom: 20
                         }}>
-                        Items up for BARTER :
                     </Text>
 
                       <List>
@@ -165,13 +164,15 @@ class ProfileDetail extends Component {
                     <FooterTab>
                         <Button
                             active={this.state.tab1} onPress={() => navigator.replace({id: 'home'})}>
-                            Feed
+                            <Icon name='md-home' />
                         </Button>
                         <Button active={this.state.tab2} onPress={() => navigator.replace({id: 'addItem'})} >
-                            Add Item
+                            
+                            <Icon name='md-add-circle' />
                         </Button>
                         <Button active={this.state.tab3} onPress={() => navigator.replace({id: 'profileDetail'})} >
-                            Profile
+                            
+                            <Icon name='ios-person' />
                         </Button>
                     </FooterTab>
                 </Footer>

@@ -84,7 +84,7 @@ class listMessage extends Component {
     console.log('item lis : ', item);
     console.log('user : ', this.state.dataUser);
     let ItemNodes = item.map((data)=> {
-      if (this.state.dataUser.id == data.Item.UserId || this.state.dataUser.id == data.Item2.UserId) {
+      if (this.state.dataUser.id == data.Item.UserId || this.state.dataUser.id == data.Item.UserId) {
         console.log('user detected : ', data);
         return(
             <EachMessage key={data.id} items={data} title={data.title} itemMessageId={data.id} navigator={navigator} activeUser={this.state.dataUser}/>
@@ -96,12 +96,12 @@ class listMessage extends Component {
     return (
       <Container theme={myTheme} style={styles.container}>
           <Header>
-                    <Title style={{alignSelf: 'center', color: '#6CF9C8'}}>M E S S A G E S</Title>
+                    <Title style={{alignSelf: 'center', color: '#6CF9C8'}}>MESSAGES</Title>
                     <Button transparent onPress={() => navigator.pop()}>
                         <Icon name="ios-arrow-back" />
                     </Button>
                     <Button transparent>
-                        <Icon style={{color: '#6CF9C8'}} name="ios-mail" />
+                        <Icon name="ios-refresh" />
                     </Button>
                 </Header>
 

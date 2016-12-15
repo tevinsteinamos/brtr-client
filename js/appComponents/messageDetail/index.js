@@ -116,7 +116,7 @@ class messageDetail extends Component {
                         <Icon name="ios-search" />
                     </Button>
                     <Button transparent>
-                        <Icon onPress={() => {this.props.getMessages(this.state.token, this.props.route.itemMessageId)}} name="ios-sync" />
+                        <Icon onPress={() => {this.props.getMessages(this.state.token, this.props.route.itemMessageId)}} name="ios-refresh" />
                     </Button>
                 </Header>
 

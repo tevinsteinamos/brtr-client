@@ -177,15 +177,16 @@ class ListItem extends Component {
                 <Footer>
                     <FooterTab>
                         <Button
-                            active={this.state.tab1}
-                            onPress={() => this.navigateTo('home')} >
-                            Feed
+                            active={this.state.tab1} onPress={() => navigator.replace({id: 'home'})}>
+                            <Icon name='md-home' />
                         </Button>
-                        <Button active={this.state.tab2} onPress={() => this.toggleTab2()} >
-                            Add Item
+                        <Button active={this.state.tab2} onPress={() => navigator.replace({id: 'addItem'})} >
+                            
+                            <Icon name='md-add-circle' />
                         </Button>
-                        <Button active={this.state.tab3} onPress={() => this.toggleTab3()} >
-                            Profile
+                        <Button active={this.state.tab3} onPress={() => navigator.replace({id: 'profileDetail'})} >
+                            
+                            <Icon name='ios-person' />
                         </Button>
                     </FooterTab>
                 </Footer>

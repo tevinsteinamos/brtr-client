@@ -115,7 +115,7 @@ class Home extends Component {
                             <Col>
                                 <CardItem
                                     style={{borderBottomWidth: 0}}
-                                    onPress={() => this.props.navigator.push({id: 'listItemCategory', CategoryId: (categories[0]) ? categories[0].id : ''})}>
+                                    onPress={() => this.props.navigator.push({id: 'listItemCategory', CategoryId: (categories[0]) ? categories[0].id : '', CategoryName: (categories[0]) ? categories[0].name : ''})}>
                                     <Image
                                         style={{
                                     resizeMode: 'cover',
@@ -132,7 +132,7 @@ class Home extends Component {
                             <Col>
                                 <CardItem
                                     style={{borderBottomWidth: 0}}
-                                    onPress={() => this.props.navigator.push({id: 'listItemCategory', CategoryId: (categories[1]) ? categories[1].id : ''})}>
+                                    onPress={() => this.props.navigator.push({id: 'listItemCategory', CategoryId: (categories[1]) ? categories[1].id : '', CategoryName: (categories[1]) ? categories[1].name : ''})}>
                                     <Image
                                         style={{
                                     resizeMode: 'cover',
@@ -152,7 +152,7 @@ class Home extends Component {
                             <Col>
                                 <CardItem
                                     style={{borderBottomWidth: 0}}
-                                    onPress={() => this.props.navigator.push({id: 'listItemCategory', CategoryId: (categories[2]) ? categories[2].id : ''})}>
+                                    onPress={() => this.props.navigator.push({id: 'listItemCategory', CategoryId: (categories[2]) ? categories[2].id : '', CategoryName: (categories[2]) ? categories[2].name : ''})}>
                                     <Image
                                         style={{
                                     resizeMode: 'cover',
@@ -172,7 +172,7 @@ class Home extends Component {
                             <Col>
                                 <CardItem
                                     style={{borderBottomWidth: 0}}
-                                    onPress={() => this.props.navigator.push({id: 'listItemCategory', CategoryId: (categories[3]) ? categories[3].id : ''})}>
+                                    onPress={() => this.props.navigator.push({id: 'listItemCategory', CategoryId: (categories[3]) ? categories[3].id : '', CategoryName: (categories[3]) ? categories[3].name : ''})}>
                                     <Image
                                         style={{
                                     resizeMode: 'cover',
@@ -189,7 +189,7 @@ class Home extends Component {
                             <Col>
                                 <CardItem
                                     style={{borderBottomWidth: 0}}
-                                    onPress={() => this.props.navigator.push({id: 'listItemCategory', CategoryId: (categories[4]) ? categories[4].id : ''})}>
+                                    onPress={() => this.props.navigator.push({id: 'listItemCategory', CategoryId: (categories[4]) ? categories[4].id : '', CategoryName: (categories[4]) ? categories[4].name : ''})}>
                                     <Image
                                         style={{
                                     resizeMode: 'cover',
@@ -209,7 +209,7 @@ class Home extends Component {
                             <Col>
                                 <CardItem
                                     style={{borderBottomWidth: 0}}
-                                    onPress={() => this.props.navigator.push({id: 'listItemCategory', CategoryId: (categories[6]) ? categories[6].id : ''})}>
+                                    onPress={() => this.props.navigator.push({id: 'listItemCategory', CategoryId: (categories[6]) ? categories[6].id : '', CategoryName: (categories[6]) ? categories[6].name : ''})}>
                                     <Image
                                         style={{
                                     resizeMode: 'cover',
@@ -229,7 +229,7 @@ class Home extends Component {
                             <Col>
                                 <CardItem
                                     style={{borderBottomWidth: 0}}
-                                    onPress={() => this.props.navigator.push({id: 'listItemCategory', CategoryId: (categories[7]) ? categories[7].id : ''})}>
+                                    onPress={() => this.props.navigator.push({id: 'listItemCategory', CategoryId: (categories[7]) ? categories[7].id : '', CategoryName: (categories[7]) ? categories[7].name : ''})}>
                                     <Image
                                         style={{
                                     resizeMode: 'cover',
@@ -246,7 +246,7 @@ class Home extends Component {
                             <Col>
                                 <CardItem
                                     style={{borderBottomWidth: 0}}
-                                    onPress={() => this.props.navigator.push({id: 'listItemCategory', CategoryId: (categories[5]) ? categories[5].id : ''})}>
+                                    onPress={() => this.props.navigator.push({id: 'listItemCategory', CategoryId: (categories[5]) ? categories[5].id : '', CategoryName: (categories[5]) ? categories[5].name : ''})}>
                                     <Image
                                         style={{
                                     resizeMode: 'cover',
@@ -269,13 +269,15 @@ class Home extends Component {
                     <FooterTab>
                         <Button
                             active={this.state.tab1} onPress={() => navigator.replace({id: 'home'})}>
-                            Feed
+                            <Icon name='md-home' />
                         </Button>
                         <Button active={this.state.tab2} onPress={() => navigator.replace({id: 'addItem'})} >
-                            Add Item
+                            
+                            <Icon name='md-add-circle' />
                         </Button>
                         <Button active={this.state.tab3} onPress={() => navigator.replace({id: 'profileDetail'})} >
-                            Profile
+                            
+                            <Icon name='ios-person' />
                         </Button>
                     </FooterTab>
                 </Footer>

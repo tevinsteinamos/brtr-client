@@ -122,23 +122,21 @@ class ItemDetail extends Component {
 
 
         let actionButton
-        let editButton
+        let deleteButton
         if (itemId.User) {
             if (itemId.User.id === this.state.dataUser.id) {
-                actionButton = <Button
-                    onPress={this.onDeleteItem.bind(this)}
-                    block danger> Delete </Button>
-
-                editButton = <Button transparent onPress={() => navigator.push({id: 'addItem', ItemId: itemId.id})}>
-
-                    Edit
+                actionButton = <Button transparent onPress={() => navigator.push({id: 'addItem', ItemId: itemId.id})}>
+                    <Icon name="md-create" />
                 </Button>
+                deleteButton = <Button
+                    onPress={this.onDeleteItem.bind(this)}
+                    block danger> Remove Item </Button>
             }
             else {
-                actionButton = <Button
+                actionButton = <Button transparent
                     onPress={() => navigator.push({id: 'createMessage', ItemId: itemId.id})}
-                    block success> Barter </Button>
-                editButton = ''
+                    block success> <Icon name="md-swap" /> </Button>
+                deleteButton = ''
             }
         }
 
@@ -146,16 +144,16 @@ class ItemDetail extends Component {
             <Container theme={myTheme} style={styles.container}>
 
                 <Header>
-                    <Title style={{alignSelf: 'center'}}>Item Detail</Title>
+                    <Title style={{alignSelf: 'center', color: '#6CF9C8'}}>{itemId.name}</Title>
                     <Button transparent onPress={() => navigator.push({id: 'searchItem'})}>
                         <Icon name="ios-search" />
                     </Button>
-                    {editButton}
+                    {actionButton}
                 </Header>
 
                 <Content>
 
-                    <Card style={{ flex: 0, backgroundColor: '#444444', borderWidth: 0 }}>
+                    <Card style={{ flex: 0, backgroundColor: '#1E1E1E', borderWidth: 0 }}>
                         <CardItem>
                             <H1 style={{color: 'white', paddingBottom: 5}}>{itemId.name}</H1>
                             <Text note>{(itemId.User) ? itemId.User.username : ''}</Text>
@@ -194,7 +192,7 @@ class ItemDetail extends Component {
                         </Grid>
 
                         <CardItem>
-                            {actionButton}
+                            {deleteButton}
                         </CardItem>
 
 
@@ -206,13 +204,15 @@ class ItemDetail extends Component {
                     <FooterTab>
                         <Button
                             active={this.state.tab1} onPress={() => navigator.replace({id: 'home'})}>
-                            Feed
+                            <Icon name='md-home' />
                         </Button>
                         <Button active={this.state.tab2} onPress={() => navigator.replace({id: 'addItem'})} >
-                            Add Item
+                            
+                            <Icon name='md-add-circle' />
                         </Button>
                         <Button active={this.state.tab3} onPress={() => navigator.replace({id: 'profileDetail'})} >
-                            Profile
+                            
+                            <Icon name='ios-person' />
                         </Button>
                     </FooterTab>
                 </Footer>
