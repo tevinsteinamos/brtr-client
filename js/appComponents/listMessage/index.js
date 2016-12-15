@@ -100,7 +100,7 @@ class listMessage extends Component {
                     <Button transparent onPress={() => navigator.pop()}>
                         <Icon name="ios-arrow-back" />
                     </Button>
-                    <Button transparent>
+                    <Button transparent onPress={() => this.props.listMessageProcess(this.state.token)}>
                         <Icon name="ios-mail" style={{color: '#6CF9C8'}}/>
                     </Button>
                 </Header>

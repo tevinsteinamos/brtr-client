@@ -39,6 +39,7 @@ export function listMessageFailure(): Action {
 }
 
 export function listMessageProcess(token) {
+  console.log('list msg token : ', token);
   return (dispatch) => {
     dispatch(listMessage())
       fetch(`http://br-tr-dev.ap-southeast-1.elasticbeanstalk.com/api/messages/itemMessage/all`, {
