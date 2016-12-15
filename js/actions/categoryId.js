@@ -43,16 +43,14 @@ export function getItemsByCategoryId(token, id) {
         })
             .then((response) => response.json())
             .then((responseJson) => {
-                console.log("dapet by id: ", responseJson)
                 dispatch(loadItemsSuccessByCategoryId(responseJson))
                 dispatch(stopLoading())
             })
             .catch((error) => {
-                console.log("fail by category id: ", error)
                 Alert.alert(
                     'Load Items Fail',
                     [
-                        {text: 'OK', onPress: () => console.log('OK Pressed')},
+                        {text: 'OK'},
                     ]
                 )
                 dispatch(loadItemsFailureByCategoryId())

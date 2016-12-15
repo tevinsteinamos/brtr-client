@@ -19,7 +19,6 @@ export default function (state:State = initialState, action:Action): State {
             return []
 
         case LIST_MESSAGE_SUCCESS:
-            console.log("init action success : ", action.item)
             return action.item
 
         case LIST_MESSAGE_FAILURE:
@@ -29,7 +28,6 @@ export default function (state:State = initialState, action:Action): State {
             return []
 
         case EACH_MESSAGE_SUCCESS:
-            console.log("init action success : ", action.item)
             return action.item
 
         case EACH_MESSAGE_FAILURE:

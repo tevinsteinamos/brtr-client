@@ -60,7 +60,7 @@ class LoginPage extends Component {
         try {
             var value = await AsyncStorage.getItem("myKey");
             if (value !== null){
-                // this.props.navigator.replace({id: 'home'});
+                this.props.navigator.replace({id: 'home'});
             } else {
                 this._appendMessage('Initialized with no selection on disk.');
             }

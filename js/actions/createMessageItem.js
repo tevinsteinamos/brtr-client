@@ -32,13 +32,6 @@ export function createItemMessageSuccess(messageItem) {
 }
 
 export function addMessage(title, body, item, itemBarter, token, navigator) {
-  console.log('nav : ', navigator);
-  console.log('title : ', title);
-  console.log('body : ', body);
-  console.log('item : ', item);
-  console.log('itemBarter : ', itemBarter);
-  console.log('token : ', token);
-
     const userDecoded = decode(token)
     return (dispatch) => {
         fetch(`http://br-tr-dev.ap-southeast-1.elasticbeanstalk.com/api/messages/itemMessage`, {
@@ -56,7 +49,6 @@ export function addMessage(title, body, item, itemBarter, token, navigator) {
         })
             .then((response) => response.json())
             .then((responseJson) => {
-                console.log('respon create item messages : ', responseJson)
                 const itemMessageId = responseJson.id
                 fetch(`http://br-tr-dev.ap-southeast-1.elasticbeanstalk.com/api/messages`, {
                     method: 'POST',
@@ -74,18 +66,16 @@ export function addMessage(title, body, item, itemBarter, token, navigator) {
                 })
                     .then((response) => response.json())
                     .then((responseJson) => {
-                        console.log('respon create messages : ', responseJson)
                         dispatch(createItemMessageSuccess(responseJson))
                         navigator.push({id: 'messageDetail', itemMessageId: itemMessageId, title: title})
                     })
             })
             .catch((error) => {
-                console.log("fail", error)
                 Alert.alert(
                     'Register Fail',
                     'something wrong, please register again',
                     [
-                        {text: 'OK', onPress: () => console.log('OK Pressed')},
+                        {text: 'OK'},
                     ]
                 )
                 dispatch(createItemMessageFailure())

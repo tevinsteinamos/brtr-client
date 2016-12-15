@@ -6,8 +6,6 @@ var {
     AsyncStorage
 } = ReactNative;
 
-import type { Action } from './types';
-
 
 export const LOAD_CATEGORIES = 'LOAD_CATEGORIES'
 export const LOAD_CATEGORIES_SUCCESS = 'LOAD_CATEGORIES_SUCCESS'
@@ -15,8 +13,6 @@ export const LOAD_CATEGORIES_FAILURE = 'LOAD_CATEGORIES_FAILURE'
 
 import {stopLoading} from './loading'
 import decode from 'jwt-decode'
-
-const SERVER_URL_USERS = 'http://localhost:3000/api'
 
 export function loadCategories() {
     return {type: LOAD_CATEGORIES}
@@ -44,16 +40,14 @@ export function getCategories(token) {
         })
             .then((response) => response.json())
             .then((responseJson) => {
-                console.log("ini respon category: ", responseJson)
                 dispatch(loadCategoriesSuccess(responseJson))
                 dispatch(stopLoading())
             })
             .catch((error) => {
-                console.log("fail category: ", error)
                 Alert.alert(
                     'Load Items Fail',
                     [
-                        {text: 'OK', onPress: () => console.log('OK Pressed')},
+                        {text: 'OK'},
                     ]
                 )
                 dispatch(loadCategoriesFailure())

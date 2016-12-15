@@ -18,19 +18,17 @@ export function forgetPassword(email) {
       })
           .then((response) => response.json())
           .then((data) => {
-            console.log('response : ', data);
             if (data.name == "SequelizeDatabaseError") {
-              console.log('seq db error');
+
             } else {
             }
           })
           .catch((error) => {
-              console.log("fail", error)
               Alert.alert(
                   'Register Fail',
                   'something wrong, please register again',
                   [
-                      {text: 'OK', onPress: () => console.log('OK Pressed')},
+                      {text: 'OK'},
                   ]
               )
           });

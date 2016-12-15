@@ -77,7 +77,6 @@ class AddItem extends Component {
     }
 
     onValueChange (value: string) {
-        console.log("valueeeeee: ", value);
         this.setState({
             category : value
         });
@@ -95,23 +94,18 @@ class AddItem extends Component {
     _loadInitialState = async () => {
         try {
             var value = await AsyncStorage.getItem("myKey");
-            console.log("value: ", value)
             if (value !== null){
                 this.setState({token: value});
                 this.setState({dataUser: decode(value)});
                 this.props.getCategories(value)
-                console.log("ini props route: ", typeof this.props.route.ItemId)
                 if (this.props.route.ItemId) {
-                    console.log("masuk======================")
                     this.props.getItemsById(value, this.props.route.ItemId)
                 }
                 this._appendMessage('Recovered selection from disk: ' + value);
             } else {
-                console.log("else")
                 this._appendMessage('Initialized with no selection on disk.');
             }
         } catch (error) {
-            console.log("catch")
             this._appendMessage('AsyncStorage error: ' + error.message);
         }
     }
@@ -122,31 +116,20 @@ class AddItem extends Component {
 
     uploadImage() {
         ImagePicker.showImagePicker(options, (response) => {
-            console.log('Response = ', response);
 
             if (response.didCancel) {
-                console.log('User cancelled image picker');
+
             }
             else if (response.error) {
-                console.log('ImagePicker Error: ', response.error);
+
             }
             else if (response.customButton) {
-                console.log('User tapped custom button: ', response.customButton);
+
             }
             else {
-                // You can display the image using either data...
-                // const source = {uri: 'data:image/jpeg;base64,' + response.data, isStatic: true};
-
-                // or a reference to the platform specific asset location
-                // if (Platform.OS === 'ios') {
-                //     const source = {uri: response.uri.replace('file://', ''), isStatic: true};
-                // } else {
-                //     const source = {uri: response.uri, isStatic: true};
-                // }
                 const source = {uri: response.uri, isStatic: true};
 
                 uploader(source, (res)=> {
-                    console.log("ini respon awS3: ", res)
                     this.setState({
                         avatarSource: res.postResponse.location
                     });
@@ -158,7 +141,6 @@ class AddItem extends Component {
 
 
     onAddItem(e) {
-        console.log("cklick add item")
         e.preventDefault()
         let name = this.state.name.trim()
         let description = this.state.description.trim()
@@ -170,12 +152,11 @@ class AddItem extends Component {
 
 
         if (!name || !category || !description || !dimension || !material || !color || !photo) {
-            console.log("kosong")
             Alert.alert(
                 'Add Item Fail',
                 'All fields should be filled',
                 [
-                    {text: 'OK', onPress: () => console.log('OK Pressed')},
+                    {text: 'OK'},
                 ]
             )
         }
@@ -195,7 +176,6 @@ class AddItem extends Component {
     }
 
     onUpdateItem(e) {
-        console.log("cklick update item")
         e.preventDefault()
         let name = this.state.name.trim()
         let description = this.state.description.trim()
@@ -205,23 +185,12 @@ class AddItem extends Component {
         let category = this.state.category
         let color = this.state.color.trim()
 
-        console.log('CategoryId : ', category);
-        console.log('this.state.category : ', this.state.category);
-        console.log('name : ', name);
-        console.log('description : ', description);
-        console.log('photo : ', photo);
-        console.log('material : ', material);
-        console.log('dimension : ', dimension);
-        console.log('color : ', color);
-
-
         if (!name || category==='key0' || !description || !dimension || !material || !color || !photo) {
-            console.log("kosong")
             Alert.alert(
                 'Update Item Fail',
                 'All fields should be filled',
                 [
-                    {text: 'OK', onPress: () => console.log('OK Pressed')},
+                    {text: 'OK'},
                 ]
             )
         }
@@ -243,10 +212,6 @@ class AddItem extends Component {
 
     render() {
         const {navigator, route, itemId, categories, loading} = this.props
-        console.log("ini props di add item: ", this.props)
-        console.log("ini item di add item: ", itemId)
-        console.log("ini image di add item: ", this.state.avatarSource)
-
         let title
         let actionButton
 

@@ -17,7 +17,6 @@ export default function (state:State = initialState, action:Action): State {
             return []
 
         case LOAD_ITEMS_BY_CATEGORY_ID_SUCCESS:
-            console.log('load succes by category: ', action)
             return action.items
 
         case LOAD_ITEMS_BY_CATEGORY_ID_FAILURE:

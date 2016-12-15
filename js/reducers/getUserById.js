@@ -16,7 +16,6 @@ export default function (state:State = initialState, action:Action): State {
             return []
 
         case LOAD_USER_BY_ID_SUCCESS:
-            console.log("action load user: ", action)
             return action.user
 
         case LOAD_USER_BY_ID_FAILURE:

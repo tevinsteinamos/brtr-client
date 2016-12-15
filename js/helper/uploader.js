@@ -3,7 +3,6 @@ import { RNS3 } from 'react-native-aws3';
 
 export default function putPhotoPath(pathPhoto, cb) {
 
-    console.log("uploader helper: ", pathPhoto)
 
     let randString = Math.floor(Math.random() * 1000) + 1
 
@@ -22,10 +21,7 @@ export default function putPhotoPath(pathPhoto, cb) {
         successActionStatus: 201
     }
 
-    console.log("file: ", file)
-    console.log("options: ", options)
     RNS3.put(file, options).then(response => {
-        console.log("respon uploader: ", response)
         if (response.status !== 201)
             throw new Error("Failed to upload image to S3");
 

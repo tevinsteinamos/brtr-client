@@ -17,7 +17,6 @@ export const NEW_MESSAGE = 'NEW_MESSAGE'
 
 import decode from 'jwt-decode'
 
-const SERVER_URL_USERS = 'http://localhost:3000/api'
 
 export function loadMessages() {
     return {type: LOAD_MESSAGES}
@@ -44,14 +43,13 @@ export function getMessages(token,id) {
         })
             .then((response) => response.json())
             .then((responseJson) => {
-                console.log(responseJson)
                 dispatch(loadMessagesSuccess(responseJson))
             })
             .catch((error) => {
                 Alert.alert(
                     'Load Messages Fail',
                     [
-                        {text: 'OK', onPress: () => console.log('OK Pressed')},
+                        {text: 'OK'},
                     ]
                 )
                 dispatch(loadMessagesFailure())
@@ -93,15 +91,13 @@ export function addMessage(token,body,itemMessageId, User, temp) {
             .then((response) => response.json())
             .then((responseJson) => {
                 // dispatch(getMessages(token, itemMessageId))
-                console.log("respon add message: ", responseJson)
                 dispatch(addMessageSuccess(responseJson))
             })
             .catch((error) => {
-                console.log("fail add message detail: ", error)
                 Alert.alert(
                     'Add Message Fail',
                     [
-                        {text: 'OK', onPress: () => console.log('OK Pressed')},
+                        {text: 'OK'},
                     ]
                 )
                 dispatch(addMessageFailure())

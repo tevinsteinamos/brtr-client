@@ -16,7 +16,6 @@ export default function (state:State = initialState, action:Action): State {
             return []
 
         case SEARCH_ITEM_SUCCESS:
-            console.log("init action success : ", action.item)
             return action.item
 
         case SEARCH_ITEM_FAILURE:

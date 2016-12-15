@@ -20,59 +20,54 @@ export const LIST_MESSAGE_FAILURE = 'LIST_MESSAGE_FAILURE';
 
 
 export function listMessage(): Action {
-  return {
-    type: LIST_MESSAGE
-  }
+    return {
+        type: LIST_MESSAGE
+    }
 }
 
 export function listMessageSuccess(item): Action {
-  return {
-    type: LIST_MESSAGE_SUCCESS,
-    item: item
-  }
+    return {
+        type: LIST_MESSAGE_SUCCESS,
+        item: item
+    }
 }
 
 export function listMessageFailure(): Action {
-  return {
-    type: LIST_MESSAGE_FAILURE
-  }
+    return {
+        type: LIST_MESSAGE_FAILURE
+    }
 }
 
 export function listMessageProcess(token) {
-  console.log('list msg token : ', token);
-  return (dispatch) => {
-    dispatch(listMessage())
-      fetch(`http://br-tr-dev.ap-southeast-1.elasticbeanstalk.com/api/messages/itemMessage/all`, {
-        method: 'GET',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + token
-        }
-          })
-          .then((response) => response.json())
-          .then((data) => {
-            console.log('response : ', data);
-            if (data.name == "SequelizeDatabaseError") {
-              console.log('seq db error');
-              dispatch(listMessageFailure())
-            } else if(data.message == "Not Found"){
-              console.log('not found');
-              dispatch(listMessageFailure())
-            }else {
-              dispatch(listMessageSuccess(data))
+    return (dispatch) => {
+        dispatch(listMessage())
+        fetch(`http://br-tr-dev.ap-southeast-1.elasticbeanstalk.com/api/messages/itemMessage/all`, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
             }
-          })
-          .catch((error) => {
-              console.log("fail", error)
-              Alert.alert(
-                  'Register Fail',
-                  'something wrong, please register again',
-                  [
-                      {text: 'OK', onPress: () => console.log('OK Pressed')},
-                  ]
-              )
-              dispatch(listMessageFailure())
-          });
-  }
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.name == "SequelizeDatabaseError") {
+                    dispatch(listMessageFailure())
+                } else if(data.message == "Not Found"){
+                    dispatch(listMessageFailure())
+                }else {
+                    dispatch(listMessageSuccess(data))
+                }
+            })
+            .catch((error) => {
+                Alert.alert(
+                    'Register Fail',
+                    'something wrong, please register again',
+                    [
+                        {text: 'OK'},
+                    ]
+                )
+                dispatch(listMessageFailure())
+            });
+    }
 }
