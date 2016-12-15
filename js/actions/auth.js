@@ -2,11 +2,6 @@
 var React = require('react');
 var ReactNative = require('react-native');
 var {
-    Alert,
-    StyleSheet,
-    Text,
-    TouchableHighlight,
-    View,
     AsyncStorage
 } = ReactNative;
 
@@ -69,7 +64,7 @@ export function registerUser(username, password, email, confirmPassword, navigat
                     ]
                 )
                 dispatch(userRegisterFailure())
-                navigator.replace('loginPage')
+                navigator.replace({id: 'loginPage'})
             });
     }
 }

@@ -37,7 +37,8 @@ class ProfileDetail extends Component {
             tab2: false,
             tab3: true,
             dataUser: {},
-            messages: []
+            messages: [],
+            loading: (!this.props.loading) ? this.props.loading : true
         };
     }
 
@@ -97,6 +98,7 @@ class ProfileDetail extends Component {
 
     render() {
         const {navigator, items, user, loading} = this.props
+        console.log(this.state.loading)
         let buttonLogout
 
         if(this.props.route.UserId) {
@@ -145,7 +147,7 @@ class ProfileDetail extends Component {
             )
         })
 
-        if(loading) {
+        if(this.state.loading) {
             return(
                 <Container theme={myTheme} style={styles.container}>
                     <Content>

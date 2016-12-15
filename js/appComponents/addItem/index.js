@@ -151,7 +151,7 @@ class AddItem extends Component {
         let color = this.state.color.trim()
 
 
-        if (!name || !category || !description || !dimension || !material || !color || !photo) {
+        if (!name || !category==='key0' || !description || !photo) {
             Alert.alert(
                 'Add Item Fail',
                 'All fields should be filled',
@@ -185,7 +185,7 @@ class AddItem extends Component {
         let category = this.state.category
         let color = this.state.color.trim()
 
-        if (!name || category==='key0' || !description || !dimension || !material || !color || !photo) {
+        if (!name || category==='key0' || !description || !photo) {
             Alert.alert(
                 'Update Item Fail',
                 'All fields should be filled',
@@ -233,7 +233,8 @@ class AddItem extends Component {
                 <Button
                     onPress={this.onAddItem.bind(this)}
                     bordered
-                    style={{ alignSelf: 'center', marginTop: -10, marginBottom: 30 , width: 280, borderRadius: 0, borderColor:'#2effd0', height: 50, paddingTop: 0}}>
+                    style={{ alignSelf: 'center', marginTop: -10, marginBottom: 30 , width: 280, borderRadius: 0, borderColor:'#2effd0', height: 50, paddingTop: 0}}
+                >
                     <Text style={{color: '#FFFFFF'}}>
                         Add Item
                     </Text>
@@ -254,7 +255,6 @@ class AddItem extends Component {
                 </Header>
 
                 <Content
-                    keyboardDismissMode='on-drag'
                     keyboardShouldPersistTaps={true}>
 
                     <Card style={{ flex: 0, backgroundColor: '#1E1E1E', borderWidth: 0 }}>

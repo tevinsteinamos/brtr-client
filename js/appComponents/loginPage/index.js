@@ -122,7 +122,6 @@ class LoginPage extends Component {
             <Container style={styles.container} theme={myTheme}>
 
                 <Content
-                    keyboardDismissMode='on-drag'
                     keyboardShouldPersistTaps={true}
                 >
                     <Image source={barter_logo} style={{ alignSelf: 'center', marginTop: 80, marginBottom: 40 }} />

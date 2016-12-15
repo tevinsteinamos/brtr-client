@@ -112,7 +112,7 @@ class ListItemCategory extends Component {
                         <Button transparent onPress={() => this.props.navigator.push({id: 'searchItem'})}>
                             <Icon name="ios-search"/>
                         </Button>
-                        <Button transparent onPress={() => this.props.navigator.push({id: 'listAvatar'})}>
+                        <Button transparent onPress={() => this.props.navigator.push({id: 'listMessage'})}>
                             <Icon name="ios-mail"/>
                         </Button>
                     </Header>

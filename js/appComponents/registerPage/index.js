@@ -107,7 +107,6 @@ class RegisterPage extends Component {
             <Container style={styles.container} theme={myTheme}>
 
                 <Content
-                    keyboardDismissMode='on-drag'
                     keyboardShouldPersistTaps={true}
                 >
                     <Image source={barter_logo} style={{ alignSelf: 'center', marginTop: 60, marginBottom: 70, width: 65, height: 55 }} />

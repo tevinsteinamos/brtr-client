@@ -18,6 +18,6 @@ export default function (state:State = initialState, action:Action): State {
             return action.loading
 
         default:
-            return true
+            return state
     }
 }
