@@ -13,7 +13,7 @@ export const LOAD_ITEMS_BY_ID_SUCCESS = 'LOAD_ITEMS_BY_ID_SUCCESS'
 export const LOAD_ITEMS_BY_ID_FAILURE = 'LOAD_ITEMS_BY_ID_FAILURE'
 
 import decode from 'jwt-decode'
-
+import {stopLoading} from './loading'
 const SERVER_URL_USERS = 'http://localhost:3000/api'
 
 
@@ -45,6 +45,7 @@ export function getItemsById(token, id) {
             .then((responseJson) => {
                 console.log("dapet by id: ", responseJson)
                 dispatch(loadItemsSuccessById(responseJson))
+                dispatch(stopLoading())
             })
             .catch((error) => {
                 console.log("fail by id: ", error)

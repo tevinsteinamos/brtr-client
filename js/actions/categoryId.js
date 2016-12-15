@@ -14,6 +14,8 @@ export const LOAD_ITEMS_BY_CATEGORY_ID_FAILURE = 'LOAD_ITEMS_BY_CATEGORY_ID_FAIL
 
 import decode from 'jwt-decode'
 
+import {stopLoading, startLoading} from './loading'
+
 const SERVER_URL_USERS = 'http://localhost:3000/api'
 
 export function loadItemsByCategoryId() {
@@ -43,6 +45,7 @@ export function getItemsByCategoryId(token, id) {
             .then((responseJson) => {
                 console.log("dapet by id: ", responseJson)
                 dispatch(loadItemsSuccessByCategoryId(responseJson))
+                dispatch(stopLoading())
             })
             .catch((error) => {
                 console.log("fail by category id: ", error)

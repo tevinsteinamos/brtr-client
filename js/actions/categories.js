@@ -13,6 +13,7 @@ export const LOAD_CATEGORIES = 'LOAD_CATEGORIES'
 export const LOAD_CATEGORIES_SUCCESS = 'LOAD_CATEGORIES_SUCCESS'
 export const LOAD_CATEGORIES_FAILURE = 'LOAD_CATEGORIES_FAILURE'
 
+import {stopLoading} from './loading'
 import decode from 'jwt-decode'
 
 const SERVER_URL_USERS = 'http://localhost:3000/api'
@@ -45,6 +46,7 @@ export function getCategories(token) {
             .then((responseJson) => {
                 console.log("ini respon category: ", responseJson)
                 dispatch(loadCategoriesSuccess(responseJson))
+                dispatch(stopLoading())
             })
             .catch((error) => {
                 console.log("fail category: ", error)

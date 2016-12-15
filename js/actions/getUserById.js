@@ -13,7 +13,7 @@ export const LOAD_USER_BY_ID_SUCCESS = 'LOAD_USER_BY_ID_SUCCESS'
 export const LOAD_USER_BY_ID_FAILURE = 'LOAD_USER_BY_ID_FAILURE'
 
 import decode from 'jwt-decode'
-
+import {stopLoading} from './loading'
 
 export function loadUserById() {
     return {type: LOAD_USER_BY_ID}
@@ -44,6 +44,7 @@ export function getUserById(token, id) {
             .then((responseJson) => {
                 console.log("res user: ", responseJson)
                 dispatch(loadUserSuccessById(responseJson))
+                dispatch(stopLoading())
             })
             .catch((error) => {
                 console.log("fail by id: ", error)

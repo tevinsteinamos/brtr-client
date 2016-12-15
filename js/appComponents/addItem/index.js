@@ -1,27 +1,24 @@
 
 import React, { Component } from 'react';
 import { BackAndroid, Image, AsyncStorage, Platform, Alert } from 'react-native';
-import { Col, Row, Grid } from 'react-native-easy-grid';
+import { Col, Grid } from 'react-native-easy-grid';
 import { connect } from 'react-redux';
 import {
     Container,
     Header,
     Title,
     Content,
-    Text, H3, H2, H1,
+    Text,
     Button,
     Icon,
     Footer,
     FooterTab,
     Card,
     CardItem,
-    Thumbnail,
-    View,
-    List,
-    ListItem,
     Input,
     InputGroup,
-    Picker
+    Picker,
+    Spinner,
 } from 'native-base';
 
 const Item = Picker.Item;
@@ -29,16 +26,10 @@ const Item = Picker.Item;
 import myTheme from '../../themes/base-theme';
 import styles from './styles';
 import ArizTheme from '../../themes/additemtheme'
-import FooterTheme from '../../themes/prof-empty-theme'
-const star_button = require('../../../img/star_button.png');
-
 import {addItem} from '../../actions/items';
 import {updateItem} from '../../actions/items';
 import {getItemsById} from '../../actions/itemId';
-import DataCategories from './DataCategories'
-
 import uploader from '../../helper/uploader'
-
 import {getCategories} from '../../actions/categories';
 
 
@@ -86,7 +77,7 @@ class AddItem extends Component {
     }
 
     onValueChange (value: string) {
-      console.log("valueeeeee: ", value);
+        console.log("valueeeeee: ", value);
         this.setState({
             category : value
         });
@@ -251,7 +242,7 @@ class AddItem extends Component {
     }
 
     render() {
-        const {navigator, route, itemId, categories} = this.props
+        const {navigator, route, itemId, categories, loading} = this.props
         console.log("ini props di add item: ", this.props)
         console.log("ini item di add item: ", itemId)
         console.log("ini image di add item: ", this.state.avatarSource)
@@ -305,7 +296,7 @@ class AddItem extends Component {
                                 <CardItem
                                     style={{borderBottomWidth: 0, marginTop: 30, marginBottom: 30}}
                                     onPress={this.uploadImage.bind(this)}
-                                    >
+                                >
                                     <Image
                                         style={{resizeMode: 'cover',  alignSelf: 'center', width: 200, height: 200 }}
                                         source={(this.state.avatarSource) ? {uri: this.state.avatarSource} : require('../../../img/placeholder.png')}
@@ -325,7 +316,7 @@ class AddItem extends Component {
                                     selectedValue={this.state.category}
                                     onValueChange={this.onValueChange.bind(this)}
                                     theme={myTheme}
-                                    >
+                                >
                                     <Item label="Select Category" value={this.state.category || 'key0'} />
                                     <Item label={(categories[0]) ? categories[0].name : ''} value={(categories[0]) ? categories[0].id : ''} />
                                     <Item label={(categories[1]) ? categories[1].name : ''} value={(categories[1]) ? categories[1].id : ''} />
@@ -351,7 +342,7 @@ class AddItem extends Component {
                                         value={this.state.name}
                                         style={{color: '#FFFFFF'}}
                                         placeholder="Item Title"
-                                        />
+                                    />
                                 </InputGroup>
                             </Col>
                         </Grid>
@@ -384,7 +375,7 @@ class AddItem extends Component {
                             </Col>
                         </Grid>
 
-                    <Grid style={{marginTop: -30}}>
+                        <Grid style={{marginTop: -30}}>
                             <Col>
                                 <InputGroup
                                     theme={ArizTheme} style={{marginLeft: 40, marginRight: 40}} borderType='underline'>
@@ -393,7 +384,7 @@ class AddItem extends Component {
                                         value={this.state.dimension}
                                         style={{color: '#FFFFFF'}}
                                         placeholder="Dimension/size"/>
-                                    
+
                                 </InputGroup>
                             </Col>
                         </Grid>
@@ -413,9 +404,6 @@ class AddItem extends Component {
                         </Grid>
 
                         {actionButton}
-
-
-
                     </Card>
                 </Content>
 
@@ -426,12 +414,10 @@ class AddItem extends Component {
                             <Icon name='md-home' />
                         </Button>
                         <Button active={this.state.tab2} onPress={() => navigator.replace({id: 'addItem'})} >
-                            
                             <Icon name='md-add-circle' />
                         </Button>
-                        <Button active={this.state.tab3} onPress={() => navigator.replace({id: 'profileDetail'})} >
-                            
-                            <Icon name='ios-person' />
+                        <Button active={this.state.tab3} onPress={() => navigator.replace({id: 'profileDetail'})}>
+                            <Icon name='ios-person'/>
                         </Button>
                     </FooterTab>
                 </Footer>
@@ -451,8 +437,8 @@ function bindAction(dispatch) {
 
 const mapStateToProps = state => ({
     itemId: state.itemId,
-    categories: state.categories
-
+    categories: state.categories,
+    loading: state.loading
 });
 
 export default connect(mapStateToProps, bindAction)(AddItem);

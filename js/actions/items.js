@@ -7,7 +7,7 @@ var {
 } = ReactNative;
 
 import type { Action } from './types';
-
+import {stopLoading} from './loading'
 export const LOAD_ITEMS_BY_USER = 'LOAD_ITEMS_BY_USER'
 export const LOAD_ITEMS_BY_USER_SUCCESS = 'LOAD_ITEMS_BY_USER_SUCCESS'
 export const LOAD_ITEMS_BY_USER_FAILURE = 'LOAD_ITEMS_BY_USER_FAILURE'
@@ -59,6 +59,7 @@ export function getItemsByUserId(token, id) {
             .then((responseJson) => {
                 console.log("ini respon item: ", responseJson)
                 dispatch(loadItemsSuccessByUserId(responseJson))
+                // dispatch(stopLoading())
             })
             .catch((error) => {
                 console.log("fail byUser: ", error)
