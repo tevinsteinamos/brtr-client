@@ -120,6 +120,7 @@ class RegisterPage extends Component {
                                     placeholder="Username" style={{color: '#FFFFFF'}}/>
                             </InputGroup>
                         </ListItem>
+
                         <ListItem>
                             <InputGroup>
                                 <Input
@@ -127,6 +128,7 @@ class RegisterPage extends Component {
                                     placeholder="Email" style={{color: '#FFFFFF'}}/>
                             </InputGroup>
                         </ListItem>
+
                         <ListItem>
                             <InputGroup>
                                 <Input
@@ -134,6 +136,7 @@ class RegisterPage extends Component {
                                     placeholder="Password" secureTextEntry style={{color: '#FFFFFF'}}/>
                             </InputGroup>
                         </ListItem>
+
                         <ListItem>
                             <InputGroup>
                                 <Input

@@ -253,7 +253,9 @@ class AddItem extends Component {
                     </Button>
                 </Header>
 
-                <Content>
+                <Content
+                    keyboardDismissMode='on-drag'
+                    keyboardShouldPersistTaps={true}>
 
                     <Card style={{ flex: 0, backgroundColor: '#1E1E1E', borderWidth: 0 }}>
                         <Grid>
