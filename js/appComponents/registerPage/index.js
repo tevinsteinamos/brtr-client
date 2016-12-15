@@ -54,7 +54,6 @@ class RegisterPage extends Component {
                     {text: 'OK', onPress: () => console.log('OK Pressed')},
                 ]
             )
-            return
         } else {
             let validateEmail = (value) => {
                 let regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -64,20 +63,13 @@ class RegisterPage extends Component {
             console.log(validateEmail(email));
             if (validateEmail(email)) {
                 if (password !== confirmPassword) {
-                    this.setState({
-                        username: '',
-                        password: '',
-                        email: '',
-                        confirmPassword: ''
-                    })
                     Alert.alert(
                         'Register Fail',
-                        "Password doesn't match",
+                        "Confirm Password doesn't match",
                         [
                             {text: 'OK', onPress: () => console.log('OK Pressed')},
                         ]
                     )
-                    return
                 } else {
                     this.props.registerUser(username, password, email, confirmPassword, this.props.navigator)
                     this.setState({
@@ -89,21 +81,14 @@ class RegisterPage extends Component {
                 }
             } else {
                 this.setState({valid: false})
-                this.setState({
-                    username: '',
-                    password: '',
-                    email: '',
-                    confirmPassword: ''
-                })
                 Alert.alert(
-                    'Email Verification Failed',
+                    'Register Fail',
                     "Please insert a correct email address to continue",
                     [
                         {text: 'OK', onPress: () => this.setState({valid: true})},
                     ]
                 )
                 console.log('email wrong format');
-                return
             }
         }
     }
