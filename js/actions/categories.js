@@ -40,6 +40,7 @@ export function getCategories(token) {
         })
             .then((response) => response.json())
             .then((responseJson) => {
+              console.log('get categories : ', responseJson);
                 dispatch(loadCategoriesSuccess(responseJson))
                 dispatch(stopLoading())
             })

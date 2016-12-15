@@ -12,6 +12,7 @@ var {
 import decode from 'jwt-decode'
 
 import type { Action } from './types';
+import {stopLoading} from './loading'
 
 export const LIST_MESSAGE = 'LIST_MESSAGE';
 export const LIST_MESSAGE_SUCCESS = 'LIST_MESSAGE_SUCCESS';
@@ -57,6 +58,8 @@ export function listMessageProcess(token) {
                     dispatch(listMessageFailure())
                 }else {
                     dispatch(listMessageSuccess(data))
+                    dispatch(stopLoading())
+
                 }
             })
             .catch((error) => {

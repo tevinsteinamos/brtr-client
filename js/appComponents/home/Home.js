@@ -90,7 +90,7 @@ class Home extends Component {
 
     render() {
         const {navigator, categories, loading} = this.props
-
+        console.log(loading);
         if (loading) {
             return(
                 <Container theme={myTheme} style={styles.container}>
