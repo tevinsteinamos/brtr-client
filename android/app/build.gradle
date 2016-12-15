@@ -88,7 +88,7 @@ android {
     buildToolsVersion "23.0.1"
 
     defaultConfig {
-        applicationId "com.nativebasekitchensink"
+        applicationId "com.brtr"
         minSdkVersion 16
         targetSdkVersion 22
         versionCode 1
@@ -99,10 +99,10 @@ android {
     }
     signingConfigs {
         release {
-            storeFile file('brtr-test.keystore')
-            storePassword 'brtrbrtr'
-            keyAlias 'brtr-test'
-            keyPassword 'brtrbrtr'
+            storeFile file('brtr.keystore')
+            storePassword 'hacktivbarter'
+            keyAlias 'brtr'
+            keyPassword 'hacktivbarter'
         }
     }
     splits {
