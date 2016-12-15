@@ -100,7 +100,7 @@ class SearchItem extends Component {
               <Container theme={myTheme} style={styles.container}>
 
                   <Header>
-                      <Title style={{alignSelf: 'center'}}>Search Item</Title>
+                      <Title style={{alignSelf: 'center', color:'#6CF9C8'}}>SEARCH ITEM</Title>
                       <Button transparent onPress={() => navigator.pop()}>
                           <Icon name='ios-arrow-back'/>
                       </Button>
@@ -120,22 +120,7 @@ class SearchItem extends Component {
                       </List>
                   </Content>
 
-                  <Footer>
-                    <FooterTab>
-                        <Button
-                            active={this.state.tab1} onPress={() => navigator.replace({id: 'home'})}>
-                            <Icon name='md-home' />
-                        </Button>
-                        <Button active={this.state.tab2} onPress={() => navigator.replace({id: 'addItem'})} >
-                            
-                            <Icon name='md-add-circle' />
-                        </Button>
-                        <Button active={this.state.tab3} onPress={() => navigator.replace({id: 'profileDetail'})} >
-                            
-                            <Icon name='ios-person' />
-                        </Button>
-                    </FooterTab>
-                </Footer>
+
               </Container>
           );
     }

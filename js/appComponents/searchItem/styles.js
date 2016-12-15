@@ -17,5 +17,8 @@ module.exports = StyleSheet.create({
   noBottomBorder: {
   	borderBottomColor: '#313233',
   	borderBottomWidth: 1
+  },
+  noBorder: {
+    borderBottomWidth: 0
   }
 });

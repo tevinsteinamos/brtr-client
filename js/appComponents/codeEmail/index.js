@@ -4,6 +4,7 @@ import { TouchableOpacity, BackAndroid } from 'react-native';
 import { connect } from 'react-redux';
 import { Container, Header, Title, Content, Button, Icon, List, ListItem, InputGroup, Input, Picker, Text, Thumbnail } from 'native-base';
 import ArizTheme from '../../themes/custom-theme'
+import myTheme from '../../themes/base-theme';
 
 import { openDrawer } from '../../actions/drawer';
 import styles from './styles';
@@ -50,12 +51,10 @@ class LoginPage extends Component {
 
     render() {
         return (
-            <Container style={styles.container}>
+            <Container style={styles.container} theme={myTheme}>
 
               <Content>
-                <TouchableOpacity>
                   <Thumbnail size={80} source={camera} style={{ alignSelf: 'center', marginTop: 20, marginBottom: 10 }} />
-                </TouchableOpacity>
                 <Text style={{color: '#fff', textAlign: 'center', marginTop: 30}}>
                   Enter the code from the email we just send you
                 </Text>
@@ -71,7 +70,7 @@ class LoginPage extends Component {
                 <Button
                     onPress={this.onVerifCode.bind(this)}
                     bordered
-                    style={{ alignSelf: 'center', marginTop: 40, marginBottom: 20 , width: 220, borderRadius: 0, borderColor:'#2effd0', height: 50}}>
+                    style={{ alignSelf: 'center', marginTop: 40, marginBottom: 20 , width: 220, borderRadius: 0, borderColor:'#2effd0', height: 50, paddingTop: 0}}>
                   <Text style={{color: '#FFFFFF'}}>
                     VERIFY
                   </Text>

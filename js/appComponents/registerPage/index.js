@@ -7,6 +7,7 @@ import { Container, Header, Title, Content, Button, Icon, List, ListItem, InputG
 import { openDrawer } from '../../actions/drawer';
 import styles from './styles';
 import ArizTheme from '../../themes/custom-theme'
+import myTheme from '../../themes/base-theme';
 import {registerUser} from '../../actions/auth'
 
 const Item = Picker.Item;
@@ -96,7 +97,7 @@ class RegisterPage extends Component {
     render() {
         const {navigator} = this.props
         return (
-            <Container style={styles.container}>
+            <Container style={styles.container} theme={myTheme}>
 
                 <Content>
                     <Image source={barter_logo} style={{ alignSelf: 'center', marginTop: 60, marginBottom: 70, width: 65, height: 55 }} />
@@ -138,16 +139,17 @@ class RegisterPage extends Component {
                       width: 220,
                       borderRadius: 0,
                       borderColor:'#2effd0',
-                      height: 50
+                      height: 50,
+                      paddingTop: 0
                 }}
                         onPress={this.onRegisterUser.bind(this)}><Text style={{color: '#FFFFFF'}}>SIGN UP</Text></Button>
                     <Text
                         style={{
                       textAlign: 'center',
                       color: '#FFFFFF',
-                      fontSize: 14}}>
+                      fontSize: 13}}>
                         Already have an account ?
-                        <Text style={{color: '#2effd0', fontSize: 12}}
+                        <Text style={{color: '#2effd0', fontSize: 13}}
                               onPress={()=>navigator.replace({id: 'loginPage'})}>   Sign In !</Text></Text>
                 </Content>
             </Container>
