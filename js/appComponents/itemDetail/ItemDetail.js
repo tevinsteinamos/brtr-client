@@ -158,7 +158,7 @@ class ItemDetail extends Component {
                         <CardItem>
                             <H1 style={{color: 'white', paddingBottom: 10}}>{itemId.name}</H1>
                             <ListItem
-                                onPress={() => navigator.replace({id: 'profileDetail', UserId: itemId.User.id})}
+                                onPress={() => navigator.push({id: 'profileDetail', UserId: itemId.User.id})}
                                 style={{borderBottomWidth: 0}}>
                                 <Thumbnail
                                     source={(itemId.User) ? ((itemId.User.avatar) ? {uri: itemId.User.avatar} : require('../../../img/img-placeholder.png')) : require('../../../img/img-placeholder.png')} />

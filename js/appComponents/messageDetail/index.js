@@ -86,16 +86,21 @@ class messageDetail extends Component {
     }
 
     render() {
-        var {messages} = this.props
+        var {navigator, messages} = this.props
         // console.log('messages: ' + messages)
         var title = this.props.route.title
         var showMessages = messages.map((message,index) => {
             // console.log(messages[index])
-
             if(messages[index]){
                 return (
                     <ListItem key={messages[index].id || messages[index].TempMessageId} style={styles.noBottomBorder}>
-                        <Thumbnail source={(messages[index].User.avatar) ? {uri: messages[index].User.avatar} : require('../../../img/img-placeholder.png')} />
+                        <Button
+                            onPress={() => navigator.push({id: 'profileDetail', UserId: messages[index].User.id})}
+                            transparent>
+                            <Thumbnail
+                                source={(messages[index].User.avatar) ? {uri: messages[index].User.avatar} : require('../../../img/img-placeholder.png')} />
+                        </Button>
+
                         <Text style={styles.text}>{messages[index].body}</Text>
                         <Text note>{moment(messages[index].createdAt).fromNow()}</Text>
                     </ListItem>
