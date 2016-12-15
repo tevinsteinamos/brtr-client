@@ -117,8 +117,8 @@ class messageDetail extends Component {
             <Container theme={myTheme} style={styles.container}>
                 <Header>
                     <Title style={{alignSelf: 'center'}}>{title}</Title>
-                    <Button transparent onPress={() => this.replaceAt('searchItem')}>
-                        <Icon name="ios-search" />
+                    <Button transparent onPress={() => navigator.pop()}>
+                          <Icon name='ios-arrow-back'/>
                     </Button>
                     <Button transparent>
                         <Icon onPress={() => {this.props.getMessages(this.state.token, this.props.route.itemMessageId)}} name="ios-refresh" />

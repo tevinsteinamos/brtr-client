@@ -101,7 +101,7 @@ class listMessage extends Component {
                         <Icon name="ios-arrow-back" />
                     </Button>
                     <Button transparent>
-                        <Icon name="ios-refresh" />
+                        <Icon name="ios-mail" style={{color: '#6CF9C8'}}/>
                     </Button>
                 </Header>
 
