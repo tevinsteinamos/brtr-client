@@ -99,10 +99,10 @@ android {
     }
     signingConfigs {
         release {
-            storeFile file('brtr-test.keystore')
-            storePassword 'brtrbrtr'
-            keyAlias 'brtr-test'
-            keyPassword 'brtrbrtr'
+            storeFile file('brtr.keystore')
+            storePassword 'hacktivbarter'
+            keyAlias 'brtr'
+            keyPassword 'hacktivbarter'
         }
     }
     splits {

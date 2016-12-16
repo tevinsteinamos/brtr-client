@@ -62,7 +62,7 @@ class listMessage extends Component {
     render() {
         const {item, navigator} = this.props
         let ItemNodes = item.map((data)=> {
-            if (this.state.dataUser.id == data.Item.UserId || this.state.dataUser.id == data.Item.UserId) {
+            if (this.state.dataUser.id == data.Item.UserId || this.state.dataUser.id == data.Item2.UserId) {
                 return(
                     <EachMessage key={data.id} items={data} title={data.title} itemMessageId={data.id} navigator={navigator} activeUser={this.state.dataUser}/>
                 )
