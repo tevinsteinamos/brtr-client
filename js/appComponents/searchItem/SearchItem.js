@@ -11,11 +11,7 @@ import {
     Text,
     Button,
     Icon,
-    Footer,
-    FooterTab,
     Card,
-    CardItem,
-    View,
     Spinner,
     Input,
     InputGroup
@@ -45,18 +41,9 @@ class SearchItem extends Component {
         });
     }
 
-    async searchProcessInput(text){
-      try {
-        var value = await AsyncStorage.getItem("myKey");
-        if (value !== null){
-          this.setState({searchInput: text})
-          this.props.searchProcess(value, text)
-        } else {
-
-        }
-      } catch (error) {
-
-      }
+    searchProcessInput(text){
+        this.setState({searchInput: text})
+        this.props.searchProcess(this.props.token, text)
     }
 
     toggleTab1() {

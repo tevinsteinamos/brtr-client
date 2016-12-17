@@ -7,13 +7,10 @@ import {
     List,
 } from 'native-base';
 import { Image, AsyncStorage, BackAndroid } from 'react-native';
-
 import styles from './styles';
-
 import myTheme from '../../themes/base-theme';
 import EachMessage from './EachMessage'
 import {listMessageProcess} from '../../actions/listMessage'
-import decode from 'jwt-decode'
 
 class listMessage extends Component {
 
@@ -23,9 +20,6 @@ class listMessage extends Component {
             tab1: false,
             tab2: true,
             tab3: false,
-            dataUser: {},
-            token: '',
-            messages: []
         };
     }
 
@@ -34,37 +28,15 @@ class listMessage extends Component {
             this.props.navigator.pop()
             return true
         });
-        this._loadInitialState().done();
+        this.props.listMessageProcess(this.props.token)
     }
-
-    _loadInitialState = async () => {
-        try {
-            var value = await AsyncStorage.getItem("myKey");
-            if (value !== null){
-                this.setState({token: value});
-                this.setState({dataUser: decode(value)});
-                if (value) {
-                    this.props.listMessageProcess(value)
-                }
-                this._appendMessage('Recovered selection from disk: ' + value);
-            } else {
-                this._appendMessage('Initialized with no selection on disk.');
-            }
-        } catch (error) {
-            this._appendMessage('AsyncStorage error: ' + error.message);
-        }
-    }
-
-    _appendMessage = (message) => {
-        this.setState({messages: this.state.messages.concat(message)});
-    };
 
     render() {
-        const {item, navigator} = this.props
+        const {item, navigator, dataUser} = this.props
         let ItemNodes = item.map((data)=> {
-            if (this.state.dataUser.id == data.Item.UserId || this.state.dataUser.id == data.Item2.UserId) {
+            if (dataUser.id == data.Item.UserId || dataUser.id == data.Item2.UserId) {
                 return(
-                    <EachMessage key={data.id} items={data} title={data.title} itemMessageId={data.id} navigator={navigator} activeUser={this.state.dataUser}/>
+                    <EachMessage key={data.id} items={data} title={data.title} itemMessageId={data.id} navigator={navigator} activeUser={dataUser}/>
                 )
             } else {
             }
@@ -77,7 +49,7 @@ class listMessage extends Component {
                     <Button transparent onPress={() => navigator.pop()}>
                         <Icon name="ios-arrow-back" />
                     </Button>
-                    <Button transparent onPress={() => this.props.listMessageProcess(this.state.token)}>
+                    <Button transparent onPress={() => this.props.listMessageProcess(this.props.token)}>
                         <Icon name="ios-refresh" />
                     </Button>
                 </Header>

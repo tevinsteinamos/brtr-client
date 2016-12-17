@@ -3,16 +3,7 @@ import { Image, AsyncStorage } from 'react-native';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import { connect } from 'react-redux';
 import {
-    Container,
-    Header,
-    Title,
-    Content,
     Text,
-    Button,
-    Icon,
-    Footer,
-    FooterTab,
-    Card,
     CardItem,
     View,
     Spinner,
@@ -32,7 +23,7 @@ class SearchResult extends Component {
           <Grid>
             <Col>
                 <CardItem
-                    style={{borderBottomWidth: 0}}
+                    style={{borderBottomWidth: 0, marginBottom: 10}}
                     onPress={() => navigator.push({id: 'itemDetail', ItemId: items.id})}>
                     <Image
                         style={{

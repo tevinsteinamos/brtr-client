@@ -89,6 +89,8 @@ export function userLoginFailure():Action {
 }
 
 export function loginUser(username, password, navigator) {
+    console.log(username)
+    console.log(password)
     return (dispatch) => {
         fetch(`http://br-tr-dev.ap-southeast-1.elasticbeanstalk.com/api/auth/login`, {
             method: 'POST',
@@ -109,6 +111,7 @@ export function loginUser(username, password, navigator) {
                 }
             })
             .catch((error) => {
+            console.log("error login: ", error)
                 if (error == 'SyntaxError: Unexpected token U in JSON at position 0(…)') {
                     dispatch(userLoginFailure())
                 } else {

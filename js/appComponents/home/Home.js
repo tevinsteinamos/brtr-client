@@ -12,7 +12,6 @@ import {
     Button,
     Icon,
     Footer,
-    FooterTab,
     Card,
     CardItem,
     View,
@@ -23,6 +22,7 @@ import {getCategories} from '../../actions/categories';
 import { openDrawer } from '../../actions/drawer';
 import myTheme from '../../themes/base-theme';
 import styles from './styles';
+import FooterNav from '../footer'
 
 
 class Home extends Component {
@@ -37,59 +37,16 @@ class Home extends Component {
         };
     }
 
-//
-    toggleTab1() {
-        this.setState({
-            tab1: true,
-            tab2: false,
-            tab3: false,
-        });
-    }
-
-    toggleTab2() {
-        this.setState({
-            tab1: false,
-            tab2: true,
-            tab3: false,
-        });
-    }
-
-    toggleTab3() {
-        this.setState({
-            tab1: false,
-            tab2: false,
-            tab3: true,
-        });
-    }
-
-    componentWillMount() {
+    componentDidMount() {
         BackAndroid.addEventListener('hardwareBackPress', () => {
-            this.props.navigator.pop()
-            return true
+            return false
         });
-        this._loadInitialState().done();
+        this.props.getCategories(this.props.token)
     }
-
-    _loadInitialState = async () => {
-        try {
-            var value = await AsyncStorage.getItem("myKey");
-            if (value !== null){
-                this.props.getCategories(value)
-                this._appendMessage('Recovered selection from disk: ' + value);
-            } else {
-                this._appendMessage('Initialized with no selection on disk.');
-            }
-        } catch (error) {
-            this._appendMessage('AsyncStorage error: ' + error.message);
-        }
-    }
-
-    _appendMessage = (message) => {
-        this.setState({messages: this.state.messages.concat(message)});
-    };
 
     render() {
-        const {navigator, categories, loading} = this.props
+        const {navigator, route, categories, loading} = this.props
+        console.log(route)
         return (
             <Container theme={myTheme} style={styles.container}>
 
@@ -266,20 +223,7 @@ class Home extends Component {
                 </Content>
 
                 <Footer>
-                    <FooterTab>
-                        <Button
-                            active={this.state.tab1} onPress={() => navigator.replace({id: 'home'})}>
-                            <Icon name='md-home' />
-                        </Button>
-                        <Button active={this.state.tab2} onPress={() => navigator.replace({id: 'addItem'})} >
-
-                            <Icon name='md-add-circle' />
-                        </Button>
-                        <Button active={this.state.tab3} onPress={() => navigator.replace({id: 'profileDetail'})} >
-
-                            <Icon name='ios-person' />
-                        </Button>
-                    </FooterTab>
+                    <FooterNav navigator={navigator} tab1={true} tab2={false} tab3={false}/>
                 </Footer>
             </Container>
         );
@@ -294,7 +238,6 @@ function bindAction(dispatch) {
 }
 
 const mapStateToProps = state => ({
-    navigation: state.cardNavigation,
     categories: state.categories,
     loading: state.loading
 });

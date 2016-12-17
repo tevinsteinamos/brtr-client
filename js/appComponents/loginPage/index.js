@@ -50,16 +50,13 @@ class LoginPage extends Component {
         }
     }
 
-    componentDidMount() {
-        this._loadInitialState().done();
-    }
-
-
     _loadInitialState = async () => {
         try {
-            var value = await AsyncStorage.getItem("myKey");
-            if (value !== null){
-                this.props.navigator.replace({id: 'home'});
+            let token = await AsyncStorage.getItem("myKey");
+            if (token !== null){
+                this.setState({token: token})
+                this.setState({dataUser: decode(token)});
+                this._appendMessage('Recovered selection from disk: ' + token);
             } else {
                 this._appendMessage('Initialized with no selection on disk.');
             }
@@ -71,7 +68,6 @@ class LoginPage extends Component {
     _appendMessage = (message) => {
         this.setState({messages: this.state.messages.concat(message)});
     };
-
 
     render() {
         userLoginNormalize()
@@ -142,7 +138,7 @@ class LoginPage extends Component {
                         style={{textAlign: 'center',color: '#FFFFFF', fontSize: 13}}>
                         Don't have an account yet?
                         <Text style={{color: '#2effd0', fontSize: 13}}
-                              onPress={() => this.props.navigator.push({id: 'registerPage'})}>   Sign Up !
+                              onPress={() => this.props.navigator.replace({id: 'registerPage'})}>   Sign Up !
                         </Text>
                     </Text>
                 </Content>

@@ -1,8 +1,9 @@
 
 import React, { Component } from 'react';
-import { BackAndroid, AsyncStorage, Navigator } from 'react-native';
+import { Navigator } from 'react-native';
 
 import Home from './appComponents/home/Home'
+// import Home from './appComponents/tab'
 import ListItem from './appComponents/listItem/ListItem'
 import ListItemCategory from './appComponents/listItemCategory/ListItemCategory'
 import ItemDetail from './appComponents/itemDetail/ItemDetail'
@@ -16,88 +17,48 @@ import CreateMessage from './appComponents/createMessage'
 import EditProfile from './appComponents/editProfile'
 import LoginPage from './appComponents/loginPage';
 import RegisterPage from './appComponents/registerPage';
-
-
 import decode from 'jwt-decode'
-
 
 class AppNavigator extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            dataUser: {},
-            messages: [],
-            token: ''
+            token: '',
+            dataUser: '',
+            messages: ''
         }
     }
-
-    componentWillMount() {
-        BackAndroid.addEventListener('hardwareBackPress', () => {
-            this.props.navigator.pop()
-            return true
-        });
-        this._loadInitialState().done();
-    }
-
-    _loadInitialState = async () => {
-        try {
-            let token = await AsyncStorage.getItem("myKey");
-            if (token !== null){
-                this.setState({token: token})
-                this.setState({dataUser: decode(token)});
-                this._appendMessage('Recovered selection from disk: ' + token);
-            } else {
-                this._appendMessage('Initialized with no selection on disk.');
-            }
-        } catch (error) {
-            this._appendMessage('AsyncStorage error: ' + error.message);
-        }
-    }
-
-    _appendMessage = (message) => {
-        this.setState({messages: this.state.messages.concat(message)});
-    };
-
-
 
     renderScene(route, navigator) {
         var routeId = route.id;
         switch (routeId) {
+            case 'addItem':
+                return <AddItem navigator={navigator} route={route} token={this.props.token} dataUser={this.props.dataUser}/>;
+            case 'createMessage':
+                return <CreateMessage navigator={navigator} route={route} token={this.props.token} dataUser={this.props.dataUser}/>
             case 'home':
-                return <Home navigator={navigator}/>;
-            case 'authPage':
-                return <AuthPage navigator={navigator}/>;
+                return <Home navigator={navigator} token={this.props.token} dataUser={this.props.dataUser}/>;
+            case 'itemDetail':
+                return <ItemDetail navigator={navigator} route={route} token={this.props.token} dataUser={this.props.dataUser}/>;
             case 'loginPage':
                 return <LoginPage navigator={navigator}/>;
             case 'registerPage':
                 return <RegisterPage navigator={navigator}/>;
-            case 'itemDetail':
-                return <ItemDetail navigator={navigator} route={route}/>;
-            case 'listItem':
-                return <ListItem navigator={navigator}/>;
             case 'listItemCategory':
-                return <ListItemCategory navigator={navigator} route={route}/>;
+                return <ListItemCategory navigator={navigator} route={route} token={this.props.token} dataUser={this.props.dataUser}/>;
             case 'searchItem':
-                return <SearchItem navigator={navigator}/>;
-            case 'profileEmpty':
-                return <ProfileEmpty navigator={navigator}/>;
+                return <SearchItem navigator={navigator} token={this.props.token} dataUser={this.props.dataUser}/>;
             case 'profileDetail':
-                return <ProfileDetail navigator={navigator} route={route}/>;
-            case 'addItem':
-                return <AddItem navigator={navigator} route={route}/>;
+                return <ProfileDetail navigator={navigator} route={route} token={this.props.token} dataUser={this.props.dataUser}/>;
             case 'askEmail':
                 return <AskEmail navigator={navigator}/>;
-            case 'codeEmail':
-                return <CodeEmail navigator={navigator}/>;
             case 'listMessage':
-                return <ListMessage navigator={navigator} route={route}/>
+                return <ListMessage navigator={navigator} route={route} token={this.props.token} dataUser={this.props.dataUser}/>
             case 'messageDetail':
-                return <MessageDetail navigator={navigator} route={route}/>
-            case 'createMessage':
-                return <CreateMessage navigator={navigator} route={route}/>
+                return <MessageDetail navigator={navigator} route={route} token={this.props.token} dataUser={this.props.dataUser}/>
             case 'editProfile':
-                return <EditProfile navigator={navigator} route={route}/>;
+                return <EditProfile navigator={navigator} route={route} token={this.props.token} dataUser={this.props.dataUser}/>;
 
             default :
                 return this.noRoute(navigator);
@@ -105,10 +66,10 @@ class AppNavigator extends Component {
     }
 
     render() {
-
+        const {token, dataUser} = this.props
         return (
             <Navigator
-                initialRoute={{id: 'loginPage'}}
+                initialRoute={{id: (token) ? 'home' : 'loginPage'}}
                 renderScene={this.renderScene.bind(this)}
                 configureScene={(route) => {
                         if (route.sceneConfig) {
