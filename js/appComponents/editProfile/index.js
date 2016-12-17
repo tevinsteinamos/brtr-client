@@ -20,6 +20,7 @@ import {
 
 import {updateProfile} from '../../actions/updateProfile';
 import uploader from '../../helper/uploader'
+import FooterNav from '../footer'
 var ImagePicker = require('react-native-image-picker');
 
 var options = {
@@ -52,44 +53,6 @@ class ProfileDetail extends Component {
             newPassword: '',
             token: ''
         };
-    }
-
-
-    componentDidMount() {
-        BackAndroid.addEventListener('hardwareBackPress', () => {
-            this.props.navigator.pop()
-            return true
-        });
-        this._loadInitialState().done();
-    }
-
-    _loadInitialState = async () => {
-        try {
-            var value = await AsyncStorage.getItem("myKey");
-            if (value !== null){
-                this.setState({token: value});
-                this.setState({dataUser: decode(value)});
-                this._appendMessage('Recovered selection from disk: ' + value);
-            } else {
-                this._appendMessage('Initialized with no selection on disk.');
-            }
-        } catch (error) {
-            this._appendMessage('AsyncStorage error: ' + error.message);
-        }
-    }
-
-    _appendMessage = (message) => {
-        this.setState({messages: this.state.messages.concat(message)});
-    };
-
-
-    logoutUser = async() => {
-        try {
-            await AsyncStorage.removeItem("myKey");
-            this.props.navigator.replace({id: 'loginPage'})
-        } catch (error) {
-
-        }
     }
 
     uploadImage() {
@@ -133,7 +96,7 @@ class ProfileDetail extends Component {
           )
         }
 
-        this.props.updateProfile(newPassword, photo, this.state.token, this.props.navigator)
+        this.props.updateProfile(newPassword, photo, this.props.token, this.props.navigator)
         this.setState({
             newPassword: '',
             photo: '',
@@ -198,20 +161,7 @@ class ProfileDetail extends Component {
                 </Content>
 
                 <Footer>
-                    <FooterTab>
-                        <Button
-                            active={this.state.tab1} onPress={() => navigator.replace({id: 'home'})}>
-                            <Icon name='md-home' />
-                        </Button>
-                        <Button active={this.state.tab2} onPress={() => navigator.replace({id: 'addItem'})} >
-
-                            <Icon name='md-add-circle' />
-                        </Button>
-                        <Button active={this.state.tab3} onPress={() => navigator.replace({id: 'profileDetail'})} >
-
-                            <Icon name='ios-person' />
-                        </Button>
-                    </FooterTab>
+                    <FooterNav navigator={navigator} tab1={true} tab2={false} tab3={false}/>
                 </Footer>
 
             </Container>

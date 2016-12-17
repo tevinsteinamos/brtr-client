@@ -23,16 +23,12 @@ import moment from 'moment';
 import myTheme from '../../themes/base-theme';
 import {getMessages, addMessage} from '../../actions/messageDetail';
 
-import decode from 'jwt-decode'
-
 class messageDetail extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            body: '',
-            dataUser: {},
-            token: ''
+            body: ''
         }
     }
 
@@ -47,7 +43,7 @@ class messageDetail extends Component {
             var value = await AsyncStorage.getItem("myKey");
             if (value !== null){
                 if (this.state.body) {
-                    this.props.addMessage(value, this.state.body, this.props.route.itemMessageId, this.state.dataUser, Date.now().toString())
+                    this.props.addMessage(value, this.state.body, this.props.route.itemMessageId, this.props.dataUser, Date.now().toString())
                     this.setState({
                         body: ''
                     })
@@ -63,27 +59,11 @@ class messageDetail extends Component {
             this.props.navigator.pop()
             return true
         });
-        this._loadInitialState().done();
-    }
-
-    _loadInitialState = async () => {
-        try {
-            var value = await AsyncStorage.getItem("myKey");
-            if (value !== null){
-                let itemMessageId = this.props.route.itemMessageId
-                this.setState({token: value})
-                this.setState({dataUser: decode(value)})
-                this.props.getMessages(value,itemMessageId)
-            } else {
-
-            }
-        } catch (error) {
-
-        }
+        this.props.getMessages(this.props.token, this.props.route.itemMessageId)
     }
 
     render() {
-        var {navigator, messages} = this.props
+        var {navigator, messages, token} = this.props
         var title = this.props.route.title
         var showMessages = messages.map((message,index) => {
             if(messages[index]){
@@ -115,7 +95,7 @@ class messageDetail extends Component {
                           <Icon name='ios-arrow-back'/>
                     </Button>
                     <Button transparent>
-                        <Icon onPress={() => {this.props.getMessages(this.state.token, this.props.route.itemMessageId)}} name="ios-refresh" />
+                        <Icon onPress={() => {this.props.getMessages(token, this.props.route.itemMessageId)}} name="ios-refresh" />
                     </Button>
                 </Header>
 

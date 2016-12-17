@@ -7,29 +7,21 @@ import {
     Header,
     Title,
     Content,
-    Text, H3, H2, H1,
+    Text,
     Button,
     Icon,
     Footer,
     FooterTab,
     Card,
     CardItem,
-    Thumbnail,
-    View,
     List,
-    ListItem
 } from 'native-base';
-import { Grid, Col } from 'react-native-easy-grid';
-
 import {getItemsByUserId} from '../../actions/items';
 import {getUserById} from '../../actions/getUserById';
 import myTheme from '../../themes/base-theme';
 import styles from './styles';
-
-import decode from 'jwt-decode'
-
 import DataItems from './DataItems'
-
+import FooterNav from '../footer'
 
 class ProfileDetail extends Component {
 
@@ -39,8 +31,6 @@ class ProfileDetail extends Component {
             tab1: false,
             tab2: false,
             tab3: true,
-            dataUser: {},
-            messages: [],
             loading: (!this.props.loading) ? this.props.loading : true
         };
     }
@@ -48,46 +38,21 @@ class ProfileDetail extends Component {
 
     componentDidMount() {
         BackAndroid.addEventListener('hardwareBackPress', () => {
-            // this.props.navigator.pop()
-            return false
+            this.props.navigator.pop()
+            return true
         });
-        this._loadInitialState().done();
-    }
-
-    _loadInitialState = async () => {
-        try {
-            var value = await AsyncStorage.getItem("myKey");
-            this.setState({dataUser: decode(value)})
-            if (value !== null){
-
-                if (this.props.route.UserId) {
-                    this.props.getItemsByUserId(value, this.props.route.UserId)
-                    this.props.getUserById(value, this.props.route.UserId, this.props.navigator)
-                    if (this.props.route.UserId === this.state.dataUser.id) {
-                        this.setState({tab3: true})
-                    }
-                    else {
-                        this.setState({tab3: false})
-                    }
-                }
-                else {
-                    this.props.getItemsByUserId(value, this.state.dataUser.id)
-                    this.props.getUserById(value, this.state.dataUser.id, this.props.navigator)
-                }
-
-                this._appendMessage('Recovered selection from disk: ' + value);
-            } else {
-                this._appendMessage('Initialized with no selection on disk.');
-            }
-        } catch (error) {
-            this._appendMessage('AsyncStorage error: ' + error.message);
+        if(this.props.route.UserId) {
+            this.setState({tab3: false})
+            this.props.getItemsByUserId(this.props.token, this.props.route.UserId)
+            this.props.getUserById(this.props.token, this.props.route.UserId, navigator)
         }
+        else {
+            this.setState({tab3: true})
+            this.props.getItemsByUserId(this.props.token, this.props.dataUser.id)
+            this.props.getUserById(this.props.token, this.props.dataUser.id, navigator)
+        }
+
     }
-
-    _appendMessage = (message) => {
-        this.setState({messages: this.state.messages.concat(message)});
-    };
-
 
     logoutUser = async() => {
         try {
@@ -100,11 +65,11 @@ class ProfileDetail extends Component {
 
 
     render() {
-        const {navigator, items, user, loading} = this.props
+        const {navigator, items, user, route, dataUser, token, loading} = this.props
         let buttonLogout
 
-        if(this.props.route.UserId) {
-            if(this.props.route.UserId === this.state.dataUser.id) {
+        if(route.UserId) {
+            if(route.UserId === dataUser.id) {
                 buttonLogout =
                     <Button transparent onPress={this.logoutUser.bind(this)}>
                         <Icon name="ios-exit" />
@@ -131,7 +96,7 @@ class ProfileDetail extends Component {
                         <Icon name="ios-exit" />
                     </Button>
             buttonEditProfile = 
-                <Button transparent onPress={() => this.props.navigator.push({id: 'editProfile', avatar: user.avatar})}>
+                <Button transparent onPress={() => navigator.push({id: 'editProfile', avatar: user.avatar})}>
                     <Icon name="ios-settings" />
                 </Button>
         }
@@ -148,7 +113,7 @@ class ProfileDetail extends Component {
             <Container theme={myTheme} style={styles.container}>
                 <Header>
                     <Title style={{alignSelf: 'center', color: '#6CF9C8'}}>
-                        {(this.props.route.UserId) ? ((this.props.route.UserId === this.state.dataUser.id) ? 'MY PROFILE' : `${user.username}` ) : 'MY PROFILE'}
+                        {(this.props.route.UserId) ? ((this.props.route.UserId === dataUser.id) ? 'MY PROFILE' : `${user.username}` ) : 'MY PROFILE'}
                     </Title>
                     {buttonEditProfile}
                     {buttonLogout}
@@ -183,19 +148,7 @@ class ProfileDetail extends Component {
                 </Content>
 
                 <Footer>
-                    <FooterTab>
-                        <Button
-                            active={this.state.tab1} onPress={() => navigator.replace({id: 'home'})}>
-                            <Icon name='md-home' />
-                        </Button>
-                        <Button active={this.state.tab2} onPress={() => navigator.replace({id: 'addItem'})} >
-
-                            <Icon name='md-add-circle' />
-                        </Button>
-                        <Button active={this.state.tab3} onPress={() => navigator.replace({id: 'profileDetail'})} >
-                            <Icon name='ios-person' />
-                        </Button>
-                    </FooterTab>
+                    <FooterNav navigator={navigator} route={route} tab1={false} tab2={false} tab3={true}/>
                 </Footer>
 
             </Container>

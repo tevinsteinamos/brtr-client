@@ -30,7 +30,6 @@ class ListItemCategory extends Component {
             tab1: false,
             tab2: false,
             tab3: false,
-            messages: []
         };
     }
 
@@ -59,31 +58,9 @@ class ListItemCategory extends Component {
         });
     }
 
-    componentWillMount() {
-        BackAndroid.addEventListener('hardwareBackPress', () => {
-            this.props.navigator.pop()
-            return true
-        });
-        this._loadInitialState().done();
+    componentDidMount() {
+        this.props.getItemsByCategoryId(this.props.token, this.props.route.CategoryId)
     }
-
-    _loadInitialState = async () => {
-        try {
-            var value = await AsyncStorage.getItem("myKey");
-            if (value !== null){
-                this.props.getItemsByCategoryId(value, this.props.route.CategoryId)
-                this._appendMessage('Recovered selection from disk: ' + value);
-            } else {
-                this._appendMessage('Initialized with no selection on disk.');
-            }
-        } catch (error) {
-            this._appendMessage('AsyncStorage error: ' + error.message);
-        }
-    }
-
-    _appendMessage = (message) => {
-        this.setState({messages: this.state.messages.concat(message)});
-    };
 
     render() {
         const {navigator, route, items, loading} = this.props
@@ -114,22 +91,6 @@ class ListItemCategory extends Component {
                     </List>
                 </Content>
 
-                <Footer>
-                    <FooterTab>
-                        <Button
-                            active={this.state.tab1} onPress={() => navigator.replace({id: 'home'})}>
-                            <Icon name='md-home'/>
-                        </Button>
-                        <Button active={this.state.tab2} onPress={() => navigator.replace({id: 'addItem'})}>
-
-                            <Icon name='md-add-circle'/>
-                        </Button>
-                        <Button active={this.state.tab3} onPress={() => navigator.replace({id: 'profileDetail'})}>
-
-                            <Icon name='ios-person'/>
-                        </Button>
-                    </FooterTab>
-                </Footer>
             </Container>
         );
     }

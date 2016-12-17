@@ -12,7 +12,6 @@ import {
     Button,
     Icon,
     Footer,
-    FooterTab,
     Card,
     CardItem,
     Input,
@@ -20,6 +19,7 @@ import {
     Picker,
     Spinner,
 } from 'native-base';
+import FooterNav from '../footer'
 
 const Item = Picker.Item;
 
@@ -87,32 +87,11 @@ class AddItem extends Component {
             this.props.navigator.pop()
             return true
         });
-        this._loadInitialState().done();
-    }
-
-
-    _loadInitialState = async () => {
-        try {
-            var value = await AsyncStorage.getItem("myKey");
-            if (value !== null){
-                this.setState({token: value});
-                this.setState({dataUser: decode(value)});
-                this.props.getCategories(value)
-                if (this.props.route.ItemId) {
-                    this.props.getItemsById(value, this.props.route.ItemId)
-                }
-                this._appendMessage('Recovered selection from disk: ' + value);
-            } else {
-                this._appendMessage('Initialized with no selection on disk.');
-            }
-        } catch (error) {
-            this._appendMessage('AsyncStorage error: ' + error.message);
+        this.props.getCategories(this.props.token)
+        if (this.props.route.ItemId) {
+            this.props.getItemsById(this.props.token, this.props.route.ItemId)
         }
     }
-
-    _appendMessage = (message) => {
-        this.setState({messages: this.state.messages.concat(message)});
-    };
 
     uploadImage() {
         ImagePicker.showImagePicker(options, (response) => {
@@ -161,7 +140,7 @@ class AddItem extends Component {
             )
         }
         else {
-            this.props.addItem(category, name, description, photo, material, dimension, color, this.state.token, this.props.navigator)
+            this.props.addItem(category, name, description, photo, material, dimension, color, this.props.token, this.props.navigator)
             this.setState({
                 name: '',
                 description: '',
@@ -376,18 +355,7 @@ class AddItem extends Component {
                 </Content>
 
                 <Footer>
-                    <FooterTab>
-                        <Button
-                            active={this.state.tab1} onPress={() => navigator.replace({id: 'home'})}>
-                            <Icon name='md-home' />
-                        </Button>
-                        <Button active={this.state.tab2} onPress={() => navigator.replace({id: 'addItem'})} >
-                            <Icon name='md-add-circle' />
-                        </Button>
-                        <Button active={this.state.tab3} onPress={() => navigator.replace({id: 'profileDetail'})}>
-                            <Icon name='ios-person'/>
-                        </Button>
-                    </FooterTab>
+                    <FooterNav navigator={navigator} route={route} tab1={false} tab2={true} tab3={false}/>
                 </Footer>
             </Container>
         );

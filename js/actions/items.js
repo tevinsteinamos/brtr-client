@@ -113,7 +113,7 @@ export function addItem(CategoryId, name, description, photo, material, dimensio
             .then((response) => response.json())
             .then((responseJson) => {
                 dispatch(createItemSuccess(responseJson))
-                navigator.replace({id: 'itemDetail', ItemId: responseJson.data.id})
+                navigator.push({id: 'itemDetail', ItemId: responseJson.data.id})
             })
             .catch((error) => {
                 Alert.alert(
@@ -157,7 +157,7 @@ export function deleteItem(id, token, navigator){
             .then((response) => response.json())
             .then((responseJson) => {
                 dispatch(deleteItemSuccess(responseJson))
-                navigator.replace({id: 'profileDetail'})
+                navigator.resetTo({id: 'profileDetail'})
             })
             .catch((error) => {
                 Alert.alert(
@@ -217,7 +217,7 @@ export function updateItem(id, CategoryId, name, description, photo, material, d
             .then((response) => response.json())
             .then((responseJson) => {
                 dispatch(updateItemSuccess(responseJson))
-                navigator.replace({id: 'itemDetail', ItemId: responseJson.data.id})
+                navigator.replacePreviousAndPop({id: 'itemDetail', ItemId: responseJson.data.id})
             })
             .catch((error) => {
                 Alert.alert(

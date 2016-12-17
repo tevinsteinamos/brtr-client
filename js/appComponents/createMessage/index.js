@@ -21,15 +21,14 @@ import {
     Picker,
     Textarea
 } from 'native-base';
-
-const Item = Picker.Item;
-
 import { addMessage } from '../../actions/createMessageItem';
 import myTheme from '../../themes/base-theme';
 import styles from './styles';
 import ArizTheme from '../../themes/additemtheme'
 import {getItemsByUserId} from '../../actions/items';
 import decode from 'jwt-decode'
+import FooterNav from '../footer'
+const Item = Picker.Item;
 
 class CreateMessage extends Component {
 
@@ -40,9 +39,6 @@ class CreateMessage extends Component {
             tab1: false,
             tab2: false,
             tab3: false,
-            dataUser: {},
-            messages: [],
-            token: '',
             title: '',
             body: '' ,
             item: '',
@@ -61,33 +57,8 @@ class CreateMessage extends Component {
 
 
     componentDidMount() {
-        BackAndroid.addEventListener('hardwareBackPress', () => {
-            this.props.navigator.pop()
-            return true
-        });
-        this._loadInitialState().done();
+        this.props.getItemsByUserId(this.props.token, this.props.dataUser.id)
     }
-
-
-    _loadInitialState = async () => {
-        try {
-            var value = await AsyncStorage.getItem("myKey");
-            if (value !== null){
-                this.setState({token: value})
-                this.setState({dataUser: decode(value)})
-                this.props.getItemsByUserId(value, this.state.dataUser.id)
-                this._appendMessage('Recovered selection from disk: ' + value);
-            } else {
-                this._appendMessage('Initialized with no selection on disk.');
-            }
-        } catch (error) {
-            this._appendMessage('AsyncStorage error: ' + error.message);
-        }
-    }
-
-    _appendMessage = (message) => {
-        this.setState({messages: this.state.messages.concat(message)});
-    };
 
 
     onCreateMessage() {
@@ -95,7 +66,7 @@ class CreateMessage extends Component {
         let body = this.state.body.trim()
         let item = this.props.route.ItemId
         let itemBarter = this.state.itemBarter
-        let token = this.state.token
+        let token = this.props.token
 
         if (!title || !body || !item) {
           Alert.alert(
@@ -220,20 +191,7 @@ class CreateMessage extends Component {
                 </Content>
 
                 <Footer>
-                    <FooterTab>
-                        <Button
-                            active={this.state.tab1} onPress={() => navigator.replace({id: 'home'})}>
-                            <Icon name='md-home' />
-                        </Button>
-                        <Button active={this.state.tab2} onPress={() => navigator.replace({id: 'addItem'})} >
-                            
-                            <Icon name='md-add-circle' />
-                        </Button>
-                        <Button active={this.state.tab3} onPress={() => navigator.replace({id: 'profileDetail'})} >
-                            
-                            <Icon name='ios-person' />
-                        </Button>
-                    </FooterTab>
+                    <FooterNav navigator={navigator} tab1={true} tab2={false} tab3={false}/>
                 </Footer>
             </Container>
         );

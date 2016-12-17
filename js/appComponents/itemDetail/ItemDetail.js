@@ -12,21 +12,17 @@ import {
     Button,
     Icon,
     Footer,
-    FooterTab,
     Card,
     CardItem,
     Thumbnail,
     ListItem,
     Spinner
 } from 'native-base';
-
 import myTheme from '../../themes/base-theme';
 import styles from './styles';
-
-import decode from 'jwt-decode'
-
 import {getItemsById} from '../../actions/itemId';
 import {deleteItem} from '../../actions/items';
+import FooterNav from '../footer'
 
 class ItemDetail extends Component {
 
@@ -36,34 +32,7 @@ class ItemDetail extends Component {
             tab1: false,
             tab2: false,
             tab3: false,
-            token: '',
-            dataUser: {},
-            messages: []
         };
-    }
-
-    toggleTab1() {
-        this.setState({
-            tab1: true,
-            tab2: false,
-            tab3: false,
-        });
-    }
-
-    toggleTab2() {
-        this.setState({
-            tab1: false,
-            tab2: true,
-            tab3: false,
-        });
-    }
-
-    toggleTab3() {
-        this.setState({
-            tab1: false,
-            tab2: false,
-            tab3: true,
-        });
     }
 
     componentDidMount() {
@@ -71,29 +40,8 @@ class ItemDetail extends Component {
             this.props.navigator.pop()
             return true
         });
-        this._loadInitialState().done();
+        this.props.getItemsById(this.props.token, this.props.route.ItemId)
     }
-
-    _loadInitialState = async () => {
-        try {
-            var value = await AsyncStorage.getItem("myKey");
-            if (value !== null){
-                this.setState({token: value});
-                this.setState({dataUser: decode(value)});
-                this.props.getItemsById(value, this.props.route.ItemId)
-
-                this._appendMessage('Recovered selection from disk: ' + value);
-            } else {
-                this._appendMessage('Initialized with no selection on disk.');
-            }
-        } catch (error) {
-            this._appendMessage('AsyncStorage error: ' + error.message);
-        }
-    }
-
-    _appendMessage = (message) => {
-        this.setState({messages: this.state.messages.concat(message)});
-    };
 
     onDeleteItem() {
         Alert.alert(
@@ -101,7 +49,7 @@ class ItemDetail extends Component {
             null,
             [
                 {text: 'OK', onPress: () => {
-                    this.props.deleteItem(this.props.itemId.id, this.state.token, this.props.navigator)
+                    this.props.deleteItem(this.props.itemId.id, this.props.token, this.props.navigator)
                 }},
                 {text: 'Cancel', onPress: () => {
 
@@ -113,11 +61,11 @@ class ItemDetail extends Component {
 
 
     render() {
-        const {navigator, route, itemId} = this.props
+        const {navigator, route, dataUser, itemId} = this.props
         let actionButton
         let deleteButton
         if (itemId.User) {
-            if (itemId.User.id === this.state.dataUser.id) {
+            if (itemId.User.id === dataUser.id) {
                 actionButton = <Button transparent onPress={() => navigator.push({id: 'addItem', ItemId: itemId.id})}>
                     <Icon name="md-create" />
                 </Button>
@@ -206,19 +154,7 @@ class ItemDetail extends Component {
                 </Content>
 
                 <Footer>
-                    <FooterTab>
-                        <Button
-                            active={this.state.tab1} onPress={() => navigator.replace({id: 'home'})}>
-                            <Icon name='md-home'/>
-                        </Button>
-                        <Button active={this.state.tab2} onPress={() => navigator.replace({id: 'addItem'})}>
-
-                            <Icon name='md-add-circle'/>
-                        </Button>
-                        <Button active={this.state.tab3} onPress={() => navigator.replace({id: 'profileDetail'})}>
-                            <Icon name='ios-person'/>
-                        </Button>
-                    </FooterTab>
+                    <FooterNav navigator={navigator} tab1={false} tab2={false} tab3={false}/>
                 </Footer>
             </Container>
         );
