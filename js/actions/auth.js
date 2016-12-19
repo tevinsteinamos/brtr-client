@@ -6,6 +6,11 @@ var {
 } = ReactNative;
 
 import type { Action } from './types';
+import decode from 'jwt-decode'
+
+export const GET_TOKEN = 'GET_TOKEN'
+export const REMOVE_TOKEN = 'REMOVE_TOKEN'
+export const LOGOUT_USER = 'LOGOUT_USER'
 
 export const USER_LOGIN = 'USER_LOGIN';
 export const USER_LOGIN_SUCCESS = 'USER_LOGIN_SUCCESS';
@@ -15,6 +20,17 @@ export const USER_REGISTER_SUCCESS = 'USER_REGISTER_SUCCESS';
 export const USER_REGISTER_FAILURE = 'USER_REGISTER_FAILURE';
 
 const SERVER_URL_USERS = 'http://localhost:3000/api'
+
+
+export async function getToken() {
+    try {
+        let token = await AsyncStorage.getItem("myKey");
+        let dataUser = decode(token)
+        return {type: GET_TOKEN, token, dataUser}
+    } catch (error) {
+
+    }
+}
 
 export function userRegisterSuccess(user):Action {
     return {
@@ -88,9 +104,27 @@ export function userLoginFailure():Action {
     };
 }
 
+export function removeToken() {
+    return {
+        type: GET_TOKEN,
+        token: token
+    };
+}
+
+export async function logoutUser() {
+    try {
+        await AsyncStorage.removeItem("myKey");
+        return {
+            type: LOGOUT_USER
+        };
+    } catch (error) {
+
+    }
+}
+
+
+
 export function loginUser(username, password, navigator) {
-    console.log(username)
-    console.log(password)
     return (dispatch) => {
         fetch(`http://br-tr-dev.ap-southeast-1.elasticbeanstalk.com/api/auth/login`, {
             method: 'POST',
@@ -105,13 +139,12 @@ export function loginUser(username, password, navigator) {
         }).then((response) => response.json())
             .then((responseJson) => {
                 if (responseJson) {
-                    dispatch(userLoginSuccess(responseJson))
+                    // dispatch(userLoginSuccess(responseJson))
                     AsyncStorage.setItem('myKey', responseJson);
-                    navigator.replace({id: 'home'})
+                    dispatch(getToken())
                 }
             })
             .catch((error) => {
-            console.log("error login: ", error)
                 if (error == 'SyntaxError: Unexpected token U in JSON at position 0(…)') {
                     dispatch(userLoginFailure())
                 } else {

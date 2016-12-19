@@ -10,6 +10,7 @@ import {
     DELETE_ITEM,
     DELETE_ITEM_FAILURE,
     DELETE_ITEM_SUCCESS,
+    CLEAR_ITEM
 } from '../actions/items';
 
 
@@ -32,6 +33,9 @@ export default function (state:State = initialState, action:Action): State {
 
         case DELETE_ITEM_SUCCESS:
             return state
+
+        case CLEAR_ITEM:
+            return[]
 
         case LOAD_ITEMS_BY_USER_FAILURE:
         case CREATE_ITEM_FAILURE:

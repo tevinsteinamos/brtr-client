@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { BackAndroid, Image, AsyncStorage } from 'react-native';
+import { BackAndroid, Image, AsyncStorage, View } from 'react-native';
 import { connect } from 'react-redux';
 import {
     Container,
@@ -15,13 +15,16 @@ import {
     Card,
     CardItem,
     List,
+    Spinner
 } from 'native-base';
-import {getItemsByUserId} from '../../actions/items';
+import {getItemsByUserId, clearItem} from '../../actions/items';
 import {getUserById} from '../../actions/getUserById';
 import myTheme from '../../themes/base-theme';
 import styles from './styles';
 import DataItems from './DataItems'
 import FooterNav from '../footer'
+import {logoutUser} from '../../actions/auth'
+import {clearUser} from '../../actions/getUserById'
 
 class ProfileDetail extends Component {
 
@@ -54,13 +57,11 @@ class ProfileDetail extends Component {
 
     }
 
-    logoutUser = async() => {
-        try {
-            await AsyncStorage.removeItem("myKey");
-            this.props.navigator.replace({id: 'loginPage'})
-        } catch (error) {
-
-        }
+    logoutUser () {
+        this.props.logoutUser()
+        this.props.clearUser()
+        this.props.clearItem()
+        this.props.navigator.resetTo({id: 'home'})
     }
 
 
@@ -84,7 +85,7 @@ class ProfileDetail extends Component {
                     <Button transparent>
                         <Text style={{color:'black'}}>...</Text>
                     </Button>
-                buttonEditProfile = 
+                buttonEditProfile =
                     <Button transparent>
                         <Text style={{color:'black'}}>...</Text>
                     </Button>
@@ -93,9 +94,9 @@ class ProfileDetail extends Component {
         else {
             buttonLogout =
                 <Button transparent onPress={this.logoutUser.bind(this)}>
-                        <Icon name="ios-exit" />
-                    </Button>
-            buttonEditProfile = 
+                    <Icon name="ios-exit" />
+                </Button>
+            buttonEditProfile =
                 <Button transparent onPress={() => navigator.push({id: 'editProfile', avatar: user.avatar})}>
                     <Icon name="ios-settings" />
                 </Button>
@@ -108,18 +109,12 @@ class ProfileDetail extends Component {
             )
         })
 
+        let showProfile
+        let showItem
 
-        return (
-            <Container theme={myTheme} style={styles.container}>
-                <Header>
-                    <Title style={{alignSelf: 'center', color: '#6CF9C8'}}>
-                        {(this.props.route.UserId) ? ((this.props.route.UserId === dataUser.id) ? 'MY PROFILE' : `${user.username}` ) : 'MY PROFILE'}
-                    </Title>
-                    {buttonEditProfile}
-                    {buttonLogout}
-                </Header>
-
-                <Content>
+        if (user.length !== 0) {
+            showProfile =
+                <View>
                     <Card style={{ flex: 0, backgroundColor: '#1E1E1E', borderWidth: 0 }}>
                         <CardItem
                             style={{borderBottomWidth: 0, marginTop: 20}}
@@ -141,10 +136,47 @@ class ProfileDetail extends Component {
                             color: '#6CF9C8'}}>
                         {user.username}
                     </Text>
+                </View>
+        }
+        else {
+            showProfile =
+                <Container style={styles.container}>
+                    <Content>
+                        <Spinner color='green' />
+                    </Content>
+                </Container>
+        }
 
-                      <List>
-                        {ItemNodes}
-                      </List>
+        if (items.length !==0) {
+            showItem = ItemNodes
+        }
+        else {
+            showItem =
+                <Container style={styles.container}>
+                    <Content>
+                        <Spinner color='green' />
+                    </Content>
+                </Container>
+        }
+
+
+        return (
+            <Container theme={myTheme} style={styles.container}>
+                <Header>
+                    <Title style={{alignSelf: 'center', color: '#6CF9C8'}}>
+                        {(this.props.route.UserId) ? ((this.props.route.UserId === dataUser.id) ? 'MY PROFILE' : `${user.username}` ) : 'MY PROFILE'}
+                    </Title>
+                    {buttonEditProfile}
+                    {buttonLogout}
+                </Header>
+
+                <Content>
+
+                    {showProfile}
+
+                    <List>
+                        {showItem}
+                    </List>
                 </Content>
 
                 <Footer>
@@ -160,6 +192,9 @@ function bindAction(dispatch) {
     return {
         getItemsByUserId: (token, id) => dispatch(getItemsByUserId(token, id)),
         getUserById: (token, id, navigator) => dispatch(getUserById(token, id, navigator)),
+        logoutUser: () => dispatch(logoutUser()),
+        clearUser: () => dispatch(clearUser()),
+        clearItem: () => dispatch(clearItem()),
     };
 }
 
