@@ -19,13 +19,7 @@ class LoginPage extends Component {
         super(props);
         this.state = {
             username: '',
-            password: '',
-            messages: [],
-            selectedItem: undefined,
-            selected1: 'key0',
-            results: {
-                items: [],
-            },
+            password: ''
         };
     }
     onValueChange(value: string) {
@@ -50,24 +44,6 @@ class LoginPage extends Component {
         }
     }
 
-    _loadInitialState = async () => {
-        try {
-            let token = await AsyncStorage.getItem("myKey");
-            if (token !== null){
-                this.setState({token: token})
-                this.setState({dataUser: decode(token)});
-                this._appendMessage('Recovered selection from disk: ' + token);
-            } else {
-                this._appendMessage('Initialized with no selection on disk.');
-            }
-        } catch (error) {
-            this._appendMessage('AsyncStorage error: ' + error.message);
-        }
-    }
-
-    _appendMessage = (message) => {
-        this.setState({messages: this.state.messages.concat(message)});
-    };
 
     render() {
         userLoginNormalize()

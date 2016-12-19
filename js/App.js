@@ -1,12 +1,14 @@
 
 import React, { Component } from 'react';
 import { StyleSheet, AsyncStorage } from 'react-native';
+import { connect } from 'react-redux';
 import CodePush from 'react-native-code-push';
 import { Container, Content, Text, View, Spinner } from 'native-base';
 import Modal from 'react-native-modalbox';
 import AppNavigator from './AppNavigator';
 import theme from './themes/base-theme';
 import decode from 'jwt-decode'
+import {getToken} from './actions/auth'
 
 const styles = StyleSheet.create({
     container: {
@@ -31,10 +33,7 @@ class App extends Component {
             showDownloadingModal: false,
             showInstalling: false,
             downloadProgress: 0,
-            dataUser: {},
-            messages: [],
-            token: '',
-            loading: true
+            loading: this.props.token.loading || true
         };
     }
 
@@ -61,31 +60,15 @@ class App extends Component {
                 this.setState({ downloadProgress: (receivedBytes / totalBytes) * 100 });
             }
         );
-
         this._loadInitialState().done();
     }
 
-
     _loadInitialState = async () => {
         try {
-            let token = await AsyncStorage.getItem("myKey");
-            if (token !== null){
-                this.setState({token: token})
-                this.setState({dataUser: decode(token)});
-                console.log("masuk")
-                console.log(">>>", this.state.loading)
-                this._appendMessage('Recovered selection from disk: ' + token);
-            } else {
-                this._appendMessage('Initialized with no selection on disk.');
-            }
+            await this.props.getToken()
         } catch (error) {
-            this._appendMessage('AsyncStorage error: ' + error.message);
         }
-        this.setState({loading: false})
-    }
-
-    _appendMessage = (message) => {
-        this.setState({messages: this.state.messages.concat(message)});
+        this.setState({loading: false});
     };
 
     render() {
@@ -117,19 +100,30 @@ class App extends Component {
             );
         }
 
-        if (this.state.loading) {
+        if (this.state.loading === false) {
+            return <AppNavigator token={this.props.token.token} dataUser={this.props.token.dataUser}/>;
+        }
+        else {
             return (
                 <Container>
                     <Content>
                         <Spinner color='green' />
                     </Content>
                 </Container>
-            );
-        }
-        else {
-            return <AppNavigator token={this.state.token} dataUser={this.state.dataUser}/>;
+            )
         }
     }
 }
 
-export default App;
+function bindAction(dispatch) {
+    return {
+        getToken: () => dispatch(getToken()),
+    };
+}
+
+const mapStateToProps = state => ({
+    token: state.auth
+});
+
+export default connect(mapStateToProps, bindAction)(App);
+// export default App

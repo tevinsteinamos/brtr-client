@@ -3,7 +3,8 @@ import type { Action } from '../actions/types';
 import {
     LOAD_USER_BY_ID,
     LOAD_USER_BY_ID_SUCCESS,
-    LOAD_USER_BY_ID_FAILURE
+    LOAD_USER_BY_ID_FAILURE,
+    CLEAR_USER
 } from '../actions/getUserById';
 
 
@@ -20,6 +21,9 @@ export default function (state:State = initialState, action:Action): State {
 
         case LOAD_USER_BY_ID_FAILURE:
             return state
+
+        case CLEAR_USER:
+            return []
 
         default:
             return state
