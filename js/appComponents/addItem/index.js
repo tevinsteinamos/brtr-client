@@ -20,9 +20,6 @@ import {
     Spinner,
 } from 'native-base';
 import FooterNav from '../footer'
-
-const Item = Picker.Item;
-
 import myTheme from '../../themes/base-theme';
 import styles from './styles';
 import ArizTheme from '../../themes/additemtheme'
@@ -32,6 +29,7 @@ import {getItemsById} from '../../actions/itemId';
 import uploader from '../../helper/uploader'
 import {getCategories} from '../../actions/categories';
 
+const Item = Picker.Item;
 
 import decode from 'jwt-decode'
 
@@ -225,140 +223,160 @@ class AddItem extends Component {
             backButton = <Button transparent><Text style={{color: 'black'}}>.</Text></Button>
         }
 
-        return (
-            <Container theme={myTheme} style={styles.container}>
+        if (categories.length === 0) {
+            return (
+                <Container style={styles.container}>
+                    <Content>
+                        <Spinner color='green' />
+                    </Content>
+                </Container>
+            );
+        }
+        else {
+            return (
+                <Container theme={myTheme} style={styles.container}>
 
-                <Header>
-                    {backButton}
-                    {title}
-                    <Button transparent><Text style={{color: 'black'}}>.</Text></Button>
-                </Header>
+                    <Header>
+                        {backButton}
+                        {title}
+                        <Button transparent><Text style={{color: 'black'}}>.</Text></Button>
+                    </Header>
 
-                <Content
-                    keyboardShouldPersistTaps={true}>
+                    <Content
+                        keyboardShouldPersistTaps={true}>
 
-                    <Card style={{ flex: 0, backgroundColor: '#1E1E1E', borderWidth: 0 }}>
-                        <Grid>
-                            <Col>
-                                <CardItem
-                                    style={{borderBottomWidth: 0, marginTop: 30, marginBottom: 30}}
-                                    onPress={this.uploadImage.bind(this)}
-                                >
-                                    <Image
-                                        style={{resizeMode: 'cover',  alignSelf: 'center', width: 200, height: 200 }}
-                                        source={(this.state.avatarSource) ? {uri: this.state.avatarSource} : require('../../../img/placeholder.png')}
-                                    />
-                                </CardItem>
+                        <Card style={{ flex: 0, backgroundColor: '#1E1E1E', borderWidth: 0 }}>
+                            <Grid>
+                                <Col>
+                                    <CardItem
+                                        style={{borderBottomWidth: 0, marginTop: 30, marginBottom: 30}}
+                                        onPress={this.uploadImage.bind(this)}
+                                    >
+                                        <Image
+                                            style={{resizeMode: 'cover',  alignSelf: 'center', width: 200, height: 200 }}
+                                            source={(this.state.avatarSource) ? {uri: this.state.avatarSource} : require('../../../img/placeholder.png')}
+                                        />
+                                    </CardItem>
 
-                            </Col>
-                        </Grid>
+                                </Col>
+                            </Grid>
 
-                        <Grid style={{marginTop: 170}}>
-                            <Col>
+                            <Grid style={{marginTop: 170}}>
+                                <Col>
 
-                                <Picker
-                                    style={{marginLeft: 40, marginRight: 40, color: '#8B8F95', borderColor: '#2effd0', borderRadius: 1}}
-                                    iosHeader="Select one"
-                                    mode="dropdown"
-                                    selectedValue={this.state.category}
-                                    onValueChange={this.onValueChange.bind(this)}
-                                    theme={myTheme}
-                                >
-                                    <Item label="Select Category" value={this.state.category || 'key0'} />
-                                    <Item label={(categories[0]) ? categories[0].name : ''} value={(categories[0]) ? categories[0].id : ''} />
-                                    <Item label={(categories[1]) ? categories[1].name : ''} value={(categories[1]) ? categories[1].id : ''} />
-                                    <Item label={(categories[2]) ? categories[2].name : ''} value={(categories[2]) ? categories[2].id : ''} />
-                                    <Item label={(categories[3]) ? categories[3].name : ''} value={(categories[3]) ? categories[3].id : ''} />
-                                    <Item label={(categories[4]) ? categories[4].name : ''} value={(categories[4]) ? categories[4].id : ''} />
-                                    <Item label={(categories[6]) ? categories[6].name : ''} value={(categories[6]) ? categories[6].id : ''} />
-                                    <Item label={(categories[7]) ? categories[7].name : ''} value={(categories[7]) ? categories[7].id : ''} />
-                                    <Item label={(categories[5]) ? categories[5].name : ''} value={(categories[5]) ? categories[5].id : ''} />
-                                </Picker>
-                            </Col>
-                        </Grid>
+                                    <Picker
+                                        style={{marginLeft: 40, marginRight: 40, color: '#8B8F95', borderColor: '#2effd0', borderRadius: 1}}
+                                        iosHeader="Select one"
+                                        mode="dropdown"
+                                        selectedValue={this.state.category}
+                                        onValueChange={this.onValueChange.bind(this)}
+                                        theme={myTheme}
+                                    >
+                                        <Item label="Select Category" value={this.state.category || 'key0'}/>
+                                        <Item label={(categories[0]) ? categories[0].name : ''}
+                                              value={(categories[0]) ? categories[0].id : ''}/>
+                                        <Item label={(categories[1]) ? categories[1].name : ''}
+                                              value={(categories[1]) ? categories[1].id : ''}/>
+                                        <Item label={(categories[2]) ? categories[2].name : ''}
+                                              value={(categories[2]) ? categories[2].id : ''}/>
+                                        <Item label={(categories[3]) ? categories[3].name : ''}
+                                              value={(categories[3]) ? categories[3].id : ''}/>
+                                        <Item label={(categories[4]) ? categories[4].name : ''}
+                                              value={(categories[4]) ? categories[4].id : ''}/>
+                                        <Item label={(categories[6]) ? categories[6].name : ''}
+                                              value={(categories[6]) ? categories[6].id : ''}/>
+                                        <Item label={(categories[7]) ? categories[7].name : ''}
+                                              value={(categories[7]) ? categories[7].id : ''}/>
+                                        <Item label={(categories[5]) ? categories[5].name : ''}
+                                              value={(categories[5]) ? categories[5].id : ''}/>
+                                    </Picker>
+                                </Col>
+                            </Grid>
 
-                        <Grid style={{marginTop: -20}}>
-                            <Col>
-                                <InputGroup
-                                    style={{marginLeft: 40, marginRight: 40}}
-                                    borderType='underline'
-                                    theme={ArizTheme}
-                                >
-                                    <Input
-                                        onChangeText={(name) => this.setState({name: name})}
-                                        value={this.state.name}
-                                        style={{color: '#FFFFFF'}}
-                                        placeholder="Item Title"
-                                    />
-                                </InputGroup>
-                            </Col>
-                        </Grid>
+                            <Grid style={{marginTop: -20}}>
+                                <Col>
+                                    <InputGroup
+                                        style={{marginLeft: 40, marginRight: 40}}
+                                        borderType='underline'
+                                        theme={ArizTheme}
+                                    >
+                                        <Input
+                                            onChangeText={(name) => this.setState({name: name})}
+                                            value={this.state.name}
+                                            style={{color: '#FFFFFF'}}
+                                            placeholder="Item Title"
+                                        />
+                                    </InputGroup>
+                                </Col>
+                            </Grid>
 
-                        <Grid style={{marginTop: -30}}>
-                            <Col>
-                                <InputGroup
-                                    style={{marginLeft: 40, marginRight: 40}}
-                                    theme={ArizTheme} borderType='underline'>
-                                    <Input
-                                        onChangeText={(description) => this.setState({description: description})}
-                                        value={this.state.description}
-                                        style={{color: '#FFFFFF'}}
-                                        placeholder="Description"/>
-                                </InputGroup>
-                            </Col>
-                        </Grid>
+                            <Grid style={{marginTop: -30}}>
+                                <Col>
+                                    <InputGroup
+                                        style={{marginLeft: 40, marginRight: 40}}
+                                        theme={ArizTheme} borderType='underline'>
+                                        <Input
+                                            onChangeText={(description) => this.setState({description: description})}
+                                            value={this.state.description}
+                                            style={{color: '#FFFFFF'}}
+                                            placeholder="Description"/>
+                                    </InputGroup>
+                                </Col>
+                            </Grid>
 
-                        <Grid style={{marginTop: -30}}>
-                            <Col>
-                                <InputGroup
-                                    style={{marginLeft: 40, marginRight: 40}}
-                                    theme={ArizTheme} borderType='underline'>
-                                    <Input
-                                        onChangeText={(material) => this.setState({material: material})}
-                                        value={this.state.material}
-                                        style={{color: '#FFFFFF'}}
-                                        placeholder="Material"/>
-                                </InputGroup>
-                            </Col>
-                        </Grid>
+                            <Grid style={{marginTop: -30}}>
+                                <Col>
+                                    <InputGroup
+                                        style={{marginLeft: 40, marginRight: 40}}
+                                        theme={ArizTheme} borderType='underline'>
+                                        <Input
+                                            onChangeText={(material) => this.setState({material: material})}
+                                            value={this.state.material}
+                                            style={{color: '#FFFFFF'}}
+                                            placeholder="Material"/>
+                                    </InputGroup>
+                                </Col>
+                            </Grid>
 
-                        <Grid style={{marginTop: -30}}>
-                            <Col>
-                                <InputGroup
-                                    theme={ArizTheme} style={{marginLeft: 40, marginRight: 40}} borderType='underline'>
-                                    <Input
-                                        onChangeText={(dimension) => this.setState({dimension: dimension})}
-                                        value={this.state.dimension}
-                                        style={{color: '#FFFFFF'}}
-                                        placeholder="Dimension/size"/>
+                            <Grid style={{marginTop: -30}}>
+                                <Col>
+                                    <InputGroup
+                                        theme={ArizTheme} style={{marginLeft: 40, marginRight: 40}}
+                                        borderType='underline'>
+                                        <Input
+                                            onChangeText={(dimension) => this.setState({dimension: dimension})}
+                                            value={this.state.dimension}
+                                            style={{color: '#FFFFFF'}}
+                                            placeholder="Dimension/size"/>
 
-                                </InputGroup>
-                            </Col>
-                        </Grid>
+                                    </InputGroup>
+                                </Col>
+                            </Grid>
 
-                        <Grid style={{marginTop: -30}}>
-                            <Col>
-                                <InputGroup
-                                    style={{marginLeft: 40, marginRight: 40}}
-                                    theme={ArizTheme} borderType='underline'>
-                                    <Input
-                                        onChangeText={(color) => this.setState({color: color})}
-                                        value={this.state.color}
-                                        style={{color: '#FFFFFF'}}
-                                        placeholder="Color"/>
-                                </InputGroup>
-                            </Col>
-                        </Grid>
+                            <Grid style={{marginTop: -30}}>
+                                <Col>
+                                    <InputGroup
+                                        style={{marginLeft: 40, marginRight: 40}}
+                                        theme={ArizTheme} borderType='underline'>
+                                        <Input
+                                            onChangeText={(color) => this.setState({color: color})}
+                                            value={this.state.color}
+                                            style={{color: '#FFFFFF'}}
+                                            placeholder="Color"/>
+                                    </InputGroup>
+                                </Col>
+                            </Grid>
 
-                        {actionButton}
-                    </Card>
-                </Content>
+                            {actionButton}
+                        </Card>
+                    </Content>
 
-                <Footer>
-                    <FooterNav navigator={navigator} route={route} tab1={false} tab2={true} tab3={false}/>
-                </Footer>
-            </Container>
-        );
+                    <Footer>
+                        <FooterNav navigator={navigator} route={route} tab1={false} tab2={true} tab3={false}/>
+                    </Footer>
+                </Container>
+            );
+        }
     }
 }
 
@@ -373,8 +391,7 @@ function bindAction(dispatch) {
 
 const mapStateToProps = state => ({
     itemId: state.itemId,
-    categories: state.categories,
-    loading: state.loading
+    categories: state.categories
 });
 
 export default connect(mapStateToProps, bindAction)(AddItem);

@@ -55,7 +55,7 @@ class Home extends Component {
                         <Spinner color='green' />
                     </Content>
                 </Container>
-            );
+            )
         }
         else {
             return (
