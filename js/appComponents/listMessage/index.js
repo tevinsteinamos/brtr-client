@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { actions } from 'react-native-navigation-redux-helpers';
 import {
     Container, Header, Title, Content, Button, Icon,
-    List,
+    List, Spinner
 } from 'native-base';
 import { Image, AsyncStorage, BackAndroid } from 'react-native';
 import styles from './styles';
@@ -13,15 +13,6 @@ import EachMessage from './EachMessage'
 import {listMessageProcess} from '../../actions/listMessage'
 
 class listMessage extends Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            tab1: false,
-            tab2: true,
-            tab3: false,
-        };
-    }
 
     componentWillMount() {
         BackAndroid.addEventListener('hardwareBackPress', () => {
@@ -42,25 +33,36 @@ class listMessage extends Component {
             }
         })
 
-        return (
-            <Container theme={myTheme} style={styles.container}>
-                <Header>
-                    <Title style={{alignSelf: 'center', color: '#6CF9C8'}}>MESSAGES</Title>
-                    <Button transparent onPress={() => navigator.pop()}>
-                        <Icon name="ios-arrow-back" />
-                    </Button>
-                    <Button transparent onPress={() => this.props.listMessageProcess(this.props.token)}>
-                        <Icon name="ios-refresh" />
-                    </Button>
-                </Header>
+        if (item.length === 0) {
+            return (
+                <Container style={styles.container}>
+                    <Content>
+                        <Spinner color='green' />
+                    </Content>
+                </Container>
+            )
+        }
+        else {
+            return (
+                <Container theme={myTheme} style={styles.container}>
+                    <Header>
+                        <Title style={{alignSelf: 'center', color: '#6CF9C8'}}>MESSAGES</Title>
+                        <Button transparent onPress={() => navigator.pop()}>
+                            <Icon name="ios-arrow-back"/>
+                        </Button>
+                        <Button transparent onPress={() => this.props.listMessageProcess(this.props.token)}>
+                            <Icon name="ios-refresh"/>
+                        </Button>
+                    </Header>
 
-                <Content>
-                    <List>
-                        {ItemNodes}
-                    </List>
-                </Content>
-            </Container>
-        );
+                    <Content>
+                        <List>
+                            {ItemNodes}
+                        </List>
+                    </Content>
+                </Container>
+            )
+        }
     }
 }
 

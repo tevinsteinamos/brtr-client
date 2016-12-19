@@ -105,7 +105,7 @@ class App extends Component {
         }
         else {
             return (
-                <Container>
+                <Container style={{backgroundColor: '#2C2C2C'}}>
                     <Content>
                         <Spinner color='green' />
                     </Content>

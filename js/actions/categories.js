@@ -11,7 +11,6 @@ export const LOAD_CATEGORIES = 'LOAD_CATEGORIES'
 export const LOAD_CATEGORIES_SUCCESS = 'LOAD_CATEGORIES_SUCCESS'
 export const LOAD_CATEGORIES_FAILURE = 'LOAD_CATEGORIES_FAILURE'
 
-import {stopLoading} from './loading'
 import decode from 'jwt-decode'
 
 export function loadCategories() {
@@ -41,7 +40,6 @@ export function getCategories(token) {
             .then((response) => response.json())
             .then((responseJson) => {
                 dispatch(loadCategoriesSuccess(responseJson))
-                dispatch(stopLoading())
             })
             .catch((error) => {
                 Alert.alert(
