@@ -8,10 +8,8 @@ import {
     Title,
     Content,
     Button,
-    Icon,
-    Footer,
-    FooterTab,
     List,
+    Icon,
     Spinner,
     Text
 } from 'native-base';
@@ -24,46 +22,16 @@ import DataItemCategory from './DataItemCategory'
 
 class ListItemCategory extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            tab1: false,
-            tab2: false,
-            tab3: false,
-        };
-    }
-
-
-    toggleTab1() {
-        this.setState({
-            tab1: true,
-            tab2: false,
-            tab3: false,
-        });
-    }
-
-    toggleTab2() {
-        this.setState({
-            tab1: false,
-            tab2: true,
-            tab3: false,
-        });
-    }
-
-    toggleTab3() {
-        this.setState({
-            tab1: false,
-            tab2: false,
-            tab3: true,
-        });
-    }
-
     componentDidMount() {
+        BackAndroid.addEventListener('hardwareBackPress', () => {
+            this.props.navigator.pop()
+            return true
+        });
         this.props.getItemsByCategoryId(this.props.token, this.props.route.CategoryId)
     }
 
     render() {
-        const {navigator, route, items, loading} = this.props
+        const {navigator, items} = this.props
 
         let ItemCategoryNodes = items.map(function (item) {
             return(
@@ -71,28 +39,39 @@ class ListItemCategory extends Component {
             )
         })
 
-        return (
-            <Container theme={myTheme} style={styles.container}>
+        if (items.length === 0) {
+            return (
+                <Container style={styles.container}>
+                    <Content>
+                        <Spinner color='green' />
+                    </Content>
+                </Container>
+            )
+        }
+        else {
+            return (
+                <Container theme={myTheme} style={styles.container}>
 
-                <Header>
-                    <Title
-                        style={{alignSelf: 'center', color: '#6CF9C8'}}>{this.props.route.CategoryName.toUpperCase()}</Title>
-                    <Button transparent>
-                        <Text style={{color:'black'}}>...</Text>
-                    </Button>
-                    <Button transparent>
-                        <Text style={{color:'black'}}>...</Text>
-                    </Button>
-                </Header>
+                    <Header>
+                        <Title
+                            style={{alignSelf: 'center', color: '#6CF9C8'}}>{this.props.route.CategoryName.toUpperCase()}</Title>
+                        <Button transparent onPress={() => navigator.pop()}>
+                            <Icon name='ios-arrow-back'/>
+                        </Button>
+                        <Button transparent>
+                            <Text style={{color:'black'}}>...</Text>
+                        </Button>
+                    </Header>
 
-                <Content>
-                    <List>
-                        {ItemCategoryNodes}
-                    </List>
-                </Content>
+                    <Content>
+                        <List>
+                            {ItemCategoryNodes}
+                        </List>
+                    </Content>
 
-            </Container>
-        );
+                </Container>
+            )
+        }
     }
 }
 
@@ -104,7 +83,6 @@ function bindAction(dispatch) {
 
 const mapStateToProps = state => ({
     items: state.categoryId,
-    loading: state.loading
 });
 
 export default connect(mapStateToProps, bindAction)(ListItemCategory);

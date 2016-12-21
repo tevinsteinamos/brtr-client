@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import { Image, AsyncStorage } from 'react-native';
 import { Col, Row, Grid } from 'react-native-easy-grid';
-import { connect } from 'react-redux';
 import {
     Text,
     CardItem,
     View,
-    Spinner,
     H3
 } from 'native-base';
 

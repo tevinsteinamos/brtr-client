@@ -11,13 +11,12 @@ var {
 
 import decode from 'jwt-decode'
 
-import type { Action } from './types';
+import type { Action } from './types'
 
-export const SEARCH_ITEM = 'SEARCH_ITEM';
-export const SEARCH_ITEM_SUCCESS = 'SEARCH_ITEM_SUCCESS';
-export const SEARCH_ITEM_FAILURE = 'SEARCH_ITEM_FAILURE';
-
-const SERVER_URL_SEARCH = 'http://localhost:3000/api'
+export const SEARCH_ITEM = 'SEARCH_ITEM'
+export const SEARCH_ITEM_SUCCESS = 'SEARCH_ITEM_SUCCESS'
+export const SEARCH_ITEM_FAILURE = 'SEARCH_ITEM_FAILURE'
+export const CLEAR_SEARCH_ITEM = 'CLEAR_SEARCH_ITEM'
 
 export function searchProcessInit(): Action {
     return {
@@ -36,6 +35,10 @@ export function searchProcessFailure(): Action {
     return {
         type: SEARCH_ITEM_FAILURE
     }
+}
+
+export function clearSearchItem() {
+    return {type: CLEAR_SEARCH_ITEM}
 }
 
 export function searchProcess(token, text) {
@@ -59,8 +62,8 @@ export function searchProcess(token, text) {
             })
             .catch((error) => {
                 Alert.alert(
-                    'Register Fail',
-                    'something wrong, please register again',
+                    'Something went wrong',
+                    error.message,
                     [
                         {text: 'OK'},
                     ]

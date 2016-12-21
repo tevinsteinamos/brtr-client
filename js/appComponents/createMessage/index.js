@@ -11,15 +11,14 @@ import {
     Content,
     Text,
     Button,
-    Icon,
     Footer,
-    FooterTab,
     List,
     ListItem,
     Input,
     InputGroup,
     Picker,
-    Textarea
+    Textarea,
+    Spinner
 } from 'native-base';
 import { addMessage } from '../../actions/createMessageItem';
 import myTheme from '../../themes/base-theme';
@@ -119,82 +118,93 @@ class CreateMessage extends Component {
 
 
     render() {
-        const {navigator, items, route} = this.props
-        return (
-            <Container theme={myTheme} style={styles.container}>
+        const {navigator, items} = this.props
+        if (items.length === 0) {
+            return (
+                <Container style={styles.container}>
+                    <Content>
+                        <Spinner color='green' />
+                    </Content>
+                </Container>
+            )
+        }
+        else {
+            return (
+                <Container theme={myTheme} style={styles.container}>
 
-                <Header>
-                    <Button transparent>
-                        <Text style={{color:'black'}}>...</Text>
-                    </Button>
-                    <Title style={{alignSelf: 'center', color: '#6CF9C8'}}>CREATE MESSAGE</Title>
-                    <Button transparent>
-                        <Text style={{color:'black'}}>...</Text>
-                    </Button>
-                </Header>
+                    <Header>
+                        <Button transparent>
+                            <Text style={{color:'black'}}>...</Text>
+                        </Button>
+                        <Title style={{alignSelf: 'center', color: '#6CF9C8'}}>CREATE MESSAGE</Title>
+                        <Button transparent>
+                            <Text style={{color:'black'}}>...</Text>
+                        </Button>
+                    </Header>
 
-                <Content>
-                      <List>
-                        <Grid style={{marginTop: 20}}>
-                            <Col>
-                                <InputGroup
-                                    style={{marginLeft: 30, marginRight: 30}}
-                                    theme={ArizTheme}
-                                    borderType='underline'>
-                                    <Input
-                                        onChangeText={(title) => this.setState({title: title})}
-                                        value={this.state.title}
-                                        style={{color: '#FFFFFF', fontSize: 17}}
-                                        placeholder='Title'/>
-                                </InputGroup>
-                            </Col>
-                        </Grid>
-
-                        <Grid  style={{marginTop: 0}}>
-                            <Col>
-                                <List>
-                                    <ListItem
+                    <Content
+                        keyboardShouldPersistTaps={true}
+                    >
+                        <List>
+                            <Grid style={{marginTop: 20}}>
+                                <Col>
+                                    <InputGroup
                                         style={{marginLeft: 30, marginRight: 30}}
                                         theme={ArizTheme}
                                         borderType='underline'>
+                                        <Input
+                                            onChangeText={(title) => this.setState({title: title})}
+                                            value={this.state.title}
+                                            style={{color: '#FFFFFF', fontSize: 17}}
+                                            placeholder='Title'/>
+                                    </InputGroup>
+                                </Col>
+                            </Grid>
+
+                            <Grid style={{marginTop: 0}}>
+                                <Col>
+                                    <List>
+                                        <ListItem
+                                            style={{marginLeft: 30, marginRight: 30}}
+                                            theme={ArizTheme}
+                                            borderType='underline'>
                                         <Textarea
                                             onChangeText={(body) => this.setState({body: body})}
                                             value={this.state.body}
                                             style={{paddingBottom:20, color: '#FFFFFF', fontSize: 17}}
                                             placeholder="Message"/>
-                                    </ListItem>
-                                </List>
-                            </Col>
-                        </Grid>
+                                        </ListItem>
+                                    </List>
+                                </Col>
+                            </Grid>
 
-                        <Grid style={{marginTop: 20}}>
-                              <Col>
-                                  {this.selectItem()}
-                              </Col>
+                            <Grid style={{marginTop: 20}}>
+                                <Col>
+                                    {this.selectItem()}
+                                </Col>
 
-                        </Grid>
-
-
+                            </Grid>
 
 
-                        <Button
-                            onPress={this.onCreateMessage.bind(this)}
-                            bordered
-                            style={{ alignSelf: 'center', marginTop: 20, marginBottom: 20 , width: 280, borderRadius: 0, borderColor:'#2effd0', height: 50, paddingTop: 0}}>
-                            <Text style={{color: '#FFFFFF'}}>
-                                SEND BARTER REQUEST
-                            </Text>
-                        </Button>
-                      </List>
+                            <Button
+                                onPress={this.onCreateMessage.bind(this)}
+                                bordered
+                                style={{ alignSelf: 'center', marginTop: 20, marginBottom: 20 , width: 280, borderRadius: 0, borderColor:'#2effd0', height: 50, paddingTop: 0}}>
+                                <Text style={{color: '#FFFFFF'}}>
+                                    SEND BARTER REQUEST
+                                </Text>
+                            </Button>
+                        </List>
 
 
-                </Content>
+                    </Content>
 
-                <Footer>
-                    <FooterNav navigator={navigator} tab1={true} tab2={false} tab3={false}/>
-                </Footer>
-            </Container>
-        );
+                    <Footer>
+                        <FooterNav navigator={navigator} tab1={true} tab2={false} tab3={false}/>
+                    </Footer>
+                </Container>
+            )
+        }
     }
 }
 

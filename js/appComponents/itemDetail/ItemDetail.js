@@ -20,7 +20,7 @@ import {
 } from 'native-base';
 import myTheme from '../../themes/base-theme';
 import styles from './styles';
-import {getItemsById} from '../../actions/itemId';
+import {getItemsById, clearItemId} from '../../actions/itemId';
 import {deleteItem} from '../../actions/items';
 import FooterNav from '../footer'
 
@@ -40,6 +40,7 @@ class ItemDetail extends Component {
             this.props.navigator.pop()
             return true
         });
+        this.props.clearItemId()
         this.props.getItemsById(this.props.token, this.props.route.ItemId)
     }
 
@@ -86,84 +87,96 @@ class ItemDetail extends Component {
             }
         }
 
-        
-        return (
-            <Container theme={myTheme} style={styles.container}>
+        if (itemId.length === 0) {
+            return (
+                <Container style={styles.container}>
+                    <Content>
+                        <Spinner color='green' />
+                    </Content>
+                </Container>
+            )
+        }
+        else {
+            return (
+                <Container theme={myTheme} style={styles.container}>
 
-                <Header>
-                    <Title style={{alignSelf: 'center', color: '#6CF9C8'}}>{itemId.name}</Title>
-                    <Button transparent onPress={() => navigator.pop()}>
-                          <Icon name='ios-arrow-back'/>
-                      </Button>
-                    {actionButton}
-                </Header>
+                    <Header>
+                        <Title style={{alignSelf: 'center', color: '#6CF9C8'}}>{itemId.name}</Title>
+                        <Button transparent onPress={() => navigator.pop()}>
+                            <Icon name='ios-arrow-back'/>
+                        </Button>
+                        {actionButton}
+                    </Header>
 
-                <Content>
+                    <Content>
 
-                    <Card style={{ flex: 0, backgroundColor: '#000', borderWidth: 0 }}>
-                        <CardItem style={{borderBottomWidth: 0}}>
-                            <H1 style={{color: 'white', marginBottom: 10, marginLeft: 10}}>{itemId.name}</H1>
-                            <ListItem
-                                onPress={() => navigator.push({id: 'profileDetail', UserId: itemId.User.id})}
-                                style={{borderBottomWidth: 0, marginBottom: -15}}>
-                                <Thumbnail
-                                    source={(itemId.User) ? ((itemId.User.avatar) ? {uri: itemId.User.avatar} : require('../../../img/img-placeholder.png')) : require('../../../img/img-placeholder.png')}/>
-                                <H3 style={{color: '#8B8F95'}}>
-                                    by {(itemId.User) ? itemId.User.username : ''}
-                                </H3>
-                            </ListItem>
-                        </CardItem>
+                        <Card style={{ flex: 0, backgroundColor: '#000', borderWidth: 0 }}>
+                            <CardItem style={{borderBottomWidth: 0}}>
+                                <H1 style={{color: 'white', marginBottom: 10, marginLeft: 10}}>{itemId.name}</H1>
+                                <ListItem
+                                    onPress={() => navigator.push({id: 'profileDetail', UserId: itemId.User.id})}
+                                    style={{borderBottomWidth: 0, marginBottom: -15}}>
+                                    <Thumbnail
+                                        source={(itemId.User) ? ((itemId.User.avatar) ? {uri: itemId.User.avatar} : require('../../../img/img-placeholder.png')) : require('../../../img/img-placeholder.png')}/>
+                                    <H3 style={{color: '#8B8F95'}}>
+                                        by {(itemId.User) ? itemId.User.username : ''}
+                                    </H3>
+                                </ListItem>
+                            </CardItem>
 
-                        <CardItem style={{borderBottomWidth: 0, marginLeft: 10, marginBottom: 10}}>
-                            <Text style={styles.textColor}>
-                                {itemId.description}
-                            </Text>
-                        </CardItem>
+                            <CardItem style={{borderBottomWidth: 0, marginLeft: 10, marginBottom: 10}}>
+                                <Text style={styles.textColor}>
+                                    {itemId.description}
+                                </Text>
+                            </CardItem>
 
-                        <CardItem style={{borderBottomWidth: 0, marginBottom: 10}}>
-                            <Image
-                                style={{ resizeMode: 'cover', width: null }}
-                                source={{uri: itemId.photo}}/>
-                        </CardItem>
+                            <CardItem style={{borderBottomWidth: 0, marginBottom: 10}}>
+                                <Image
+                                    style={{ resizeMode: 'cover', width: null }}
+                                    source={{uri: itemId.photo}}/>
+                            </CardItem>
 
-                        <CardItem style={{borderBottomWidth: 0, marginLeft: 10}}>
-                            <Text style={{color: 'white'}}>Dimension/size <H2 style={styles.textColor}>{itemId.dimension}</H2></Text>
-                        </CardItem>
+                            <CardItem style={{borderBottomWidth: 0, marginLeft: 10}}>
+                                <Text style={{color: 'white'}}>Dimension/size <H2
+                                    style={styles.textColor}>{itemId.dimension}</H2></Text>
+                            </CardItem>
 
-                        <Grid style={{marginLeft: 10}}>
-                            <Col>
-                                <CardItem style={{borderBottomWidth: 0}}>
-                                    <Text style={{color: 'white'}}>Material</Text>
-                                    <H2 style={styles.textColor}>{itemId.material}</H2>
-                                </CardItem>
-                            </Col>
-                            <Col>
-                                <CardItem style={{borderBottomWidth: 0}}>
-                                    <Text style={{color: 'white'}}>Color</Text>
-                                    <H2 style={styles.textColor}>{itemId.color}</H2>
-                                </CardItem>
-                            </Col>
-                        </Grid>
+                            <Grid style={{marginLeft: 10}}>
+                                <Col>
+                                    <CardItem style={{borderBottomWidth: 0}}>
+                                        <Text style={{color: 'white'}}>Material</Text>
+                                        <H2 style={styles.textColor}>{itemId.material}</H2>
+                                    </CardItem>
+                                </Col>
+                                <Col>
+                                    <CardItem style={{borderBottomWidth: 0}}>
+                                        <Text style={{color: 'white'}}>Color</Text>
+                                        <H2 style={styles.textColor}>{itemId.color}</H2>
+                                    </CardItem>
+                                </Col>
+                            </Grid>
 
-                        <CardItem style={{borderBottomWidth: 0, marginTop: 10}}>
-                            {deleteButton}
-                        </CardItem>
+                            <CardItem style={{borderBottomWidth: 0, marginTop: 10}}>
+                                {deleteButton}
+                            </CardItem>
 
 
-                    </Card>
-                </Content>
+                        </Card>
+                    </Content>
 
-                <Footer>
-                    <FooterNav navigator={navigator} tab1={false} tab2={false} tab3={false}/>
-                </Footer>
-            </Container>
-        );
+                    <Footer>
+                        <FooterNav navigator={navigator} tab1={false} tab2={false} tab3={false}/>
+                    </Footer>
+                </Container>
+            )
+        }
     }
 }
 
 function bindAction(dispatch) {
     return {
         getItemsById: (token, ItemId) => dispatch(getItemsById(token, ItemId)),
+        clearItemId: () => dispatch(clearItemId()),
         deleteItem: (id, token, navigator) => dispatch(deleteItem(id, token, navigator)),
     };
 }

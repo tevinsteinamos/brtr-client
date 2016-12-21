@@ -6,8 +6,6 @@ var {
     AsyncStorage
 } = ReactNative;
 
-import type { Action } from './types';
-import {stopLoading} from './loading'
 export const LOAD_ITEMS_BY_USER = 'LOAD_ITEMS_BY_USER'
 export const LOAD_ITEMS_BY_USER_SUCCESS = 'LOAD_ITEMS_BY_USER_SUCCESS'
 export const LOAD_ITEMS_BY_USER_FAILURE = 'LOAD_ITEMS_BY_USER_FAILURE'
@@ -24,6 +22,8 @@ export const DELETE_ITEM_FAILURE = 'DELETE_ITEM_FAILURE'
 export const UPDATE_ITEM = 'UPDATE_ITEM'
 export const UPDATE_ITEM_SUCCESS = 'UPDATE_ITEM_SUCCESS'
 export const UPDATE_ITEM_FAILURE = 'UPDATE_ITEM_FAILURE'
+
+export const CLEAR_ITEM = 'CLEAR_ITEM'
 
 
 import decode from 'jwt-decode'
@@ -59,7 +59,6 @@ export function getItemsByUserId(token, id) {
             .then((responseJson) => {
 
                 dispatch(loadItemsSuccessByUserId(responseJson))
-                // dispatch(stopLoading())
             })
             .catch((error) => {
 
@@ -171,15 +170,6 @@ export function deleteItem(id, token, navigator){
     }
 }
 
-
-
-
-
-
-
-
-
-
 export function updateDataItem(id, UserId, CategoryId,name, description, image, material, dimension, color) {
     return {type: UPDATE_ITEM, id, User, name, description, image, material, dimension, color}
 }
@@ -191,6 +181,8 @@ export function updateItemFailure() {
 export function updateItemSuccess(item) {
     return {type: UPDATE_ITEM_SUCCESS, item}
 }
+
+
 
 export function updateItem(id, CategoryId, name, description, photo, material, dimension, color, token, navigator) {
     const userDecoded = decode(token)
@@ -230,4 +222,8 @@ export function updateItem(id, CategoryId, name, description, photo, material, d
                 dispatch(updateItemFailure())
             });
     }
+}
+
+export function clearItem() {
+    return ({type: CLEAR_ITEM})
 }

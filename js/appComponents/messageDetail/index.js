@@ -16,6 +16,7 @@ import {
     InputGroup,
     Input,
     Footer,
+    Spinner
 } from 'native-base';
 
 import styles from './styles';
@@ -87,31 +88,45 @@ class messageDetail extends Component {
                 )
             }
         })
-        return (
-            <Container theme={myTheme} style={styles.container}>
-                <Header>
-                    <Title style={{alignSelf: 'center'}}>{title}</Title>
-                    <Button transparent onPress={() => navigator.pop()}>
-                          <Icon name='ios-arrow-back'/>
-                    </Button>
-                    <Button transparent>
-                        <Icon onPress={() => {this.props.getMessages(token, this.props.route.itemMessageId)}} name="ios-refresh" />
-                    </Button>
-                </Header>
 
-                <Content>
-                    <Card style={{ flex: 0, backgroundColor: '#1E1E1E', borderWidth: 0 }}>
-                        {showMessages}
-                    </Card>
-                </Content>
-                <Footer>
-                    <InputGroup style={styles.noBottomBorder} iconRight>
-                        <Icon name='ios-send' style={{color: '#6CF9C8'}} onPress={this.onAddMessage.bind(this)}/>
-                        <Input returnKeyType='send' value={this.state.body} placeholder='Type your message here..' style={styles.text} onChangeText={(body) => this.setState({body: body})}></Input>
-                    </InputGroup>
-                </Footer>
-            </Container>
-        );
+        if (messages.length === 0) {
+            return (
+                <Container style={styles.container}>
+                    <Content>
+                        <Spinner color='green' />
+                    </Content>
+                </Container>
+            )
+        }
+        else {
+            return (
+                <Container theme={myTheme} style={styles.container}>
+                    <Header>
+                        <Title style={{alignSelf: 'center'}}>{title}</Title>
+                        <Button transparent onPress={() => navigator.pop()}>
+                            <Icon name='ios-arrow-back'/>
+                        </Button>
+                        <Button transparent>
+                            <Icon onPress={() => {this.props.getMessages(token, this.props.route.itemMessageId)}}
+                                  name="ios-refresh"/>
+                        </Button>
+                    </Header>
+
+                    <Content>
+                        <Card style={{ flex: 0, backgroundColor: '#1E1E1E', borderWidth: 0 }}>
+                            {showMessages}
+                        </Card>
+                    </Content>
+                    <Footer>
+                        <InputGroup style={styles.noBottomBorder} iconRight>
+                            <Icon name='ios-send' style={{color: '#6CF9C8'}} onPress={this.onAddMessage.bind(this)}/>
+                            <Input returnKeyType='send' value={this.state.body} placeholder='Type your message here..'
+                                   style={styles.text} onChangeText={(body) => this.setState({body: body})}></Input>
+                        </InputGroup>
+                    </Footer>
+                </Container>
+            )
+        }
     }
 }
 

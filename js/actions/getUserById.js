@@ -11,6 +11,7 @@ import type { Action } from './types';
 export const LOAD_USER_BY_ID = 'LOAD_USER_BY_ID'
 export const LOAD_USER_BY_ID_SUCCESS = 'LOAD_USER_BY_ID_SUCCESS'
 export const LOAD_USER_BY_ID_FAILURE = 'LOAD_USER_BY_ID_FAILURE'
+export const CLEAR_USER = 'CLEAR_USER'
 
 import decode from 'jwt-decode'
 import {stopLoading} from './loading'
@@ -25,6 +26,10 @@ export function loadUserSuccessById(user) {
 
 export function loadUserFailureById() {
     return {type: LOAD_USER_BY_ID_FAILURE}
+}
+
+export function clearUser() {
+    return {type: CLEAR_USER}
 }
 
 export function getUserById(token, id, navigator) {
