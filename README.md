@@ -61,9 +61,9 @@ $ react-native run-android
 
 ### 4. Screenshots
 
-![Registration screen](http://i.imgur.com/lfQOl3l.png "Registration screen")
-![Main screen](http://i.imgur.com/fztySVe.png "Main screen")
-![Chats screen](http://i.imgur.com/zUif10s.png "Chats screen")
+![Registration screen](http://i.imgur.com/lfQOl3l.png "Registration screen" =200x)
+![Main screen](http://i.imgur.com/fztySVe.png "Main screen" =200x)
+![Chats screen](http://i.imgur.com/zUif10s.png "Chats screen" =200x)
 
 ### 5. Contributor
 
