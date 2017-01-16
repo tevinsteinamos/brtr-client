@@ -1,12 +1,25 @@
 # BRTR v1.0.0
-A Marketplace for Barter (item-to-item-trading)
 
-[![play-store](https://strapmobile.com/wp-content/uploads/2016/02/google-play-200.png)](https://play.google.com/store/apps)
+Trading goods is now easier and more practical through BRTR. We believe that every secondhand goods can be traded for other useful goods. Search for “up for barter” goods, maintain your list of secondhand goods, and chat with other barterers have never been easier. We got it all covered for you!
+
+Experience the ease of finding another barterer who is also interested for trading their goods with yours! Make a deal and trade within BRTR now. It’s free!
+
+
+[![play-store](https://strapmobile.com/wp-content/uploads/2016/02/google-play-200.png)](https://play.google.com/store/apps/details?id=com.brtr)
 
 ## Technologies
 
-* React - Native
+* ReactNative
+* NativeBase
+* Redux
+* Node.js
+* Express.js
 * Sequelize
+* PostgreSQL
+* Passport
+* SendGrid
+* Mocha
+* Chai
 
 ## Get Started
 
@@ -46,12 +59,18 @@ $ npm install
 $ react-native run-android
 ```
 
-### 4. Contributor
+### 4. Screenshots
+
+![Registration screen](http://i.imgur.com/lfQOl3l.png "Registration screen")
+![Main screen](http://i.imgur.com/fztySVe.png "Main screen")
+![Chats screen](http://i.imgur.com/zUif10s.png "Chats screen")
+
+### 5. Contributor
 
 * Tevinstein ([@tevinstein](https://github.com/tevinstein))
 * Dharmadi Tanamas ([@dharmadi93](https://github.com/dharmadi93))
 * Ahyana Rizky Pratama ([@ahyanarizky](https://github.com/ahyanarizky))
 
-### 5. License
+### 6. License
 
 * MIT
